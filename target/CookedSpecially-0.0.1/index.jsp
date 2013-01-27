@@ -1,2 +1,0 @@
-<head>
-CookedSpecially.com</head>
