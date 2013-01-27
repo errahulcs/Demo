@@ -33,7 +33,7 @@ public class DishController {
 	private CategoryService categoryService;
 	
 	@RequestMapping("/")
-	public String listContacts(Map<String, Object> map) {
+	public String listDishes(Map<String, Object> map) {
 
 		map.put("dish", new Dish());
 		map.put("dishList", dishService.listDish());
@@ -42,7 +42,7 @@ public class DishController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addContact(@ModelAttribute("dish")
+	public String addDish(@ModelAttribute("dish")
 	Dish dish, BindingResult result, @RequestParam("categoryId") Integer categoryId) {
 		dish.setCategory(categoryService.getCategory(categoryId));
 		dishService.addDish(dish);
@@ -51,7 +51,7 @@ public class DishController {
 	}
 
 	@RequestMapping("/delete/{dishId}")
-	public String deleteContact(@PathVariable("dishId")
+	public String deleteDish(@PathVariable("dishId")
 	Integer dishId) {
 
 		dishService.removeDish(dishId);

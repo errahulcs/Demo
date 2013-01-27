@@ -37,7 +37,7 @@ public class MenuController {
 	
 	
 	@RequestMapping("/")
-	public String listContacts(Map<String, Object> map) {
+	public String listMenus(Map<String, Object> map) {
 
 		map.put("menu", new Menu());
 		map.put("menuList", menuService.listMenu());
@@ -46,7 +46,7 @@ public class MenuController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addContact(@ModelAttribute("menu")
+	public String addMenu(@ModelAttribute("menu")
 	Menu menu, BindingResult result, @RequestParam("dishIds") Integer[] dishIds) {
 		Set<Dish> dishes = new HashSet<Dish>();
 		dishes.addAll(dishService.getDishes(dishIds));
@@ -57,10 +57,17 @@ public class MenuController {
 	}
 
 	@RequestMapping("/delete/{menuId}")
-	public String deleteContact(@PathVariable("menuId")
+	public String deleteMenu(@PathVariable("menuId")
 	Integer menuId) {
 
 		menuService.removeMenu(menuId);
 		return "redirect:/menu/";
+	}
+	
+	@RequestMapping("/show/{menuId}")
+	public String showContact(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
+		Menu menu = menuService.getMenu(menuId);
+		map.put("menu", menu);
+		return "showMenu";
 	}
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -37,8 +38,7 @@ public class Menu {
 	@Column(name="DESCRIPTION")
 	private String description;
 		
-	@ManyToMany(cascade = {CascadeType.ALL})
-	
+	@ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="MENU_DISH", 
                 joinColumns={@JoinColumn(name="MENUID")}, 
                 inverseJoinColumns={@JoinColumn(name="DISHID")})

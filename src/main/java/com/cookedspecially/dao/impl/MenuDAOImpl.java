@@ -43,4 +43,9 @@ public class MenuDAOImpl implements MenuDAO {
 
 	}
 
+	@Override
+	public Menu getMenu(Integer id) {
+		return (Menu) sessionFactory.getCurrentSession().get(Menu.class, id);
+	}
+
 }

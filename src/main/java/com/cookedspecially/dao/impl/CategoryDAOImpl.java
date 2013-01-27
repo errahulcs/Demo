@@ -43,7 +43,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 
 	@Override
 	public Category getCategory(Integer id) {
-		return (Category) sessionFactory.getCurrentSession().load(Category.class, id);
+		return (Category) sessionFactory.getCurrentSession().get(Category.class, id);
 
 	}
 

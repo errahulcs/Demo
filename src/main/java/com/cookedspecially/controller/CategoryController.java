@@ -29,7 +29,7 @@ public class CategoryController {
 	
 	
 	@RequestMapping("/")
-	public String listContacts(Map<String, Object> map) {
+	public String listCategories(Map<String, Object> map) {
 
 		map.put("category", new Category());
 		map.put("categoryList", categoryService.listCategory());
@@ -37,7 +37,7 @@ public class CategoryController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addContact(@ModelAttribute("category")
+	public String addCategory(@ModelAttribute("category")
 	Category category, BindingResult result) {
 		categoryService.addCategory(category);
 
@@ -45,7 +45,7 @@ public class CategoryController {
 	}
 
 	@RequestMapping("/delete/{categoryId}")
-	public String deleteContact(@PathVariable("categoryId")
+	public String deleteCategory(@PathVariable("categoryId")
 	Integer categoryId) {
 
 		categoryService.removeCategory(categoryId);

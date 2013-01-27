@@ -74,7 +74,8 @@
 	<tr>
 		<td>${menu.name}</td>
 		<td>${menu.description}</td>
-		<td><a href="delete/${menu.menuId}">delete</a></td>
+		<td><a href="delete/${menu.menuId}">Delete</a></td>
+		<td><a href="show/${menu.menuId}">Show</a></td>
 	</tr>
 </c:forEach>
 </table>
