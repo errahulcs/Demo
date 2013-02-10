@@ -49,4 +49,8 @@ public class DishDAOImpl implements DishDAO {
 
 	}
 
+	@Override
+	public Dish getDish(Integer id) {
+		return (Dish) sessionFactory.getCurrentSession().get(Dish.class, id);
+	}
 }

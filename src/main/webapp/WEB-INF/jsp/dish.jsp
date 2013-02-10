@@ -26,8 +26,9 @@
 <hr/>
 <h3>Add Dish</h3>
 
-<form:form method="post" action="add.html" commandName="dish">
+<form:form method="post" action="/CookedSpecially/dish/add.html" commandName="dish">
 
+	<form:hidden path="dishId"/>
 	<table>
 	<tr>
 		<td><form:label path="name"><spring:message code="label.name"/></form:label></td>
@@ -46,7 +47,12 @@
 		<td>
 			<select name="categoryId" >
             <c:forEach items="${categoryList}" var="category">
-               <option value="${category.categoryId}">${category.name} - ${category.description}</option>
+            	<c:if test="${dish.category != null && category.categoryId == dish.category.categoryId}">
+               		<option value="${category.categoryId}" selected="selected">${category.name} - ${category.description}</option>
+               	</c:if>
+               	<c:if test="${dish.category == null || category.categoryId != dish.category.categoryId}">
+               		<option value="${category.categoryId}">${category.name} - ${category.description}</option>
+               	</c:if>
             </c:forEach>
         	</select>
 		</td>
@@ -75,6 +81,7 @@
 	<th>Image</th>
 	<th>Price</th>
 	<th>&nbsp;</th>
+	<th>&nbsp;</th>
 </tr>
 <c:forEach items="${dishList}" var="dish">
 	<tr>
@@ -84,6 +91,7 @@
 		<td><img src="${dish.imageUrl}" /></td>
 		<td>${dish.price}</td>
 		<td><a href="delete/${dish.dishId}">delete</a></td>
+		<td><a href="edit/${dish.dishId}">edit</a></td>
 	</tr>
 </c:forEach>
 </table>

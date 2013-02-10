@@ -17,4 +17,5 @@ public interface DishDAO {
 	public List<Dish> listDish();
 	public void removeDish(Integer id);
 	public List<Dish> getDishes(Integer[] ids);
+	public Dish getDish(Integer id);
 }

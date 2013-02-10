@@ -52,6 +52,15 @@ public class DishController {
 		return "dish";
 	}
 
+	@RequestMapping("/edit/{dishId}")
+	public String editDish(Map<String, Object> map, @PathVariable("dishId") Integer dishId) {
+
+		map.put("dish", dishService.getDish(dishId));
+		map.put("dishList", dishService.listDish());
+		map.put("categoryList", categoryService.listCategory());
+		return "dish";
+	}
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addDish(@ModelAttribute("dish")
 	Dish dish, BindingResult result, @RequestParam("categoryId") Integer categoryId) {

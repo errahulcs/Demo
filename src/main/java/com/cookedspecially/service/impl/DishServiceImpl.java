@@ -51,4 +51,9 @@ public class DishServiceImpl implements DishService {
 		return dishDAO.getDishes(ids);
 	}
 
+	@Override
+	@Transactional
+	public Dish getDish(Integer id) {
+		return dishDAO.getDish(id);
+	}
 }
