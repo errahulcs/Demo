@@ -49,7 +49,7 @@ public class UserController {
 		return "signupSuccess";
 	}
 	
-	@RequestMapping(value="/logout", method=RequestMethod.POST)
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		request.getSession().removeAttribute("username");
 		request.getSession().removeAttribute("token");
