@@ -27,12 +27,14 @@
 <hr/>
 <h3>Add Category</h3>
 
-<form:form method="post" action="add.html" commandName="category">
-
+<form:form method="post" action="/CookedSpecially/category/add.html" commandName="category">
+	
+	<form:hidden path="categoryId" />
 	<table>
+	
 	<tr>
 		<td><form:label path="name"><spring:message code="label.name"/></form:label></td>
-		<td><form:input path="name" /></td> 
+		<td><form:input path="name"  /></td> 
 	</tr>
 	<tr>
 		<td><form:label path="description"><spring:message code="label.description"/></form:label></td>
@@ -55,12 +57,14 @@
 	<th>Name</th>
 	<th>Description</th>
 	<th>&nbsp;</th>
+	<th>&nbsp;</th>
 </tr>
 <c:forEach items="${categoryList}" var="category">
 	<tr>
 		<td>${category.name}</td>
 		<td>${category.description}</td>
 		<td><a href="delete/${category.categoryId}">delete</a></td>
+		<td><a href="edit/${category.categoryId}">edit</a></td>
 	</tr>
 </c:forEach>
 </table>

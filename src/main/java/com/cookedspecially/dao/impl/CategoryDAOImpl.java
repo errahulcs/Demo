@@ -24,7 +24,7 @@ public class CategoryDAOImpl implements CategoryDAO {
 	
 	@Override
 	public void addCategory(Category category) {
-		sessionFactory.getCurrentSession().save(category);
+		sessionFactory.getCurrentSession().saveOrUpdate(category);
 
 	}
 

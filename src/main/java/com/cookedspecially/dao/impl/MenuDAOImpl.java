@@ -25,7 +25,7 @@ public class MenuDAOImpl implements MenuDAO {
 	
 	@Override
 	public void addMenu(Menu menu) {
-		sessionFactory.getCurrentSession().save(menu);
+		sessionFactory.getCurrentSession().saveOrUpdate(menu);
 
 	}
 

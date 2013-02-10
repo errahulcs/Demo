@@ -38,6 +38,10 @@
 		<td><form:input path="description" /></td>
 	</tr>
 	<tr>
+		<td><form:label path="price">Price</form:label></td>
+		<td><form:input path="price" /></td>
+	</tr>
+	<tr>
 		<td><form:label path="category"><spring:message code="label.category"/></form:label></td>
 		<td>
 			<select name="categoryId" >
@@ -67,6 +71,9 @@
 <tr>
 	<th>Name</th>
 	<th>Description</th>
+	<th>Category</th>
+	<th>Image</th>
+	<th>Price</th>
 	<th>&nbsp;</th>
 </tr>
 <c:forEach items="${dishList}" var="dish">
@@ -75,6 +82,7 @@
 		<td>${dish.description}</td>
 		<td>${dish.category.name} - ${dish.category.description}</td>
 		<td><img src="${dish.imageUrl}" /></td>
+		<td>${dish.price}</td>
 		<td><a href="delete/${dish.dishId}">delete</a></td>
 	</tr>
 </c:forEach>

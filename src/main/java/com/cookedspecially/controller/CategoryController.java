@@ -37,6 +37,14 @@ public class CategoryController {
 		return "category";
 	}
 
+	@RequestMapping("/edit/{categoryId}")
+	public String editCategory(Map<String, Object> map, @PathVariable("categoryId")
+	Integer categoryId) {
+
+		map.put("category", categoryService.getCategory(categoryId));
+		map.put("categoryList", categoryService.listCategory());
+		return "category";
+	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addCategory(@ModelAttribute("category")

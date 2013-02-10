@@ -25,7 +25,7 @@ public class DishDAOImpl implements DishDAO {
 	
 	@Override
 	public void addDish(Dish dish) {
-		sessionFactory.getCurrentSession().save(dish);
+		sessionFactory.getCurrentSession().saveOrUpdate(dish);
 
 	}
 
