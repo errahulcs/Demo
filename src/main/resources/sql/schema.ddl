@@ -7,6 +7,7 @@ CREATE TABLE DISHES
     description   VARCHAR(1000),
     shortDescription         VARCHAR(30),
     imageUrl     VARCHAR(500),
+    price	FLOAT,
     categoryId INT
 );
 
@@ -34,3 +35,10 @@ CREATE TABLE MENU_DISH (
     CONSTRAINT FK_DISH FOREIGN KEY (dishId) REFERENCES DISHES (dishId)
 );
 
+CREATE TABLE USERS
+(
+    userId INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL,
+    passwordHash VARCHAR(100),
+    UNIQUE idx_user_username (username)
+);

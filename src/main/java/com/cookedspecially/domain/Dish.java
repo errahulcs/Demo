@@ -40,6 +40,10 @@ public class Dish {
 	@Column(name="IMAGEURL")
 	private String imageUrl;
 	
+	@Column(name="PRICE")
+	private Float price;
+	
+	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="CATEGORYID")
 	private Category category;
@@ -98,6 +102,14 @@ public class Dish {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public Float getPrice() {
+		return price;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
 	}
 	
 

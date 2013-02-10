@@ -27,6 +27,7 @@ public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
 	
+
 	
 	@RequestMapping("/")
 	public String listCategories(Map<String, Object> map) {
@@ -36,6 +37,7 @@ public class CategoryController {
 		return "category";
 	}
 
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addCategory(@ModelAttribute("category")
 	Category category, BindingResult result) {
