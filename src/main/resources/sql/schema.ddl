@@ -40,5 +40,8 @@ CREATE TABLE USERS
     userId INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
     passwordHash VARCHAR(100),
+    firstName VARCHAR(50),
+    lastName VARCHAR(50),
+    businessName VARCHAR(100),
     UNIQUE idx_user_username (username)
 );
