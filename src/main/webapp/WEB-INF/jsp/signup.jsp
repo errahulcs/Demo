@@ -42,7 +42,7 @@
 		<td><form:input path="businessName" /></td> 
 	</tr>
 	<tr>
-		<td><form:label path="username">Username</form:label></td>
+		<td><form:label path="username">Email</form:label></td>
 		<td><form:input path="username" /></td> 
 	</tr>
 	<tr>
