@@ -23,10 +23,17 @@
 	</style>
 </head>
 <body>
+<c:set var="sessionUserId" value='<%=request.getSession().getAttribute("userId")%>'/>
+<c:if test='${!empty sessionUserId}'>
+Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/logout">Logout</a>
+</c:if>
+
 <hr/>
 <h3>Add Menu</h3>
 
 <form:form method="post" action="add.html" commandName="menu">
+
+	<form:hidden path="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
 
 	<table>
 	<tr>

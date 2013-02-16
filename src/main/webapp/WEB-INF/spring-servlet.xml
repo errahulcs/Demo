@@ -25,7 +25,8 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/category/**"/>
 			<mvc:mapping path="/dish/**"/>
-			
+			<mvc:mapping path="/menu/**"/>
+			<mvc:exclude-mapping path="/menu/show/**"/>
 			<bean class="com.cookedspecially.interceptors.AdminInterceptors" />
 		</mvc:interceptor>	
 	</mvc:interceptors>

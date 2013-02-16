@@ -53,6 +53,7 @@ public class UserController {
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		request.getSession().removeAttribute("username");
 		request.getSession().removeAttribute("token");
+		request.getSession().removeAttribute("userId");
 		return "logout";
 	}
 	
@@ -70,6 +71,7 @@ public class UserController {
 				if (userService.isValidUser(user, password))  {
 					request.getSession().setAttribute("username", username);
 					request.getSession().setAttribute("token", user.getPasswordHash());
+					request.getSession().setAttribute("userId", user.getUserId());
 					return "loginSuccess";
 				}
 			} else {

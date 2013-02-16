@@ -32,6 +32,9 @@ public class Menu {
 	@Column(name="RESTAURANTID")
 	private String restaurantId;
 	
+	@Column(name="USERID")
+	private Integer userId;
+	
 	@Column(name="NAME")
 	private String name;
 	
@@ -82,6 +85,14 @@ public class Menu {
 
 	public void setDishes(Set<Dish> dishes) {
 		this.dishes = dishes;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 }
