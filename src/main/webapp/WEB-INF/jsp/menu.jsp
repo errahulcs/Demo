@@ -31,10 +31,10 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 <hr/>
 <h3>Add Menu</h3>
 
-<form:form method="post" action="add.html" commandName="menu">
+<form:form method="post" action="/CookedSpecially/menu/add.html" commandName="menu">
 
 	<form:hidden path="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
-
+	<form:hidden path="menuId" />
 	<table>
 	<tr>
 		<td><form:label path="name"><spring:message code="label.name"/></form:label></td>
@@ -50,14 +50,22 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 		<td>
 		
             
-               
-            <c:if test="${!empty dishList}">
-        	<select name="dishIds" multiple="multiple">
-			<c:forEach items="${dishList}" var="dish">
-				<option value="${dish.dishId}">${dish.name}</option>
-			</c:forEach>
+            <select name="dishIds" multiple="multiple">
+	            <c:if test="${!empty dishList}">
+					<c:forEach items="${dishList}" var="dish">
+						
+						<c:choose>
+							<c:when test="${!empty existingDishIds[dish.dishId] }">
+								<option value="${dish.dishId}" selected="selected">${dish.name}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${dish.dishId}" >${dish.name}</option>
+							</c:otherwise>
+						</c:choose>
+						
+					</c:forEach>
+				</c:if>
 			</select>
-			</c:if>
 		</td>
 	</tr>
 	
@@ -77,13 +85,16 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 	<th>Name</th>
 	<th>Description</th>
 	<th>&nbsp;</th>
+	<th>&nbsp;</th>
+	<th>&nbsp;</th>
 </tr>
 <c:forEach items="${menuList}" var="menu">
 	<tr>
 		<td>${menu.name}</td>
 		<td>${menu.description}</td>
-		<td><a href="delete/${menu.menuId}">Delete</a></td>
-		<td><a href="show/${menu.menuId}">Show</a></td>
+		<td><a href="/CookedSpecially/menu/delete/${menu.menuId}">Delete</a></td>
+		<td><a href="/CookedSpecially/menu/edit/${menu.menuId}">Edit</a></td>
+		<td><a href="/CookedSpecially/menu/show/${menu.menuId}">Show</a></td>
 	</tr>
 </c:forEach>
 </table>

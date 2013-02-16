@@ -90,8 +90,8 @@
 		<td>${dish.category.name} - ${dish.category.description}</td>
 		<td><img src="${dish.imageUrl}" /></td>
 		<td>${dish.price}</td>
-		<td><a href="delete/${dish.dishId}">delete</a></td>
-		<td><a href="edit/${dish.dishId}">edit</a></td>
+		<td><a href="/CookedSpecially/dish/delete/${dish.dishId}">delete</a></td>
+		<td><a href="/CookedSpecially/dish/edit/${dish.dishId}">edit</a></td>
 	</tr>
 </c:forEach>
 </table>

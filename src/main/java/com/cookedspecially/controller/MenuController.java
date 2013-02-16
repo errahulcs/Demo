@@ -3,6 +3,7 @@
  */
 package com.cookedspecially.controller;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,27 @@ public class MenuController {
 		return "menu";
 	}
 
+	@RequestMapping("/edit/{menuId}")
+	public String editMenu(Map<String, Object> map, HttpServletRequest request, @PathVariable("menuId") Integer menuId) {
+
+		Menu menu = menuService.getMenu(menuId);
+		map.put("menu", menu);
+		//System.out.println(request.getSession().getAttribute("userId"));
+		List<Menu> menus = menuService.listMenuByUser((Integer) request.getSession().getAttribute("userId"));
+		map.put("menuList", menus);
+		Set<Dish> dishes = menu.getDishes();
+		HashMap<Integer, Integer> existingDishIds = new HashMap<Integer,Integer>((dishes != null) ? dishes.size(): 0);
+		if(dishes != null) {
+			for (Dish dish: dishes) {
+				existingDishIds.put(dish.getDishId(), 1);
+			}
+		}
+		map.put("existingDishIds", existingDishIds);
+		
+		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
+		return "menu";
+	}
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addMenu(@ModelAttribute("menu")
 	Menu menu, BindingResult result, @RequestParam("dishIds") Integer[] dishIds) {

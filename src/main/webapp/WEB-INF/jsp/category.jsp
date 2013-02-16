@@ -63,8 +63,8 @@
 	<tr>
 		<td>${category.name}</td>
 		<td>${category.description}</td>
-		<td><a href="delete/${category.categoryId}">delete</a></td>
-		<td><a href="edit/${category.categoryId}">edit</a></td>
+		<td><a href="/CookedSpecially/categpry/delete/${category.categoryId}">delete</a></td>
+		<td><a href="/CookedSpecially/category/edit/${category.categoryId}">edit</a></td>
 	</tr>
 </c:forEach>
 </table>
