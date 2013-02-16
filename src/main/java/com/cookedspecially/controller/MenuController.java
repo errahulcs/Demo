@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.Menu;
+import com.cookedspecially.domain.MenuWrapper;
 import com.cookedspecially.service.DishService;
 import com.cookedspecially.service.MenuService;
 
@@ -92,9 +94,16 @@ public class MenuController {
 	}
 	
 	@RequestMapping("/show/{menuId}")
-	public String showContact(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
+	public String showMenu(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
 		Menu menu = menuService.getMenu(menuId);
 		map.put("menu", menu);
 		return "showMenu";
+	}
+	
+	@RequestMapping("/getjson/{menuId}")
+	public @ResponseBody MenuWrapper showMenuJson(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
+		return MenuWrapper.getMenuWrapper(menuService.getMenu(menuId));
+		
+		
 	}
 }
