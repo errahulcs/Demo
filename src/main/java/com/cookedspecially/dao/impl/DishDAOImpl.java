@@ -6,6 +6,7 @@ package com.cookedspecially.dao.impl;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,6 +35,12 @@ public class DishDAOImpl implements DishDAO {
 		return sessionFactory.getCurrentSession().createQuery("from Dish").list();
 	}
 
+	@Override
+	public List<Dish> listDishByUser(Integer userId) {
+		return sessionFactory.getCurrentSession().createCriteria(Dish.class).add(Restrictions.eq("userId", userId)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+	}
+
+	
 	@Override
 	public void removeDish(Integer id) {
 		Dish dish = (Dish) sessionFactory.getCurrentSession().load(Dish.class, id);

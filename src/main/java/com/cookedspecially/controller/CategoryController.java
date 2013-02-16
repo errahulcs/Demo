@@ -5,6 +5,8 @@ package com.cookedspecially.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -30,19 +32,19 @@ public class CategoryController {
 
 	
 	@RequestMapping("/")
-	public String listCategories(Map<String, Object> map) {
+	public String listCategories(Map<String, Object> map, HttpServletRequest request) {
 
 		map.put("category", new Category());
-		map.put("categoryList", categoryService.listCategory());
+		map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
 		return "category";
 	}
 
 	@RequestMapping("/edit/{categoryId}")
-	public String editCategory(Map<String, Object> map, @PathVariable("categoryId")
+	public String editCategory(Map<String, Object> map, HttpServletRequest request, @PathVariable("categoryId")
 	Integer categoryId) {
 
 		map.put("category", categoryService.getCategory(categoryId));
-		map.put("categoryList", categoryService.listCategory());
+		map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
 		return "category";
 	}
 	

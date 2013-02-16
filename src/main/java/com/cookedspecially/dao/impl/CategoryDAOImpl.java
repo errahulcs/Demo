@@ -6,6 +6,8 @@ package com.cookedspecially.dao.impl;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +33,11 @@ public class CategoryDAOImpl implements CategoryDAO {
 	@Override
 	public List<Category> listCategory() {
 		return sessionFactory.getCurrentSession().createQuery("from Category").list();
+	}
+
+	@Override
+	public List<Category> listCategoryByUser(Integer userId) {
+		return sessionFactory.getCurrentSession().createCriteria(Category.class).add(Restrictions.eq("userId", userId)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
 	}
 
 	@Override

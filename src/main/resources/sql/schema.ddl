@@ -8,14 +8,16 @@ CREATE TABLE DISHES
     shortDescription         VARCHAR(30),
     imageUrl     VARCHAR(500),
     price	FLOAT,
-    categoryId INT
+    categoryId INT,
+    userId INT
 );
 
 CREATE TABLE CATEGORIES
 (
     categoryId              INT PRIMARY KEY AUTO_INCREMENT,
     name    VARCHAR(30),
-    description   VARCHAR(1000)
+    description   VARCHAR(1000),
+    userId INT
 );
 
 CREATE TABLE MENUS
@@ -23,7 +25,8 @@ CREATE TABLE MENUS
     menuId              INT PRIMARY KEY AUTO_INCREMENT,
     name    VARCHAR(30),
     description   VARCHAR(1000),
-    restaurantId    VARCHAR(30)
+    restaurantId    VARCHAR(30),
+    userId INT
 );
 
 CREATE TABLE MENU_DISH (

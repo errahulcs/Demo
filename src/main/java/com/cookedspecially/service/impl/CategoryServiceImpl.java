@@ -38,6 +38,12 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	@Transactional
+	public List<Category> listCategoryByUser(Integer userId) {
+		return categoryDAO.listCategoryByUser(userId);
+	}
+	
+	@Override
+	@Transactional
 	public void removeCategory(Integer id) {
 		categoryDAO.removeCategory(id);
 

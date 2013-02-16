@@ -36,6 +36,11 @@ public class DishServiceImpl implements DishService {
 		return dishDAO.listDish();
 	}
 
+	@Override
+	@Transactional
+	public List<Dish> listDishByUser(Integer userId) {
+		return dishDAO.listDishByUser(userId);
+	}
 
 	@Override
 	@Transactional

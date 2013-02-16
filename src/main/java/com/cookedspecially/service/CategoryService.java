@@ -15,6 +15,7 @@ public interface CategoryService {
 
 	public void addCategory(Category category);
 	public List<Category> listCategory();
+	public List<Category> listCategoryByUser(Integer userId);
 	public void removeCategory(Integer id);
 	public Category getCategory(Integer id);
 }

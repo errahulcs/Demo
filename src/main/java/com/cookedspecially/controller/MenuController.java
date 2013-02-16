@@ -4,8 +4,11 @@
 package com.cookedspecially.controller;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,11 +40,13 @@ public class MenuController {
 	
 	
 	@RequestMapping("/")
-	public String listMenus(Map<String, Object> map) {
+	public String listMenus(Map<String, Object> map, HttpServletRequest request) {
 
 		map.put("menu", new Menu());
-		map.put("menuList", menuService.listMenu());
-		map.put("dishList", dishService.listDish());
+		System.out.println(request.getSession().getAttribute("userId"));
+		List<Menu> menus = menuService.listMenuByUser((Integer) request.getSession().getAttribute("userId"));
+		map.put("menuList", menus);
+		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
 		return "menu";
 	}
 

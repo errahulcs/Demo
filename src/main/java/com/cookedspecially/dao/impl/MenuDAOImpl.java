@@ -6,6 +6,8 @@ package com.cookedspecially.dao.impl;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -34,6 +36,11 @@ public class MenuDAOImpl implements MenuDAO {
 		return sessionFactory.getCurrentSession().createQuery("from Menu").list();
 	}
 
+	@Override
+	public List<Menu> listMenuByUser(Integer userId) {
+		return sessionFactory.getCurrentSession().createCriteria(Menu.class).add(Restrictions.eq("userId", userId)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+	}
+	
 	@Override
 	public void removeMenu(Integer id) {
 		Menu menu = (Menu) sessionFactory.getCurrentSession().load(Menu.class, id);

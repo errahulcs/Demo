@@ -28,6 +28,9 @@ public class Dish {
 	@Column(name="RESTAURANTID")
 	private String restaurantId;
 	
+	@Column(name="USERID")
+	private Integer userId;
+	
 	@Column(name="NAME")
 	private String name;
 	
@@ -110,6 +113,14 @@ public class Dish {
 
 	public void setPrice(Float price) {
 		this.price = price;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 

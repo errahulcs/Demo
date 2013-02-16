@@ -44,20 +44,20 @@ public class DishController {
 	private CategoryService categoryService;
 	
 	@RequestMapping("/")
-	public String listDishes(Map<String, Object> map) {
+	public String listDishes(Map<String, Object> map, HttpServletRequest request) {
 
 		map.put("dish", new Dish());
-		map.put("dishList", dishService.listDish());
-		map.put("categoryList", categoryService.listCategory());
+		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
+		map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
 		return "dish";
 	}
 
 	@RequestMapping("/edit/{dishId}")
-	public String editDish(Map<String, Object> map, @PathVariable("dishId") Integer dishId) {
+	public String editDish(Map<String, Object> map, HttpServletRequest request, @PathVariable("dishId") Integer dishId) {
 
 		map.put("dish", dishService.getDish(dishId));
-		map.put("dishList", dishService.listDish());
-		map.put("categoryList", categoryService.listCategory());
+		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
+		map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
 		return "dish";
 	}
 	

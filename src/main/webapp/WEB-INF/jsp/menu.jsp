@@ -51,12 +51,13 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 		
             
                
-            
+            <c:if test="${!empty dishList}">
         	<select name="dishIds" multiple="multiple">
 			<c:forEach items="${dishList}" var="dish">
 				<option value="${dish.dishId}">${dish.name}</option>
 			</c:forEach>
 			</select>
+			</c:if>
 		</td>
 	</tr>
 	

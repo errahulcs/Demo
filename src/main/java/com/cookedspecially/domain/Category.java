@@ -22,6 +22,9 @@ public class Category {
 	@GeneratedValue
 	private Integer categoryId;
 	
+	@Column(name="USERID")
+	private Integer userId;
+	
 	@Column(name="NAME")
 	private String name;
 	
@@ -50,6 +53,14 @@ public class Category {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 }

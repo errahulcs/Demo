@@ -39,6 +39,12 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	@Transactional
+	public List<Menu> listMenuByUser(Integer userId) {
+		return menuDAO.listMenuByUser(userId);
+	}
+	
+	@Override
+	@Transactional
 	public void removeMenu(Integer id) {
 		menuDAO.removeMenu(id);
 	}

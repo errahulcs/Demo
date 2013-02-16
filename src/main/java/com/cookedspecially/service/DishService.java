@@ -15,6 +15,7 @@ public interface DishService {
 
 	public void addDish(Dish dish);
 	public List<Dish> listDish();
+	public List<Dish> listDishByUser(Integer userId);
 	public void removeDish(Integer id);
 	public List<Dish> getDishes(Integer[] ids);
 	public Dish getDish(Integer id);
