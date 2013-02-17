@@ -16,11 +16,12 @@ cd $codeDir
 git pull
 mvn clean
 mvn package -DskipTests
-if $apacheDir/bin/shutdown.sh ; then
+cd $apacheDir
+if ./bin/shutdown.sh ; then
 echo "Successfully shutdown"
 else
 echo "shutdown fail. Skipping and moving ahead"
 fi
-rm -rf $apacheDir/webapps/CookedSpecially*
-cp target/CookedSpecially.war $apacheDir/webapps
-$apacheDir/bin/startup.sh
+rm -rf webapps/CookedSpecially*
+cp $codeDir/target/CookedSpecially.war webapps/
+./bin/startup.sh

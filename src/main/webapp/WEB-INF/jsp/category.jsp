@@ -30,6 +30,7 @@
 <form:form method="post" action="/CookedSpecially/category/add.html" commandName="category">
 	
 	<form:hidden path="categoryId" />
+	<form:hidden path="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
 	<table>
 	
 	<tr>

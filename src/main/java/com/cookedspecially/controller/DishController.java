@@ -3,6 +3,7 @@
  */
 package com.cookedspecially.controller;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,8 +64,51 @@ public class DishController {
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addDish(@ModelAttribute("dish")
-	Dish dish, BindingResult result, @RequestParam("categoryId") Integer categoryId) {
+	Dish dish, BindingResult result, @RequestParam("categoryId") Integer categoryId, @RequestParam("file") MultipartFile file) {
+		FileOutputStream fos = null;
+		String fileUrl = dish.getImageUrl();
+		if (!file.isEmpty()) {
+            try {
+				byte[] bytes = file.getBytes();
+				//System.out.println(file.getOriginalFilename());
+				//System.out.println(file.getContentType());
+				String fileDir = File.separator + "static" + File.separator + dish.getUserId() + File.separator ;
+				fileUrl = fileDir + dish.getDishId() + "_" + file.getOriginalFilename();
+				File dir = new File("webapps" + fileDir);
+				if (!dir.exists()) { 
+					dir.mkdirs();
+				}
+				File outfile = new File("webapps" + fileUrl); 
+				//System.out.println(outfile.getAbsolutePath());
+				fos = new FileOutputStream(outfile);
+				fos.write(bytes);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (fos != null) {
+					try {
+						fos.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+            // store the bytes somewhere
+           //return "uploadSuccess";
+       } else {
+           return "uploadFailure";
+       }
+		if (!fileUrl.equals(dish.getImageUrl()) && dish.getImageUrl().startsWith("/")) {
+			File oldFile = new File("webapps" + dish.getImageUrl());
+			if (oldFile.exists()) {
+				oldFile.delete();
+			}
+		}
 		dish.setCategory(categoryService.getCategory(categoryId));
+		dish.setImageUrl(fileUrl);
 		dishService.addDish(dish);
 
 		return "redirect:/dish/";

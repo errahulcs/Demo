@@ -1,6 +1,7 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <html>
 <head>
 	<title>Dish Manager</title>
@@ -25,11 +26,22 @@
 <body>
 <hr/>
 <h3>Add Dish</h3>
-
-<form:form method="post" action="/CookedSpecially/dish/add.html" commandName="dish">
+<!-- 
+<h1>Please upload a file</h1>
+<form method="post" action="/CookedSpecially/fileupload/upload" enctype="multipart/form-data">
+    <input type="text" nafme="name"/>
+    <input type="file" name="file"/>
+    <input type="submit"/>
+</form>
+<br />
+ -->
+<form:form method="post" action="/CookedSpecially/dish/add.html" commandName="dish" enctype="multipart/form-data">
 
 	<form:hidden path="dishId"/>
+	<form:hidden path="imageUrl"/>
+	<form:hidden path="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
 	<table>
+	
 	<tr>
 		<td><form:label path="name"><spring:message code="label.name"/></form:label></td>
 		<td><form:input path="name" /></td> 
@@ -57,9 +69,16 @@
         	</select>
 		</td>
 	</tr>
+	
 	<tr>
-		<td><form:label path="imageUrl"><spring:message code="label.imageUrl"/></form:label></td>
-		<td><form:input path="imageUrl" /></td>
+		<td><form:label path="imageUrl">
+		<spring:message code="label.imageUrl"/>
+		<c:choose>
+			<c:when test="${fn:startsWith(dish.imageUrl, 'http://')}">(${dish.imageUrl})</c:when>
+			<c:when test="${fn:startsWith(dish.imageUrl, '/')}">(${dish.imageUrl})</c:when>
+		</c:choose> 
+		</form:label></td>
+		<td><input type="file" name="file"/></td>
 	</tr>
 	
 	<tr>
