@@ -12,7 +12,7 @@ import com.cookedspecially.domain.User;
 public interface UserService {
 
 	public void addUser(User user);
-	
+	public User getUser(Integer userId);
 	public User getUserByUsername(String username);
 	
 	public boolean isValidUser(User user, String password);

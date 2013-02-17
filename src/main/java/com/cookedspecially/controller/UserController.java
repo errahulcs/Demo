@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cookedspecially.domain.User;
 import com.cookedspecially.service.UserService;
+import com.cookedspecially.utility.MailerUtility;
 import com.cookedspecially.utility.StringUtility;
 
 /**
@@ -90,5 +91,52 @@ public class UserController {
 		
 		return "login";
 	}
-
+	
+	@RequestMapping(value="/forgotPassword", method=RequestMethod.GET)
+	public String getForgotPassword(HttpServletRequest request, HttpServletResponse response) {
+		return "forgotPassword";
+	}
+	
+	@RequestMapping(value="/forgotPassword", method=RequestMethod.POST)
+	public String forgotPassword(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
+		String username = request.getParameter("username");
+		String completeUrl = request.getRequestURL().toString();
+		String resetPasswordUrl = "";
+		User user = userService.getUserByUsername(username);
+		if (user != null) {			
+			resetPasswordUrl = completeUrl.substring(0, completeUrl.lastIndexOf("/forgotPassword")) + "/resetPassword.html?userId=" + user.getUserId() + "&code=" + user.getPasswordHash();
+		} else {
+			
+		}
+		MailerUtility.sendMail(user.getUsername(), "Password Reset Email", "Hi, Please click on this url " + resetPasswordUrl );
+		map.put("message", "Successfully sent the email");
+		
+		return "forgotPassword";
+	}
+	
+	@RequestMapping(value="/resetPassword", method=RequestMethod.GET)
+	public String resetPassword(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
+		Integer userId = Integer.parseInt(request.getParameter("userId"));
+		String code = request.getParameter("code");
+		User user = userService.getUser(userId);
+		if (code.equals(user.getPasswordHash())) {
+			map.put("userId", userId);
+			map.put("code", code);
+		}
+		return "resetPassword";
+	}
+	
+	@RequestMapping(value="/updatePassword", method=RequestMethod.POST)
+	public String updatePassword(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
+		Integer userId = Integer.parseInt(request.getParameter("userId"));
+		String code = request.getParameter("code");
+		String newPassword = request.getParameter("newPassword");
+		User user = userService.getUser(userId);
+		if (code.equals(user.getPasswordHash())) {
+			user.setPasswordHash(userService.getHash(newPassword));
+			userService.addUser(user);
+		}
+		map.put("message", "Updated Password");
+		return "updatePassword";
+	}
 }

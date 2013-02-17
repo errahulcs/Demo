@@ -51,4 +51,6 @@
 	</tr>
 </table>	
 </form:form>
+
 <a href="/CookedSpecially/user/signup"> Signup</a>
+<a href="/CookedSpecially/user/forgotPassword"> Forgot Password</a>

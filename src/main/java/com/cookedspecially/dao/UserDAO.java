@@ -12,7 +12,7 @@ import com.cookedspecially.domain.User;
 public interface UserDAO {
 
 	public void saveUser(User user);
-	
+	public User getUser(Integer userId);
 	public User getUserByUsername(String username);
 	
 }
