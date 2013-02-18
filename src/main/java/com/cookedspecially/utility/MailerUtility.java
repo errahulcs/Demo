@@ -20,7 +20,7 @@ import javax.mail.internet.MimeMessage;
 public class MailerUtility {
 
 	final static String username = "support@cookedspecially.com";
-	final static String password = "sUpp0rt";
+	final static String password = "P@$$word";
 	
 	final static Properties props = new Properties();
 	
@@ -44,7 +44,7 @@ public class MailerUtility {
 		try {
  
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("shashank@cookedspecially.com"));
+			message.setFrom(new InternetAddress(username));
 			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(toAddress));
 			message.setSubject(subject);
 			message.setText(messageStr);
