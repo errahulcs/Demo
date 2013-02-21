@@ -1,31 +1,31 @@
 
 CREATE TABLE DISHES
 (
-    dishId              INT PRIMARY KEY AUTO_INCREMENT,
-    restaurantId    VARCHAR(30),
-    name    VARCHAR(30),
-    description   VARCHAR(1000),
-    shortDescription         VARCHAR(30),
-    imageUrl     VARCHAR(500),
-    price	FLOAT,
+    dishId INT PRIMARY KEY AUTO_INCREMENT,
+    restaurantId VARCHAR(30),
+    name VARCHAR(30),
+    description VARCHAR(1000),
+    shortDescription VARCHAR(30),
+    imageUrl VARCHAR(500),
+    price FLOAT,
     categoryId INT,
     userId INT
 );
 
 CREATE TABLE CATEGORIES
 (
-    categoryId              INT PRIMARY KEY AUTO_INCREMENT,
-    name    VARCHAR(30),
-    description   VARCHAR(1000),
+    categoryId INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(30),
+    description VARCHAR(1000),
     userId INT
 );
 
 CREATE TABLE MENUS
 (
-    menuId              INT PRIMARY KEY AUTO_INCREMENT,
-    name    VARCHAR(30),
-    description   VARCHAR(1000),
-    restaurantId    VARCHAR(30),
+    menuId INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(30),
+    description VARCHAR(1000),
+    restaurantId VARCHAR(30),
     userId INT
 );
 
