@@ -32,7 +32,7 @@ public class MenuWrapper {
 		menuWrapper.setUserId(menu.getUserId());
 		menuWrapper.setName(menu.getName());
 		menuWrapper.setDescription(menu.getDescription());
-		Set<Dish> dishes = menu.getDishes();
+		List<Dish> dishes = menu.getDishes();
 		HashMap<Integer, CategoryWrapper> categoryWrappers = new HashMap<Integer, CategoryWrapper>();
 		for (Dish dish : dishes) {
 			if (!categoryWrappers.containsKey(dish.getCategory().getCategoryId())) {

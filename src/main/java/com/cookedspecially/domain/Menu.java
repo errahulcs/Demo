@@ -3,7 +3,9 @@
  */
 package com.cookedspecially.domain;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,6 +18,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.IndexColumn;
 
 /**
  * @author sagarwal
@@ -42,10 +46,11 @@ public class Menu {
 	private String description;
 		
 	@ManyToMany(fetch = FetchType.EAGER)
+	@IndexColumn(name="DISHPOSITION")
     @JoinTable(name="MENU_DISH", 
                 joinColumns={@JoinColumn(name="MENUID")}, 
                 inverseJoinColumns={@JoinColumn(name="DISHID")})
-    private Set<Dish> dishes = new HashSet<Dish>();
+    private List<Dish> dishes = new ArrayList<Dish>();
 
 	public Integer getMenuId() {
 		return menuId;
@@ -79,11 +84,11 @@ public class Menu {
 		this.description = description;
 	}
 
-	public Set<Dish> getDishes() {
+	public List<Dish> getDishes() {
 		return dishes;
 	}
 
-	public void setDishes(Set<Dish> dishes) {
+	public void setDishes(ArrayList<Dish> dishes) {
 		this.dishes = dishes;
 	}
 

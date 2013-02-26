@@ -30,12 +30,44 @@
 <br/>
 <b>${menu.description}</b>
 <hr/>
-<table class="data">
+<c:set var="lastCategoryId" value="0"/>
+<c:set var="tabOpen" value="0"/>
+<c:forEach items="${menu.dishes}" var="dish">
+	
+		<c:if test="${lastCategoryId!=dish.category.categoryId}">
+			<c:if test="${lastCategoryId!=0 && tabOpen!=0}">
+				
+				<c:set var="tabOpen" value="0"/>
+				
+				
+				</table>
+			</c:if>
+			<c:set var="lastCategoryId">${dish.category.categoryId}</c:set>
+
+			<b>${dish.category.name} ( ${dish.category.description} )</b>
+			<table class="data">
+			<c:set var="tabOpen" value="1" />			
+		</c:if>
+	
+	<tr>
+		<td>${dish.name}</td>
+		<td>${dish.description}</td>
+		<td>${dish.price}</td>
+	</tr>
+	
+	
+</c:forEach>
+<c:if test="${tabOpen!=0}">
+</table>
+</c:if>
+
+<!-- <table class="data">
 <tr>
 	<th>Name</th>
 	<th>Description</th>
 	<th>Category</th>
 </tr>
+
 <c:forEach items="${menu.dishes}" var="dish">
 	<tr>
 		<td>${dish.name}</td>
@@ -44,7 +76,7 @@
 	</tr>
 </c:forEach>
 </table>
-
+-->
 
 
 </body>

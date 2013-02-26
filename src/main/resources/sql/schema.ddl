@@ -32,6 +32,7 @@ CREATE TABLE MENUS
 CREATE TABLE MENU_DISH (
     menuId INT NOT NULL,
     dishId INT NOT NULL,
+    dishPosition INT NOT NULL,
     PRIMARY KEY (menuId, dishId),
     INDEX FK_DISH (dishId),
     CONSTRAINT FK_MENU FOREIGN KEY (menuId) REFERENCES MENUS (menuId),
