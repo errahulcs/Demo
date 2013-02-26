@@ -5,6 +5,7 @@ package com.cookedspecially.domain;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -33,7 +34,7 @@ public class MenuWrapper {
 		menuWrapper.setName(menu.getName());
 		menuWrapper.setDescription(menu.getDescription());
 		List<Dish> dishes = menu.getDishes();
-		HashMap<Integer, CategoryWrapper> categoryWrappers = new HashMap<Integer, CategoryWrapper>();
+		LinkedHashMap<Integer, CategoryWrapper> categoryWrappers = new LinkedHashMap<Integer, CategoryWrapper>();
 		for (Dish dish : dishes) {
 			if (!categoryWrappers.containsKey(dish.getCategory().getCategoryId())) {
 				categoryWrappers.put(dish.getCategory().getCategoryId(), CategoryWrapper.getCategoryWrapper(dish.getCategory()));
