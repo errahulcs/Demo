@@ -12,7 +12,8 @@
 		  #list .ui-selecting .handle { background: #ddd; }
 		  #list .ui-selected { background: #F39814; color: white; }
 		  #list .ui-selected .handle { background: #cde; }
-		  
+		  #list { margin: 1px; padding: 0.1em; border: 1px solid #AAAAAA; }
+		  #list div { border: 1px solid #AAAAAA; }
 		body {
 			font-family: sans-serif;
 		}
@@ -99,7 +100,7 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 	<tr>
 		<td><form:label path="dishes"><spring:message code="label.dishes"/></form:label></td>
 		<td>
-			<div id="list" style="border-color: black;border: thick;">
+			<div id="list" >
 				<c:if test="${!empty dishList}">
 					<c:forEach items="${dishList}" var="dish">
 						
