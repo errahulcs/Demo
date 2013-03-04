@@ -33,7 +33,7 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String login(Map<String, Object> map) {
+	public String login(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response ) {
 		return "login";
 	}
 	
@@ -55,12 +55,13 @@ public class UserController {
 		request.getSession().removeAttribute("username");
 		request.getSession().removeAttribute("token");
 		request.getSession().removeAttribute("userId");
-		return "logout";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String login(HttpServletRequest request, HttpServletResponse response) {
 		//@RequestParam("username") String username, @RequestParam("password") String password,
+		System.out.println(request.getHeader("referer"));
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		//String signup = request.getParameter("signup");
@@ -73,7 +74,13 @@ public class UserController {
 					request.getSession().setAttribute("username", username);
 					request.getSession().setAttribute("token", user.getPasswordHash());
 					request.getSession().setAttribute("userId", user.getUserId());
-					return "loginSuccess";
+					String redirectPath = (String) request.getSession().getAttribute("requestpath");
+					if (!StringUtility.isNullOrEmpty(redirectPath)) {
+						request.getSession().removeAttribute("requestpath");
+					} else {
+						redirectPath = "/";
+					}
+					return "redirect:"+redirectPath;
 				}
 			} else {
 				/*if ("true".equals(signup)) {

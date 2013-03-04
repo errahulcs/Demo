@@ -45,6 +45,10 @@ public class AdminInterceptors implements HandlerInterceptor {
 		System.out.println("Entering pre handle");
 		String username = (String) request.getSession().getAttribute("username");
 		String token = (String) request.getSession().getAttribute("token");
+		String base = request.getContextPath();
+		String uri = request.getRequestURI();
+		uri = uri.replaceAll(base, "");
+		
 		String redirect = "/CookedSpecially/user/login";
 		boolean valid = true;
 		if (StringUtility.isNullOrEmpty(username) || StringUtility.isNullOrEmpty(token)) {
@@ -61,6 +65,7 @@ public class AdminInterceptors implements HandlerInterceptor {
 		}
 		
 		if (!valid) {
+			request.getSession().setAttribute("requestpath", uri);
 			response.sendRedirect(redirect);
 			return false;
 		}
