@@ -123,7 +123,9 @@
 	    <property name="maxUploadSize" value="100000"/>
 	</bean>
 	
-	<!--  <mvc:resources mapping="/resources/**" location="/WEB-INF/resources/" /> -->
+	<mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
+	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" /> 
+	<mvc:resources mapping="/themes/**" location="/WEB-INF/themes/" /> 
 	
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"

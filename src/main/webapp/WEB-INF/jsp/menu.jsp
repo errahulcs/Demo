@@ -4,7 +4,15 @@
 <html>
 <head>
 	<title>Menu Manager</title>
+	<link rel="stylesheet" href="/CookedSpecially/themes/base/jquery.ui.all.css" />
+	<script type="text/javascript" src="/CookedSpecially/js/jquery-1.9.0.js"></script>
+	<script type="text/javascript" src="/CookedSpecially/js/ui/jquery-ui.js"></script>
 	<style type="text/css">
+		  #list .ui-selecting { background: #eee; }
+		  #list .ui-selecting .handle { background: #ddd; }
+		  #list .ui-selected { background: #def; }
+		  #list .ui-selected .handle { background: #cde; }
+			
 		body {
 			font-family: sans-serif;
 		}
@@ -21,6 +29,47 @@
 			color: white;
 		}
 	</style>
+	  <script>
+	  $(function() {
+		  
+
+          $( "#list" )
+          .sortable({ handle: ".handle" })
+          .selectable({
+        	  
+        	  create: function( event, ui ) {
+        		  $( "div", this).each(function() {
+                	  //$(this).addClass("uiselected").trigger('selectableselected');
+                	  if($(this).attr('data-state') == 'pre-selected') {
+                		  //alert(this.innerHTML);
+                		  $(this).addClass("ui-selected").trigger('selectableselected');
+                	  }
+                	  //alert(this.innerHTML);
+                	  
+                  });
+        			    
+				  
+        	  },
+              
+          	  stop: function() {
+                  var result = $( "#dishIdList" ).empty();
+                  $( ".ui-selected", this ).each(function() {
+                	  //alert(this.lastChild.data) ;
+                    var index = $(this).attr("data-dishId");
+                    console.log(index);
+                    var dishName = this.lastChild.data;
+                    result.append("<option value=\"" + index + "\" selected=\"selected\">" + dishName + "</option>");
+                    //result.append( " #" + index );
+                  });
+                }
+              })
+            .find( "div" )
+              .addClass( "ui-corner-all" )
+              .prepend( "<div class='handle'><span class='ui-icon ui-icon-carat-2-n-s'></span></div>" );
+          
+         
+      });
+	  </script>
 </head>
 <body>
 <c:set var="sessionUserId" value='<%=request.getSession().getAttribute("userId")%>'/>
@@ -30,7 +79,9 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 
 <hr/>
 <h3>Add Menu</h3>
-
+ 
+  
+                   
 <form:form method="post" action="/CookedSpecially/menu/add.html" commandName="menu">
 
 	<form:hidden path="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
@@ -48,8 +99,40 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 	<tr>
 		<td><form:label path="dishes"><spring:message code="label.dishes"/></form:label></td>
 		<td>
-		
-            
+			<div id="list" style="border-color: black;border: thick;">
+				<c:if test="${!empty dishList}">
+					<c:forEach items="${dishList}" var="dish">
+						
+						<c:choose>
+							<c:when test="${!empty existingDishIds[dish.dishId] }">
+								<div  data-state="pre-selected" data-dishId="${dish.dishId}">${dish.name}</div>
+							</c:when>
+							<c:otherwise>
+								<div  data-state="not-selected" data-dishId="${dish.dishId}">${dish.name}</div>
+							</c:otherwise>
+						</c:choose>
+						
+					</c:forEach>
+				</c:if>
+			</div>
+			
+			<select id="dishIdList" name="dishIds" hidden="true" multiple="multiple">
+				<c:if test="${!empty dishList}">
+					<c:forEach items="${dishList}" var="dish">
+						
+						<c:choose>
+							<c:when test="${!empty existingDishIds[dish.dishId] }">
+								<option value="${dish.dishId}" selected="selected">${dish.name}</option>
+							</c:when>
+							<c:otherwise>
+								
+							</c:otherwise>
+						</c:choose>
+						
+					</c:forEach>
+				</c:if>
+			</select>
+			<!--             
             <select name="dishIds" multiple="multiple">
 	            <c:if test="${!empty dishList}">
 					<c:forEach items="${dishList}" var="dish">
@@ -66,6 +149,7 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 					</c:forEach>
 				</c:if>
 			</select>
+			-->
 		</td>
 	</tr>
 	

@@ -79,7 +79,22 @@ public class MenuController {
 	public String addMenu(@ModelAttribute("menu")
 	Menu menu, BindingResult result, @RequestParam("dishIds") Integer[] dishIds) {
 		ArrayList<Dish> dishes = new ArrayList<Dish>();
-		dishes.addAll(dishService.getDishes(dishIds));
+		if (dishIds != null && dishIds.length > 0) {
+			List<Dish> dishesArr = dishService.getDishes(dishIds);
+			HashMap<Integer, Dish> dishesMap = new HashMap<Integer, Dish>();
+			
+			if (dishesArr != null) {
+				for (Dish dish: dishesArr) {
+					dishesMap.put(dish.getDishId(), dish);
+				}
+			}
+			for (Integer dishId : dishIds) {
+				Dish dish = dishesMap.get(dishId);
+				if (dish != null) {
+					dishes.add(dish);
+				}
+			}
+		}
 		menu.setDishes(dishes);
 		menuService.addMenu(menu);
 
