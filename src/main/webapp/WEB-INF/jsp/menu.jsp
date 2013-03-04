@@ -8,11 +8,11 @@
 	<script type="text/javascript" src="/CookedSpecially/js/jquery-1.9.0.js"></script>
 	<script type="text/javascript" src="/CookedSpecially/js/ui/jquery-ui.js"></script>
 	<style type="text/css">
-		  #list .ui-selecting { background: #eee; }
+		  #list .ui-selecting { background: #FECA40; }
 		  #list .ui-selecting .handle { background: #ddd; }
-		  #list .ui-selected { background: #def; }
+		  #list .ui-selected { background: #F39814; color: white; }
 		  #list .ui-selected .handle { background: #cde; }
-			
+		  
 		body {
 			font-family: sans-serif;
 		}
