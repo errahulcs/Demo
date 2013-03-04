@@ -65,7 +65,7 @@
               })
             .find( "div" )
               .addClass( "ui-corner-all" )
-              .prepend( "<div class='handle'><span class='ui-icon ui-icon-carat-2-n-s'></span></div>" );
+              .prepend( "<div class='handle'><span class='ui-icon ui-icon-carat-2-n-s' style=\"float:left\">" ).append("</span></div>");
           
          
       });
