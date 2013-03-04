@@ -4,6 +4,7 @@
 <html>
 <head>
 	<title>Menu Manager</title>
+	<link rel="stylesheet" href="/CookedSpecially/css/style.css" />
 	<link rel="stylesheet" href="/CookedSpecially/themes/base/jquery.ui.all.css" />
 	<script type="text/javascript" src="/CookedSpecially/js/jquery-1.9.0.js"></script>
 	<script type="text/javascript" src="/CookedSpecially/js/ui/jquery-ui.js"></script>
@@ -14,9 +15,6 @@
 		  #list .ui-selected .handle { background: #cde; }
 		  #list { margin: 1px; padding: 0.1em; border: 1px solid #AAAAAA; }
 		  #list div { border: 1px solid #AAAAAA; }
-		body {
-			font-family: sans-serif;
-		}
 		.data, .data td {
 			border-collapse: collapse;
 			width: 100%;
@@ -26,7 +24,7 @@
 		}
 		.data th {
 			font-weight: bold;
-			background-color: #5C82FF;
+			background-color: #808080;
 			color: white;
 		}
 	</style>
