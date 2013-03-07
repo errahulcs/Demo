@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cookedspecially.config.CSConstants;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.MailerUtility;
@@ -52,8 +53,8 @@ public class UserController {
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
-		request.getSession().removeAttribute("username");
-		request.getSession().removeAttribute("token");
+		request.getSession().removeAttribute(CSConstants.USERNAME);
+		request.getSession().removeAttribute(CSConstants.TOKEN);
 		request.getSession().removeAttribute("userId");
 		return "redirect:/";
 	}
@@ -62,8 +63,8 @@ public class UserController {
 	public String login(HttpServletRequest request, HttpServletResponse response) {
 		//@RequestParam("username") String username, @RequestParam("password") String password,
 		System.out.println(request.getHeader("referer"));
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+		String username = request.getParameter(CSConstants.USERNAME);
+		String password = request.getParameter(CSConstants.PASSWORD);
 		//String signup = request.getParameter("signup");
 		if(!StringUtility.isNullOrEmpty(username) || !StringUtility.isNullOrEmpty(password)) {
 			
@@ -71,8 +72,8 @@ public class UserController {
 			
 			if (user != null) {
 				if (userService.isValidUser(user, password))  {
-					request.getSession().setAttribute("username", username);
-					request.getSession().setAttribute("token", user.getPasswordHash());
+					request.getSession().setAttribute(CSConstants.USERNAME, username);
+					request.getSession().setAttribute(CSConstants.TOKEN, user.getPasswordHash());
 					request.getSession().setAttribute("userId", user.getUserId());
 					String redirectPath = (String) request.getSession().getAttribute("requestpath");
 					if (!StringUtility.isNullOrEmpty(redirectPath)) {
@@ -106,7 +107,7 @@ public class UserController {
 	
 	@RequestMapping(value="/forgotPassword", method=RequestMethod.POST)
 	public String forgotPassword(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
-		String username = request.getParameter("username");
+		String username = request.getParameter(CSConstants.USERNAME);
 		String completeUrl = request.getRequestURL().toString();
 		String resetPasswordUrl = "";
 		User user = userService.getUserByUsername(username);

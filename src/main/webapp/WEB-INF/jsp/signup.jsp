@@ -9,8 +9,9 @@
 	<link rel="stylesheet" href="/CookedSpecially/themes/base/jquery.ui.all.css" />	
 	<script type="text/javascript" src="/CookedSpecially/js/jquery-1.9.0.js"></script>
 	<script type="text/javascript" src="/CookedSpecially/js/ui/jquery-ui.js"></script>
-	
-	
+	<script src="/CookedSpecially/js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/CookedSpecially/js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="/CookedSpecially/css/validationEngine.jquery.css" type="text/css"/>
 	<style type="text/css">
 		
 		.data, .data td {
@@ -38,12 +39,12 @@
 	<tr>
 		<td><form:label path="firstName">First Name *</form:label></td>
 		<td>
-			<form:input path="firstName" required="required" />
+			<form:input path="firstName" class="validate[required]" />
 		</td> 
 	</tr>
 	<tr>
 		<td><form:label path="lastName">Last Name *</form:label></td>
-		<td><form:input path="lastName" required="required" /></td> 
+		<td><form:input path="lastName" class="validate[required]" /></td> 
 	</tr>
 	<tr>
 		<td><form:label path="businessName">Business Name</form:label></td>
@@ -51,15 +52,15 @@
 	</tr>
 	<tr>
 		<td><form:label path="username">Email *</form:label></td>
-		<td><form:input path="username" required="required" /></td> 
+		<td><form:input path="username" class="validate[required]" /></td> 
 	</tr>
 	<tr>
 		<td>Password *</td>
-		<td><input type="password" name="password" required="required"/> </td> 
+		<td><input id="password" type="password" name="password" class="validate[required]"/> </td> 
 	</tr>
 	<tr>
 		<td><label> Password check * </label></td>
-		<td><input type="password" name="check" required="required" data-equals="password" /></td> 
+		<td><input type="password" name="check" class="validate[required,equals[password]]" /></td> 
 	</tr>
 	<tr>
 		<td colspan="2">
@@ -71,6 +72,7 @@
 </body>
 <script>
 	$(function() {
+		$("#user").validationEngine();
 		//$("#user").validator();
 		/*
 		jQuery.tools.validator.fn("[data-equals]", "Value not equal with the $1 field", function(input) {
