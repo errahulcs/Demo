@@ -8,7 +8,8 @@
     <session-factory>
     
     	<mapping class="com.cookedspecially.domain.Dish" />
-    	<mapping class="com.cookedspecially.domain.Category" />
+    	<!--  <mapping class="com.cookedspecially.domain.Category" /> -->
+    	<mapping class="com.cookedspecially.domain.Section" />
     	<mapping class="com.cookedspecially.domain.Menu" />
     	<mapping class="com.cookedspecially.domain.User" />    
     </session-factory>

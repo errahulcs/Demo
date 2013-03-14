@@ -49,7 +49,7 @@ public class DishController {
 
 		map.put("dish", new Dish());
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
-		map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
+		//map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
 		return "dish";
 	}
 
@@ -58,13 +58,13 @@ public class DishController {
 
 		map.put("dish", dishService.getDish(dishId));
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
-		map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
+		//map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
 		return "dish";
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addDish(@ModelAttribute("dish")
-	Dish dish, BindingResult result, @RequestParam("categoryId") Integer categoryId, @RequestParam("file") MultipartFile file) {
+	Dish dish, BindingResult result, @RequestParam("file") MultipartFile file) {
 		FileOutputStream fos = null;
 		String fileUrl = dish.getImageUrl();
 		if (!file.isEmpty()) {
@@ -107,7 +107,7 @@ public class DishController {
 				oldFile.delete();
 			}
 		}
-		dish.setCategory(categoryService.getCategory(categoryId));
+
 		dish.setImageUrl(fileUrl);
 		dishService.addDish(dish);
 

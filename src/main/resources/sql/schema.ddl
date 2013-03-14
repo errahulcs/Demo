@@ -2,39 +2,56 @@
 CREATE TABLE DISHES
 (
     dishId INT PRIMARY KEY AUTO_INCREMENT,
-    restaurantId VARCHAR(30),
+    restaurantId INT,
+    userId INT,
     name VARCHAR(30),
     description VARCHAR(1000),
     shortDescription VARCHAR(30),
     imageUrl VARCHAR(500),
     price FLOAT,
-    categoryId INT,
-    userId INT
+    dishType VARCHAR(100),
+    vegetarian BOOL,
+    alcoholic BOOL
 );
 
-CREATE TABLE CATEGORIES
+CREATE TABLE SECTIONS
 (
-    categoryId INT PRIMARY KEY AUTO_INCREMENT,
+    sectionId INT PRIMARY KEY AUTO_INCREMENT,
+    userId INT,
     name VARCHAR(30),
     description VARCHAR(1000),
-    userId INT
+    header VARCHAR(1000),
+    footer VARCHAR(1000),
+    price FLOAT
 );
+
+CREATE TABLE SECTION_DISH (
+    sectionId INT NOT NULL,
+    dishId INT NOT NULL,
+    dishPosition INT NOT NULL,
+    PRIMARY KEY (sectionId, dishId),
+    INDEX FK_DISH (dishId),
+    CONSTRAINT FK_SECTION FOREIGN KEY (sectionId) REFERENCES SECTIONS (sectionId),
+    CONSTRAINT FK_DISH FOREIGN KEY (dishId) REFERENCES DISHES (dishId)
+);
+
 
 CREATE TABLE MENUS
 (
     menuId INT PRIMARY KEY AUTO_INCREMENT,
+    restaurantId INT,
+    userId INT,
     name VARCHAR(30),
     description VARCHAR(1000),
-    restaurantId VARCHAR(30),
-    userId INT
+    modifiedTime TIMESTAMP
 );
 
-CREATE TABLE MENU_DISH (
+CREATE TABLE MENU_SECTION (
     menuId INT NOT NULL,
-    dishId INT NOT NULL,
-    dishPosition INT NOT NULL,
-    PRIMARY KEY (menuId, dishId),
-    INDEX FK_DISH (dishId),
+    sectionId INT NOT NULL,
+    sectionPosition INT NOT NULL,
+    PRIMARY KEY (menuId, sectionId),
+    INDEX FK_SECTION (sectionId),
     CONSTRAINT FK_MENU FOREIGN KEY (menuId) REFERENCES MENUS (menuId),
     CONSTRAINT FK_DISH FOREIGN KEY (dishId) REFERENCES DISHES (dishId)
 );

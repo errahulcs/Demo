@@ -11,7 +11,7 @@ public class DishWrapper {
 
 	private Integer dishId;
 	
-	private String restaurantId;
+	private Integer restaurantId;
 	
 	private Integer userId;
 	
@@ -46,11 +46,11 @@ public class DishWrapper {
 		this.dishId = dishId;
 	}
 
-	public String getRestaurantId() {
+	public Integer getRestaurantId() {
 		return restaurantId;
 	}
 
-	public void setRestaurantId(String restaurantId) {
+	public void setRestaurantId(Integer restaurantId) {
 		this.restaurantId = restaurantId;
 	}
 

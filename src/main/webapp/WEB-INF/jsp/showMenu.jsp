@@ -21,6 +21,19 @@
 			color: white;
 		}
 	</style>
+	<link rel="stylesheet" href="../../themes/base/jquery.ui.all.css" />
+	<script type="text/javascript" src="../../js/jquery-1.9.0.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('.addDish').click(function() { 
+			var dishId = $(this).attr('data-dishId');
+			//alert(currentcheckId);
+			$('#dishCheck'+dishId).click();
+			//alert(currentcheckId);
+		        
+		});
+	});
+	</script>	
 </head>
 <body>
 <hr/>
@@ -53,6 +66,10 @@
 		<td>${dish.name}</td>
 		<td>${dish.description}</td>
 		<td>${dish.price}</td>
+		<td id="dish_check_${dish.dishId}">
+			<span class="addDish" id="adddishCheck${dish.dishId}" data-dishId="${dish.dishId}">Add </span>
+			<span class="removeDish" id="removedishCheck${dish.dishId}" data-dishId="${dish.dishId}" hidden="true">Remove </span>
+		</td>
 	</tr>
 	
 	
@@ -61,6 +78,11 @@
 </table>
 </c:if>
 
+<form method="post" action="/CookedSpecially/order/save.html">
+<c:forEach items="${menu.dishes}" var="dish">
+ <input type="checkbox" id="dishCheck${dish.dishId}" name="dishIds" value="${dish.dishId}" />
+</c:forEach> 
+</form>
 <!-- <table class="data">
 <tr>
 	<th>Name</th>
@@ -77,6 +99,7 @@
 </c:forEach>
 </table>
 -->
+
 
 
 </body>

@@ -5,11 +5,8 @@ package com.cookedspecially.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,7 +23,7 @@ public class Dish {
 	private Integer dishId;
 	
 	@Column(name="RESTAURANTID")
-	private String restaurantId;
+	private Integer restaurantId;
 	
 	@Column(name="USERID")
 	private Integer userId;
@@ -46,11 +43,16 @@ public class Dish {
 	@Column(name="PRICE")
 	private Float price;
 	
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="CATEGORYID")
-	private Category category;
 
+	@Column(name="DISHTYPE")
+	private String dishType;
+	
+	@Column(name="VEGETARIAN")
+	private Boolean vegetarian;
+	
+	@Column(name="ALCOHOLIC")
+	private Boolean alcoholic;
+	
 	public Integer getDishId() {
 		return dishId;
 	}
@@ -59,11 +61,11 @@ public class Dish {
 		this.dishId = dishId;
 	}
 
-	public String getRestaurantId() {
+	public Integer getRestaurantId() {
 		return restaurantId;
 	}
 
-	public void setRestaurantId(String restaurantId) {
+	public void setRestaurantId(Integer restaurantId) {
 		this.restaurantId = restaurantId;
 	}
 
@@ -99,14 +101,6 @@ public class Dish {
 		this.imageUrl = imageUrl;
 	}
 
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
 	public Float getPrice() {
 		return price;
 	}
@@ -121,6 +115,30 @@ public class Dish {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public String getDishType() {
+		return dishType;
+	}
+
+	public void setDishType(String dishType) {
+		this.dishType = dishType;
+	}
+
+	public Boolean getVegetarian() {
+		return vegetarian;
+	}
+
+	public void setVegetarian(Boolean vegetarian) {
+		this.vegetarian = vegetarian;
+	}
+
+	public Boolean getAlcoholic() {
+		return alcoholic;
+	}
+
+	public void setAlcoholic(Boolean alcoholic) {
+		this.alcoholic = alcoholic;
 	}
 	
 

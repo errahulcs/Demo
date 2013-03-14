@@ -4,20 +4,19 @@
 package com.cookedspecially.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.IndexColumn;
 
@@ -34,7 +33,7 @@ public class Menu {
 	private Integer menuId;
 	
 	@Column(name="RESTAURANTID")
-	private String restaurantId;
+	private Integer restaurantId;
 	
 	@Column(name="USERID")
 	private Integer userId;
@@ -45,13 +44,18 @@ public class Menu {
 	@Column(name="DESCRIPTION")
 	private String description;
 		
-	@ManyToMany(fetch = FetchType.EAGER)
-	@IndexColumn(name="DISHPOSITION")
-    @JoinTable(name="MENU_DISH", 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="MODIFIEDTIME")
+	private Date modifiedTime;
+	
+	@OneToMany
+	@IndexColumn(name="SECTIONPOSITION")
+    @JoinTable(name="MENU_SECTION", 
                 joinColumns={@JoinColumn(name="MENUID")}, 
-                inverseJoinColumns={@JoinColumn(name="DISHID")})
-    private List<Dish> dishes = new ArrayList<Dish>();
-
+                inverseJoinColumns={@JoinColumn(name="SECTIONID")})
+    private List<Section> sections = new ArrayList<Section>();
+	
+	
 	public Integer getMenuId() {
 		return menuId;
 	}
@@ -60,11 +64,11 @@ public class Menu {
 		this.menuId = menuId;
 	}
 
-	public String getRestaurantId() {
+	public Integer getRestaurantId() {
 		return restaurantId;
 	}
 
-	public void setRestaurantId(String restaurantId) {
+	public void setRestaurantId(Integer restaurantId) {
 		this.restaurantId = restaurantId;
 	}
 
@@ -84,13 +88,7 @@ public class Menu {
 		this.description = description;
 	}
 
-	public List<Dish> getDishes() {
-		return dishes;
-	}
 
-	public void setDishes(ArrayList<Dish> dishes) {
-		this.dishes = dishes;
-	}
 
 	public Integer getUserId() {
 		return userId;
@@ -98,6 +96,22 @@ public class Menu {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public List<Section> getSections() {
+		return sections;
+	}
+
+	public void setSections(List<Section> sections) {
+		this.sections = sections;
+	}
+
+	public Date getModifiedTime() {
+		return modifiedTime;
+	}
+
+	public void setModifiedTime(Date modifiedTime) {
+		this.modifiedTime = modifiedTime;
 	}
 	
 }

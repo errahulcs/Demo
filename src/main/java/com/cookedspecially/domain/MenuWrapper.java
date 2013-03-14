@@ -33,6 +33,7 @@ public class MenuWrapper {
 		menuWrapper.setUserId(menu.getUserId());
 		menuWrapper.setName(menu.getName());
 		menuWrapper.setDescription(menu.getDescription());
+		/*
 		List<Dish> dishes = menu.getDishes();
 		LinkedHashMap<Integer, CategoryWrapper> categoryWrappers = new LinkedHashMap<Integer, CategoryWrapper>();
 		for (Dish dish : dishes) {
@@ -42,6 +43,7 @@ public class MenuWrapper {
 			categoryWrappers.get(dish.getCategory().getCategoryId()).addDish(dish);
 		}
 		menuWrapper.setCategories(new ArrayList(categoryWrappers.values()));
+		*/
 		return menuWrapper;
 	}
 	

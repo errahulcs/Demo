@@ -5,10 +5,8 @@ package com.cookedspecially.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,7 +45,7 @@ public class MenuController {
 	public String listMenus(Map<String, Object> map, HttpServletRequest request) {
 
 		map.put("menu", new Menu());
-		System.out.println(request.getSession().getAttribute("userId"));
+		//System.out.println(request.getSession().getAttribute("userId"));
 		List<Menu> menus = menuService.listMenuByUser((Integer) request.getSession().getAttribute("userId"));
 		map.put("menuList", menus);
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
@@ -62,6 +60,7 @@ public class MenuController {
 		//System.out.println(request.getSession().getAttribute("userId"));
 		List<Menu> menus = menuService.listMenuByUser((Integer) request.getSession().getAttribute("userId"));
 		map.put("menuList", menus);
+		/*
 		List<Dish> dishes = menu.getDishes();
 		HashMap<Integer, Integer> existingDishIds = new HashMap<Integer,Integer>((dishes != null) ? dishes.size(): 0);
 		if(dishes != null) {
@@ -70,7 +69,7 @@ public class MenuController {
 			}
 		}
 		map.put("existingDishIds", existingDishIds);
-		
+		*/
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
 		return "menu";
 	}
@@ -95,7 +94,7 @@ public class MenuController {
 				}
 			}
 		}
-		menu.setDishes(dishes);
+		//menu.setDishes(dishes);
 		menuService.addMenu(menu);
 
 		return "redirect:/menu/";
