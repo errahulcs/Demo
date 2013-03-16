@@ -4,8 +4,12 @@
 	<meta charset="utf-8">
 	<title>Cooked specially</title>
 	<link rel="stylesheet" href="/CookedSpecially/themes/base/jquery.ui.all.css">
+	<link rel="stylesheet" type="text/css" href="/CookedSpecially/themes/base/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="/CookedSpecially/themes/base/jquery.multiselect.filter.css" />
 	<script src="/CookedSpecially/js/jquery-1.9.0.js"></script>
-	<script src="/CookedSpecially/js/ui/jquery-ui.js"></script>	
+	<script src="/CookedSpecially/js/ui/jquery-ui.js"></script>
+	<script type="text/javascript" src="/CookedSpecially/js/jquery.multiselect.js"></script>
+	<script type="text/javascript" src="/CookedSpecially/js/jquery.multiselect.filter.js"></script>	
 
 	<!--  <link rel="stylesheet" href="../demos.css">  -->
 	<style>
@@ -16,8 +20,33 @@
 	
 	</style>
 	<script>
+	function removeDish(dishEL) {
+		//alert(dishEL);
+		dishEL.parent().hide();
+	} 
+	function addDish(dishId) {
+		var el = $('#' + dishId); 
+		var countDishes = el.find("li").size(); 
+			if(countDishes < 1) {
+			 	el.sortable();	
+				el.disableSelection();
+			} 
+			el.append('<li class="ui-state-default">Dish ' + (countDishes + 1) 
+					+ '<button type="button" class="removeDish" onclick="removeDish($(this));" style="float:right">-</button></li>');
+			//$(".removeDish").unbind("click");
+			//$(".removeDish").bind("click", function(event ) {
+			//	$(this).parent().hide();
+			//});
+	}
 	$(function() {
+		$("select").multiselect().multiselectfilter();
 		$("#addSection").click(function( event ) {
+			 var name = $( "#name" ).val(),
+			 price = $( "#price" ).val(),
+			 description = $( "#description" ).val(),
+			 header = $("#header").val(),
+			 footer = $("#footer").val();
+			$('#sectionForm').dialog('close')
 			var count = $("#section").children().size();			
 			if(count < 1) {
         			$( "#section" ).sortable();
@@ -25,25 +54,23 @@
 			}
 			
 
-			$("#section").append('<li "ui-state-default">Section ' + (count+1) + '<button  class="addDish" style="float:right">+</button> <button class="removeSection" style="float:right">x</button><ul id="dish' + (count+1) + '" class="dish" ></ul> </li>');
-			$(".addDish").unbind("click");
-			$(".addDish").bind("click", function(event ) {
-				var el = $(this).parent().find(".dish"); 
-				var countDishes = el.find("li").size(); 
-				if(countDishes < 1) {
-				 	el.sortable();	
-					el.disableSelection();
-				} 
-				el.append('<li class="ui-state-default">Dish ' + (countDishes + 1) + '<button class="removeDish" style="float:right">-</button></li>');
-				$(".removeDish").unbind("click");
-				$(".removeDish").bind("click", function(event ) {
-					$(this).parent().remove();
-				});
-			});
-
+			$("#section").append('<li id="section"' + count + ' "ui-state-default">' + name 
+					+ '<input type="hidden" name="sections[' + count +'].name" value="' + name + '"/>'
+					+ '<input type="hidden" name="sections[' + count +'].price" value="' + price + '"/>'
+					+ '<input type="hidden" name="sections[' + count +'].description" value="' + description + '"/>'
+					+ '<input type="hidden" name="sections[' + count +'].header" value="' + header + '"/>'
+					+ '<input type="hidden" name="sections[' + count +'].footer" value="' + footer + '"/>'
+					+ '<input type="hidden" name="sections[' + count +'].valid" class="validSection" value="true"/>'
+					+ '<button type="button" class="removeSection" style="float:right">x</button>'
+					+ '<button type="button" class="addDish" onclick="addDish(\'dish'+count + '\')" style="float:right">+</button>'
+					+ '<ul id="dish' + count + '" class="dish" ></ul> </li>');
+			
+			
+			
 			$(".removeSection").unbind("click");
 			$(".removeSection").bind("click", function(event ) {
-				$(this).parent().remove();
+				$(this).parent().find(".validSection")[0].value = false;
+				$(this).parent().hide();
 			});
 			
       });		
@@ -55,13 +82,40 @@
 
 <div id="menu">
 Some Menu
+<form id="menuForm" action="/CookedSpecially/menu/addNew" method="post">
 <ul id="section">
 
 </ul>
-<button id="addSection">Add Section</button>
+<input type="submit" value="Add Menu"/>
+
+</form>
+<button id="addSomeSection" onclick="$('#sectionForm').dialog();">Add Section</button> 
 </div>
 
 
+<form id="sectionForm" hidden="true">
+<input type="text" id="name" name="name" placeholder="Name" /> <input type="text" id="price" name="price" value="0.0" style="float: right;"/><br/>
+( <input type="text" id="description" name="description" placeholder="Description"/> ) <br/>
+<input type="text" id="header" name="header" placeholder="Header"/> <br>
+Dishes goes here.<br>
+Dishes goes here.<br>
+Dishes goes here.<br>
+Dishes goes here.<br>
+<input type="text" id="footer" name="footer" placeholder="Footer" /><br>
+<input type="button" id="addSection" value="Add Section" />
+</form>
 
+<form id="dishSection">
+<select id="dishIdList" name="dishIds" multiple="multiple" style="width:370px">
+<option value="1">Red</option>
+<option value="2">Green</option>
+<option value="3">Blue</option>
+<option value="4">Orange</option>
+<option value="5">Purple</option>
+<option value="6">Yellow</option>
+<option value="7">Brown</option>
+<option value="8">Black</option>
+</select>
+</form>
 </body>
 </html>

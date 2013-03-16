@@ -49,7 +49,7 @@ public class MenuController {
 		List<Menu> menus = menuService.listMenuByUser((Integer) request.getSession().getAttribute("userId"));
 		map.put("menuList", menus);
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
-		return "menu";
+		return "newMenu";
 	}
 
 	@RequestMapping("/edit/{menuId}")
@@ -100,6 +100,12 @@ public class MenuController {
 		return "redirect:/menu/";
 	}
 
+	@RequestMapping(value = "/addNew", method = RequestMethod.POST)
+	public String addNewMenu(@ModelAttribute("menu")
+	Menu menu, BindingResult result) {
+		System.out.println(menu);
+		return "redirect:/menu/";
+	}
 	@RequestMapping("/delete/{menuId}")
 	public String deleteMenu(@PathVariable("menuId")
 	Integer menuId) {

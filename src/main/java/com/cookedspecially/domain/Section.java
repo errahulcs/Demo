@@ -49,6 +49,8 @@ public class Section {
 	@Column(name="PRICE")
 	private Float price;
 	
+	private boolean valid = true;
+	
 	@ManyToMany
 	@IndexColumn(name="DISHPOSITION")
     @JoinTable(name="SECTION_DISH", 
@@ -118,6 +120,14 @@ public class Section {
 
 	public void setDishes(List<Dish> dishes) {
 		this.dishes = dishes;
+	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void setValid(boolean valid) {
+		this.valid = valid;
 	}
 
 	
