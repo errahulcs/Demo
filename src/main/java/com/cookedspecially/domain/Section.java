@@ -51,6 +51,8 @@ public class Section {
 	
 	private boolean valid = true;
 	
+	private String dishIds = "";
+	
 	@ManyToMany
 	@IndexColumn(name="DISHPOSITION")
     @JoinTable(name="SECTION_DISH", 
@@ -128,6 +130,14 @@ public class Section {
 
 	public void setValid(boolean valid) {
 		this.valid = valid;
+	}
+
+	public String getDishIds() {
+		return dishIds;
+	}
+
+	public void setDishIds(String dishIds) {
+		this.dishIds = dishIds;
 	}
 
 	

@@ -22,21 +22,97 @@
 	<script>
 	function removeDish(dishEL) {
 		//alert(dishEL);
-		dishEL.parent().hide();
+		//var sectionEl = dishEL.parent().parent().parent();
+		
+		//var dishesEl = dishEL.parent().parent();
+		dishEL.parent().remove();
+		/*var dishELs = el.find("li");
+		var addedDishIds = new Array();
+		for (var i = 0; i < countDishes; i++) {
+			addedDishIds[i] = dishELs[i].attributes["data-dishid"].value;
+		}
+		sectionEl.find(".addedDishIds")[0].value = addedDishIds.toString();
+		*/
 	} 
-	function addDish(dishId) {
-		var el = $('#' + dishId); 
-		var countDishes = el.find("li").size(); 
-			if(countDishes < 1) {
-			 	el.sortable();	
-				el.disableSelection();
-			} 
-			el.append('<li class="ui-state-default">Dish ' + (countDishes + 1) 
-					+ '<button type="button" class="removeDish" onclick="removeDish($(this));" style="float:right">-</button></li>');
-			//$(".removeDish").unbind("click");
-			//$(".removeDish").bind("click", function(event ) {
-			//	$(this).parent().hide();
-			//});
+	function addDishes(dishesELId) {
+		var el = $('#' + dishesELId); 
+		
+		var dishELs = el.find("li");
+		var countDishes = dishELs.size();
+		var dishes = {};
+		var dishIdListOptions = $("#dishIdList").find("option");
+		
+		for (var i = 0; i < countDishes; i++) {
+			var dishId = dishELs[i].attributes["data-dishid"].value;
+			var dishName = dishELs[i].attributes["data-dishname"].value;
+			dishes[dishId] = dishName;
+		}
+		for (var i =0; i < dishIdListOptions.size(); i++) {
+			optionDishId = dishIdListOptions[i].value;
+			if (optionDishId in dishes) {
+				if(!(dishIdListOptions[i].selected)) {
+					$("#ui-multiselect-dishIdList-option-" + i).click();
+				}
+			} else {
+				if(dishIdListOptions[i].selected) {
+					$("#ui-multiselect-dishIdList-option-" + i).click();
+				}
+			}
+		}
+		$("#addDish").attr("data-disheselid", dishesELId);
+		$("#dishSection").dialog();
+	}
+	
+	function addSelectedDish() {
+		var dishesELId = $("#addDish").attr("data-disheselid");
+		var el = $('#' + dishesELId);
+		
+		var dishELs = el.find("li");
+		var dishes = {};
+		//var addedDishIds = new Array();
+		//var j = 0;
+		for (var i = 0; i < dishELs.size(); i++) {
+			var dishId = dishELs[i].attributes["data-dishid"].value;
+			var dishName = dishELs[i].attributes["data-dishname"].value;
+			dishes[dishId] = dishName;
+			//addedDishIds[j++] = dishId;
+			
+		}
+		if (dishELs.size() < 1) {
+			el.sortable();	
+			el.disableSelection();
+		}
+		var dishIdListOptions = $("#dishIdList").find("option");
+		for (var i =0; i < dishIdListOptions.size(); i++) {
+			optionDishId = dishIdListOptions[i].value;
+			if (!(optionDishId in dishes)) {
+				if(dishIdListOptions[i].selected) {
+					var dishId = dishIdListOptions[i].value;
+					var dishName = dishIdListOptions[i].text;
+					el.append('<li class="ui-state-default" data-dishid="'+ dishId + '" data-dishname="' + dishName + '">' + dishName 
+							+ '<button type="button" class="removeDish" onclick="removeDish($(this));" style="float:right">-</button></li>');
+					//addedDishIds[j++] = dishId;
+				}
+			}
+		}
+		//el.parent().find(".addedDishIds")[0].value = addedDishIds.toString();
+		$("#dishSection").dialog("close");
+	}
+	function submitMenu() {
+		var sectionELs = $("#section").find("li.section");
+		
+		for (var i = 0;  i < sectionELs.size(); i++) {
+			
+			var dishELs = $($(sectionELs[i]).find(".dish")[0]).find("li");
+			
+			var addedDishIds = new Array();
+			for (var j = 0 ; j < dishELs.size(); j++) {
+				addedDishIds[j] = dishELs[j].attributes["data-dishid"].value;
+			}
+			
+			$(sectionELs[i]).find(".addedDishIds")[0].value = addedDishIds.toString();
+		}
+		$("#menuForm").submit();
 	}
 	$(function() {
 		$("select").multiselect().multiselectfilter();
@@ -54,7 +130,8 @@
 			}
 			
 
-			$("#section").append('<li id="section"' + count + ' "ui-state-default">' + name 
+			$("#section").append('<li id="section' + count + '" class="section ui-state-default">' + name 
+					+ '<input type="hidden" class="addedDishIds" name="sections[' + count +'].dishIds" value=""/>'
 					+ '<input type="hidden" name="sections[' + count +'].name" value="' + name + '"/>'
 					+ '<input type="hidden" name="sections[' + count +'].price" value="' + price + '"/>'
 					+ '<input type="hidden" name="sections[' + count +'].description" value="' + description + '"/>'
@@ -62,7 +139,7 @@
 					+ '<input type="hidden" name="sections[' + count +'].footer" value="' + footer + '"/>'
 					+ '<input type="hidden" name="sections[' + count +'].valid" class="validSection" value="true"/>'
 					+ '<button type="button" class="removeSection" style="float:right">x</button>'
-					+ '<button type="button" class="addDish" onclick="addDish(\'dish'+count + '\')" style="float:right">+</button>'
+					+ '<button type="button" class="addDish" onclick="addDishes(\'dish'+count + '\')" style="float:right">+</button>'
 					+ '<ul id="dish' + count + '" class="dish" ></ul> </li>');
 			
 			
@@ -81,15 +158,18 @@
 <body>
 
 <div id="menu">
-Some Menu
+
 <form id="menuForm" action="/CookedSpecially/menu/addNew" method="post">
+<input type="text" name="name"  placeholder="Name"/><br/>
+<input type="text" name="description"  placeholder="Description"/> <br/>
 <ul id="section">
 
 </ul>
-<input type="submit" value="Add Menu"/>
+
+<input type="button" onclick="submitMenu();" value="Add Menu"/>
 
 </form>
-<button id="addSomeSection" onclick="$('#sectionForm').dialog();">Add Section</button> 
+<button type="button" id="addSomeSection" onclick="$('#sectionForm').dialog();">Add Section</button> 
 </div>
 
 
@@ -105,8 +185,8 @@ Dishes goes here.<br>
 <input type="button" id="addSection" value="Add Section" />
 </form>
 
-<form id="dishSection">
-<select id="dishIdList" name="dishIds" multiple="multiple" style="width:370px">
+<form id="dishSection" hidden="true">
+<select id="dishIdList" name="selectedDishIds" multiple="multiple" style="width:370px">
 	<c:if test="${!empty dishList}">
 		<c:forEach items="${dishList}" var="dishVar">
 			<option value="${dishVar.dishId}">${dishVar.name}</option>
@@ -114,6 +194,7 @@ Dishes goes here.<br>
 		</c:forEach>
 	</c:if>
 </select>
+<input type="button" id="addDish" onclick="addSelectedDish();" value="Add Selected Dishes" />
 </form>
 </body>
 </html>
