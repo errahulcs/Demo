@@ -165,11 +165,11 @@
 <ul id="section">
 
 </ul>
-
+<button type="button" id="addSomeSection" onclick="$('#sectionForm').dialog();">Add Section</button> <br/>
 <input type="button" onclick="submitMenu();" value="Add Menu"/>
 
 </form>
-<button type="button" id="addSomeSection" onclick="$('#sectionForm').dialog();">Add Section</button> 
+ 
 </div>
 
 
