@@ -89,7 +89,7 @@
 				if(dishIdListOptions[i].selected) {
 					var dishId = dishIdListOptions[i].value;
 					var dishName = dishIdListOptions[i].text;
-					el.append('<li class="ui-state-default" data-dishid="'+ dishId + '" data-dishname="' + dishName + '">' + dishName 
+					el.append('<li class="ui-state-default" style="font-size:0.8em;" data-dishid="'+ dishId + '" data-dishname="' + dishName + '">' + dishName 
 							+ '<button type="button" class="removeDish" onclick="removeDish($(this));" style="float:right">-</button></li>');
 					//addedDishIds[j++] = dishId;
 				}
