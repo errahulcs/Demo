@@ -1,4 +1,4 @@
-
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html lang="en">
 <head>
 	<meta charset="utf-8">
@@ -107,14 +107,12 @@ Dishes goes here.<br>
 
 <form id="dishSection">
 <select id="dishIdList" name="dishIds" multiple="multiple" style="width:370px">
-<option value="1">Red</option>
-<option value="2">Green</option>
-<option value="3">Blue</option>
-<option value="4">Orange</option>
-<option value="5">Purple</option>
-<option value="6">Yellow</option>
-<option value="7">Brown</option>
-<option value="8">Black</option>
+	<c:if test="${!empty dishList}">
+		<c:forEach items="${dishList}" var="dishVar">
+			<option value="${dishVar.dishId}">${dishVar.name}</option>
+			
+		</c:forEach>
+	</c:if>
 </select>
 </form>
 </body>

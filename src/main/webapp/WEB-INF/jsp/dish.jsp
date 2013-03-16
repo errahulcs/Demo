@@ -26,15 +26,7 @@
 <body>
 <hr/>
 <h3>Add Dish</h3>
-<!-- 
-<h1>Please upload a file</h1>
-<form method="post" action="/CookedSpecially/fileupload/upload" enctype="multipart/form-data">
-    <input type="text" nafme="name"/>
-    <input type="file" name="file"/>
-    <input type="submit"/>
-</form>
-<br />
- -->
+
 <form:form method="post" action="/CookedSpecially/dish/add.html" commandName="dish" enctype="multipart/form-data">
 
 	<form:hidden path="dishId"/>
@@ -51,23 +43,28 @@
 		<td><form:input path="description" /></td>
 	</tr>
 	<tr>
+		<td><form:label path="shortDescription">Short Description</form:label></td>
+		<td><form:input path="shortDescription" /></td>
+	</tr>
+	
+	<tr>
 		<td><form:label path="price">Price</form:label></td>
 		<td><form:input path="price" /></td>
 	</tr>
+	
 	<tr>
-		<td><form:label path="category"><spring:message code="label.category"/></form:label></td>
-		<td>
-			<select name="categoryId" >
-            <c:forEach items="${categoryList}" var="category">
-            	<c:if test="${dish.category != null && category.categoryId == dish.category.categoryId}">
-               		<option value="${category.categoryId}" selected="selected">${category.name} - ${category.description}</option>
-               	</c:if>
-               	<c:if test="${dish.category == null || category.categoryId != dish.category.categoryId}">
-               		<option value="${category.categoryId}">${category.name} - ${category.description}</option>
-               	</c:if>
-            </c:forEach>
-        	</select>
-		</td>
+		<td><form:label path="dishType">Dish Type</form:label></td>
+		<td><form:input path="dishType" /></td>
+	</tr>
+	
+	<tr>
+		<td><form:label path="vegetarian">Vegetarian</form:label></td>
+		<td><input type="checkbox" id="vegetarian" name="vegetarian"></td>
+	</tr>
+	
+	<tr>
+		<td><form:label path="alcoholic">Alcoholic</form:label></td>
+		<td><input type="checkbox" id="alcoholic" name="alcoholic"></td>
 	</tr>
 	
 	<tr>
@@ -96,7 +93,6 @@
 <tr>
 	<th>Name</th>
 	<th>Description</th>
-	<th>Category</th>
 	<th>Image</th>
 	<th>Price</th>
 	<th>&nbsp;</th>
@@ -106,7 +102,6 @@
 	<tr>
 		<td>${dish.name}</td>
 		<td>${dish.description}</td>
-		<td>${dish.category.name} - ${dish.category.description}</td>
 		<td><img src="${dish.imageUrl}" /></td>
 		<td>${dish.price}</td>
 		<td><a href="/CookedSpecially/dish/delete/${dish.dishId}">delete</a></td>

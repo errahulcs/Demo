@@ -41,8 +41,8 @@ public class DishController {
 	@Autowired
 	private DishService dishService;
 	
-	@Autowired
-	private CategoryService categoryService;
+	//@Autowired
+	//private CategoryService categoryService;
 	
 	@RequestMapping("/")
 	public String listDishes(Map<String, Object> map, HttpServletRequest request) {
