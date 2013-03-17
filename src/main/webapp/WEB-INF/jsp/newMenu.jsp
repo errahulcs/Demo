@@ -17,7 +17,8 @@
 	#section li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em;  border-style:solid; border-width:1px}
 	.dish { list-style-type: none; margin: 1 px; padding: 1 px;  border-style:solid; border-width:1px;  }
 	.dish li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; border-style:solid; border-width:1px;}
-	.dishDialog {font-size:1.0em;}
+	.ui-multiselect.dishDialog {font-size:1.0em;}
+	.ui-multiselect-menu.dishDialog {font-size:1.0em;}
 	</style>
 	<script>
 	function removeDish(dishEL) {
@@ -60,8 +61,8 @@
 			}
 		}
 		$("#addDish").attr("data-disheselid", dishesELId);
-		$("#dishSection").dialog("open");
-		//$("#dishSection").dialog();
+		//$("#dishSection").dialog("open");
+		$("#dishSection").dialog();
 	}
 	
 	function addSelectedDish() {
@@ -117,7 +118,7 @@
 	}
 	$(function() {
 		
-		$("select").multiselect().multiselectfilter();
+		$("select").multiselect({classes: "dishDialog"}).multiselectfilter();
 		$("#addSection").click(function( event ) {
 			 var name = $( "#name" ).val(),
 			 price = $( "#price" ).val(),
@@ -153,15 +154,15 @@
 			});
 			
       });		
-	  
+	  /*
 	  $("#dishSection").dialog({
 		autoOpen: false,
 		width:450,
 		modal:true,
-		dialogClass:"dishDialog",
+		//dialogClass:"dishDialog",
 		hide: "explode"
 	  });
-	  
+	  */
 	});
 	</script>
 </head>

@@ -44,14 +44,22 @@ public class MenuController {
 	@RequestMapping("/")
 	public String listMenus(Map<String, Object> map, HttpServletRequest request) {
 
-		map.put("menu", new Menu());
+		//map.put("menu", new Menu());
 		//System.out.println(request.getSession().getAttribute("userId"));
 		List<Menu> menus = menuService.listMenuByUser((Integer) request.getSession().getAttribute("userId"));
 		map.put("menuList", menus);
+		//map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
+		return "listMenu";
+	}
+
+		
+	@RequestMapping(value="/create", method = RequestMethod.GET)
+	public String createMenu(Map<String, Object> map, HttpServletRequest request) {
+
+		map.put("menu", new Menu());
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
 		return "newMenu";
 	}
-
 	@RequestMapping("/edit/{menuId}")
 	public String editMenu(Map<String, Object> map, HttpServletRequest request, @PathVariable("menuId") Integer menuId) {
 
