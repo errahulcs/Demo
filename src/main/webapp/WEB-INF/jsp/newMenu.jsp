@@ -17,7 +17,7 @@
 	#section li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em;  border-style:solid; border-width:1px}
 	.dish { list-style-type: none; margin: 1 px; padding: 1 px;  border-style:solid; border-width:1px;  }
 	.dish li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; border-style:solid; border-width:1px;}
-	
+	.dishDialog {font-size:1.0em;}
 	</style>
 	<script>
 	function removeDish(dishEL) {
@@ -60,7 +60,8 @@
 			}
 		}
 		$("#addDish").attr("data-disheselid", dishesELId);
-		$("#dishSection").dialog();
+		$("#dishSection").dialog("open");
+		//$("#dishSection").dialog();
 	}
 	
 	function addSelectedDish() {
@@ -115,6 +116,7 @@
 		$("#menuForm").submit();
 	}
 	$(function() {
+		
 		$("select").multiselect().multiselectfilter();
 		$("#addSection").click(function( event ) {
 			 var name = $( "#name" ).val(),
@@ -151,7 +153,15 @@
 			});
 			
       });		
-		
+	  
+	  $("#dishSection").dialog({
+		autoOpen: false,
+		width:450,
+		modal:true,
+		dialogClass:"dishDialog",
+		hide: "explode"
+	  });
+	  
 	});
 	</script>
 </head>
@@ -173,7 +183,7 @@
 </div>
 
 
-<form id="sectionForm" hidden="true">
+<form id="sectionForm" hidden="true" title="Create Section ">
 <input type="text" id="name" name="name" placeholder="Name" /> <input type="text" id="price" name="price" value="0.0" style="float: right;"/><br/>
 ( <input type="text" id="description" name="description" placeholder="Description"/> ) <br/>
 <input type="text" id="header" name="header" placeholder="Header"/> <br>
@@ -185,8 +195,8 @@ Dishes goes here.<br>
 <input type="button" id="addSection" value="Add Section" />
 </form>
 
-<form id="dishSection" hidden="true">
-<select id="dishIdList" name="selectedDishIds" multiple="multiple" style="width:370px">
+<form id="dishSection" hidden="true" title="Select Dishes">
+<select id="dishIdList" name="selectedDishIds" multiple="multiple" style="width: 400px">
 	<c:if test="${!empty dishList}">
 		<c:forEach items="${dishList}" var="dishVar">
 			<option value="${dishVar.dishId}">${dishVar.name}</option>
