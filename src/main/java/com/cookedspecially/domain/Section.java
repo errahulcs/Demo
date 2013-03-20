@@ -53,6 +53,8 @@ public class Section {
 	
 	private String dishIds = "";
 	
+	private int position;
+	
 	@ManyToMany
 	@IndexColumn(name="DISHPOSITION")
     @JoinTable(name="SECTION_DISH", 
@@ -138,6 +140,14 @@ public class Section {
 
 	public void setDishIds(String dishIds) {
 		this.dishIds = dishIds;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 
 	

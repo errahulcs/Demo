@@ -104,7 +104,7 @@
 		var sectionELs = $("#section").find("li.section");
 		
 		for (var i = 0;  i < sectionELs.size(); i++) {
-			
+			$(sectionELs[i]).find(".position")[0].value = i;
 			var dishELs = $($(sectionELs[i]).find(".dish")[0]).find("li");
 			
 			var addedDishIds = new Array();
@@ -141,6 +141,7 @@
 					+ '<input type="hidden" name="sections[' + count +'].header" value="' + header + '"/>'
 					+ '<input type="hidden" name="sections[' + count +'].footer" value="' + footer + '"/>'
 					+ '<input type="hidden" name="sections[' + count +'].valid" class="validSection" value="true"/>'
+					+ '<input type="hidden" name="sections[' + count +'].position" class="position" value="'+count+'"/>'
 					+ '<button type="button" class="removeSection" style="float:right">x</button>'
 					+ '<button type="button" class="addDish" onclick="addDishes(\'dish'+count + '\')" style="float:right">+</button>'
 					+ '<ul id="dish' + count + '" class="dish" ></ul> </li>');
@@ -188,10 +189,10 @@
 <input type="text" id="name" name="name" placeholder="Name" /> <input type="text" id="price" name="price" value="0.0" style="float: right;"/><br/>
 ( <input type="text" id="description" name="description" placeholder="Description"/> ) <br/>
 <input type="text" id="header" name="header" placeholder="Header"/> <br>
-Dishes goes here.<br>
-Dishes goes here.<br>
-Dishes goes here.<br>
-Dishes goes here.<br>
+Dishes go here.<br>
+Dishes go here.<br>
+Dishes go here.<br>
+Dishes go here.<br>
 <input type="text" id="footer" name="footer" placeholder="Footer" /><br>
 <input type="button" id="addSection" value="Add Section" />
 </form>

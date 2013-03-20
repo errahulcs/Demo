@@ -23,6 +23,7 @@
 
 </head>
 <body>
+<a href="/CookedSpecially/menu/create">Create Menu</a> <br/>
 <c:set var="sessionUserId" value='<%=request.getSession().getAttribute("userId")%>'/>
 <c:if test='${!empty sessionUserId}'>
 Logged in as <%=request.getSession().getAttribute("username")%> <a href="/CookedSpecially/user/logout">Logout</a>
