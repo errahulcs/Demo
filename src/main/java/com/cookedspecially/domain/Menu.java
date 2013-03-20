@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -55,7 +56,7 @@ public class Menu {
 	@Column(name="STATUS")
 	private Status status = Status.ACTIVE;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@IndexColumn(name="SECTIONPOSITION")
     @JoinTable(name="MENU_SECTION", 
                 joinColumns={@JoinColumn(name="MENUID")}, 

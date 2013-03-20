@@ -36,7 +36,13 @@
 		}
 		sectionEl.find(".addedDishIds")[0].value = addedDishIds.toString();
 		*/
-	} 
+	}
+	function removeSection(sectionEL) {
+		
+		$(sectionEL.parent()).find(".validSection")[0].value = false;
+		$(sectionEL.parent()).hide();
+		
+	}
 	function addDishes(dishesELId) {
 		var el = $('#' + dishesELId); 
 		
@@ -121,6 +127,8 @@
 	$(function() {
 		
 		$("select").multiselect({classes: "dishDialog"}).multiselectfilter();
+		$( "#section" ).sortable();
+		$( "#section" ).disableSelection();
 		$("#addSection").click(function( event ) {
 			 var name = $( "#name" ).val(),
 			 price = $( "#price" ).val(),
@@ -129,10 +137,9 @@
 			 footer = $("#footer").val();
 			$('#sectionForm').dialog('close')
 			var count = $("#section").children().size();			
-			if(count < 1) {
-        			$( "#section" ).sortable();
-				$( "#section" ).disableSelection();
-			}
+			//if(count < 1) {
+        		
+			//}
 			
 
 			$("#section").append('<li id="section' + count + '" class="section ui-state-default">' + name 
@@ -144,18 +151,18 @@
 					+ '<input type="hidden" name="sections[' + count +'].footer" value="' + footer + '"/>'
 					+ '<input type="hidden" name="sections[' + count +'].valid" class="validSection" value="true"/>'
 					+ '<input type="hidden" name="sections[' + count +'].position" class="position" value="'+count+'"/>'
-					+ '<button type="button" class="removeSection" style="float:right">x</button>'
+					+ '<button type="button" onclick="removeSection($(this));" style="float:right">x</button>'
 					+ '<button type="button" class="addDish" onclick="addDishes(\'dish'+count + '\')" style="float:right">+</button>'
 					+ '<ul id="dish' + count + '" class="dish" ></ul> </li>');
 			
 			
-			
+			/*
 			$(".removeSection").unbind("click");
 			$(".removeSection").bind("click", function(event ) {
 				$(this).parent().find(".validSection")[0].value = false;
 				$(this).parent().hide();
 			});
-			
+			*/
       });		
 	  /*
 	  $("#dishSection").dialog({
@@ -175,11 +182,38 @@
 
 <form id="menuForm" action="/CookedSpecially/menu/addNew" method="post">
 <input type="hidden" name="userId" id="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
-<input type="hidden" name="menuId" id="menuId"/>
-<input type="text" name="name"  placeholder="Name"/><br/>
-<input type="text" name="description"  placeholder="Description"/> <br/>
+<input type="hidden" name="menuId" id="menuId" value="${menu.menuId}"/>
+<input type="text" name="name"  placeholder="Name" value="${menu.name}"/><br/>
+<input type="text" name="description"  placeholder="Description" value="${menu.description}"/> <br/>
 <ul id="section">
-
+<c:if test="${!empty menu.sections}">
+<c:set var="sectionCount" value='0'/>
+<c:forEach items="${menu.sections}" var="section">
+<li id="section${sectionCount}" class="section ui-state-default"> ${section.name} 
+	<input type="hidden" class="addedDishIds" name="sections[${sectionCount}].dishIds" value=""/>
+	<input type="hidden" name="sections[${sectionCount}].name" value="${section.name}"/>
+	<input type="hidden" name="sections[${sectionCount}].price" value="${section.price}"/>
+	<input type="hidden" name="sections[${sectionCount}].description" value="${section.description}"/>
+	<input type="hidden" name="sections[${sectionCount}].header" value="${section.header}"/>
+	<input type="hidden" name="sections[${sectionCount}].footer" value="${section.footer}"/>
+	<input type="hidden" name="sections[${sectionCount}].valid" class="validSection" value="true"/>
+	<input type="hidden" name="sections[${sectionCount}].position" class="position" value="${sectionCount}"/>
+	<button type="button" onclick="removeSection($(this));" style="float:right">x</button>
+	<button type="button" class="addDish" onclick="addDishes('dish${sectionCount}')" style="float:right">+</button>
+	<ul id="dish${sectionCount}" class="dish" >
+		<c:if test="${!empty section.dishes}">
+			<c:forEach items="${section.dishes}" var="dish">
+				<li class="ui-state-default" style="font-size:0.8em;" data-dishid="${dish.dishId}" data-dishname="${dish.name}">${dish.name} 
+					<button type="button" class="removeDish" onclick="removeDish($(this));" style="float:right">-</button>
+				</li>	
+			</c:forEach>
+		</c:if>
+		
+	</ul>
+</li>
+<c:set var="sectionCount" value='${sectionCount + 1}'/>
+</c:forEach>
+</c:if>
 </ul>
 <button type="button" id="addSomeSection" onclick="$('#sectionForm').dialog();">Add Section</button> <br/>
 <input type="button" onclick="submitMenu();" value="Add Menu"/>

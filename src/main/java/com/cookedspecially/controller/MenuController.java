@@ -78,8 +78,8 @@ public class MenuController {
 		Menu menu = menuService.getMenu(menuId);
 		map.put("menu", menu);
 		//System.out.println(request.getSession().getAttribute("userId"));
-		List<Menu> menus = menuService.listMenuByUser((Integer) request.getSession().getAttribute("userId"));
-		map.put("menuList", menus);
+		//List<Menu> menus = menuService.listMenuByUser((Integer) request.getSession().getAttribute("userId"));
+		//map.put("menuList", menus);
 		/*
 		List<Dish> dishes = menu.getDishes();
 		HashMap<Integer, Integer> existingDishIds = new HashMap<Integer,Integer>((dishes != null) ? dishes.size(): 0);
@@ -91,7 +91,7 @@ public class MenuController {
 		map.put("existingDishIds", existingDishIds);
 		*/
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
-		return "menu";
+		return "newMenu";
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
