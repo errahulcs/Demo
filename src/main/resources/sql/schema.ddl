@@ -43,7 +43,8 @@ CREATE TABLE MENUS
     userId INT,
     name VARCHAR(30),
     description VARCHAR(1000),
-    modifiedTime TIMESTAMP
+    modifiedTime TIMESTAMP,
+    status VARCHAR(10)
 );
 
 CREATE TABLE MENU_SECTION (

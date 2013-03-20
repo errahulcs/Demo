@@ -6,6 +6,7 @@ package com.cookedspecially.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.IndexColumn;
 
@@ -49,13 +51,16 @@ public class Section {
 	@Column(name="PRICE")
 	private Float price;
 	
+	@Transient
 	private boolean valid = true;
 	
+	@Transient
 	private String dishIds = "";
 	
+	@Transient
 	private int position;
 	
-	@ManyToMany
+	@ManyToMany(cascade=CascadeType.ALL)
 	@IndexColumn(name="DISHPOSITION")
     @JoinTable(name="SECTION_DISH", 
                 joinColumns={@JoinColumn(name="SECTIONID")}, 
@@ -122,7 +127,7 @@ public class Section {
 		return dishes;
 	}
 
-	public void setDishes(List<Dish> dishes) {
+	public void setDishes(ArrayList<Dish> dishes) {
 		this.dishes = dishes;
 	}
 

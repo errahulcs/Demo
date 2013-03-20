@@ -1,3 +1,5 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html lang="en">
 <head>
@@ -172,6 +174,8 @@
 <div id="menu">
 
 <form id="menuForm" action="/CookedSpecially/menu/addNew" method="post">
+<input type="hidden" name="userId" id="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
+<input type="hidden" name="menuId" id="menuId"/>
 <input type="text" name="name"  placeholder="Name"/><br/>
 <input type="text" name="description"  placeholder="Description"/> <br/>
 <ul id="section">

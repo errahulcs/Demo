@@ -4,9 +4,15 @@
 package com.cookedspecially.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -20,11 +26,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cookedspecially.config.CSConstants;
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.Menu;
 import com.cookedspecially.domain.MenuWrapper;
+import com.cookedspecially.domain.Section;
 import com.cookedspecially.service.DishService;
 import com.cookedspecially.service.MenuService;
+import com.cookedspecially.service.SectionService;
+import com.cookedspecially.utility.StringUtility;
 
 /**
  * @author sagarwal
@@ -40,6 +50,8 @@ public class MenuController {
 	@Autowired
 	private DishService dishService;
 	
+	//@Autowired
+	//private SectionService sectionService;
 	
 	@RequestMapping("/")
 	public String listMenus(Map<String, Object> map, HttpServletRequest request) {
@@ -112,6 +124,57 @@ public class MenuController {
 	public String addNewMenu(@ModelAttribute("menu")
 	Menu menu, BindingResult result) {
 		System.out.println(menu);
+		Set<String> dishIds = new HashSet<String>();
+		List<Section> menuSections = menu.getSections();
+		TreeMap<Integer, Section> sectionTree = new TreeMap<Integer, Section>();
+		if (menuSections != null && menuSections.size() > 0) {
+			for (Section menuSection : menuSections) {
+				if (menuSection.isValid() && !StringUtility.isNullOrEmpty(menuSection.getDishIds())) {
+					sectionTree.put(menuSection.getPosition(), menuSection);
+					String[] dishIdsStrArr = menuSection.getDishIds().split(CSConstants.COMMA);
+					if (dishIdsStrArr != null) {
+						dishIds.addAll(Arrays.asList(dishIdsStrArr));
+					}
+				}
+			}
+		}
+		Integer[] dishIdsArr = new Integer[dishIds.size()];
+		
+		HashMap<Integer, Dish> dishMap = new HashMap<Integer, Dish>();
+		int dishCounter = 0;
+		for (String dishId: dishIds) {
+			dishIdsArr[dishCounter++] = Integer.parseInt(dishId);
+		}
+		List<Dish> dishes = dishService.getDishes(dishIdsArr);
+		
+		for (Dish dish : dishes) {
+			dishMap.put(dish.getDishId(), dish);
+		}
+		
+		ArrayList<Section> finalSections = new ArrayList<Section>();
+		for (Integer key: sectionTree.keySet()) {
+			finalSections.add(sectionTree.get(key));
+		}
+		//Iterator<Entry<Integer, Section>> sectionIterator = sectionTree.entrySet().iterator();
+		//while(sectionIterator.hasNext()) {
+		//	finalSections.add(sectionIterator.next().getValue());
+		//}
+		for (Section section : finalSections) {
+			ArrayList<Dish> finalDishes = null;
+			if (!StringUtility.isNullOrEmpty(section.getDishIds())) {
+				String[] dishIdsStrArr = section.getDishIds().split(CSConstants.COMMA);
+				if (dishIdsStrArr != null) {
+					finalDishes = new ArrayList<Dish>();
+					for (int i = 0; i < dishIdsStrArr.length; i++) {
+						finalDishes.add(dishMap.get(Integer.parseInt(dishIdsStrArr[i])));
+					} 
+				}
+			}
+			section.setDishes(finalDishes);
+			//sectionService.addSection(section);
+		}
+		menu.setSections(finalSections);
+		menuService.addMenu(menu);
 		return "redirect:/menu/";
 	}
 	@RequestMapping("/delete/{menuId}")

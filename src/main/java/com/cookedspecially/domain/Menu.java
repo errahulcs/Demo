@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.IndexColumn;
+
+import com.cookedspecially.enums.Status;
 
 /**
  * @author sagarwal
@@ -48,7 +51,11 @@ public class Menu {
 	@Column(name="MODIFIEDTIME")
 	private Date modifiedTime;
 	
-	@OneToMany
+	
+	@Column(name="STATUS")
+	private Status status = Status.ACTIVE;
+	
+	@OneToMany(cascade = CascadeType.ALL)
 	@IndexColumn(name="SECTIONPOSITION")
     @JoinTable(name="MENU_SECTION", 
                 joinColumns={@JoinColumn(name="MENUID")}, 
@@ -102,7 +109,7 @@ public class Menu {
 		return sections;
 	}
 
-	public void setSections(List<Section> sections) {
+	public void setSections(ArrayList<Section> sections) {
 		this.sections = sections;
 	}
 
@@ -112,6 +119,14 @@ public class Menu {
 
 	public void setModifiedTime(Date modifiedTime) {
 		this.modifiedTime = modifiedTime;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 	
 }
