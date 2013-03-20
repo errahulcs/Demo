@@ -193,8 +193,8 @@ public class MenuController {
 	}
 	
 	@RequestMapping("/getjson/{menuId}")
-	public @ResponseBody MenuWrapper showMenuJson(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
-		return MenuWrapper.getMenuWrapper(menuService.getMenu(menuId));
+	public @ResponseBody Menu showMenuJson(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
+		return menuService.getMenu(menuId);//MenuWrapper.getMenuWrapper(menuService.getMenu(menuId));
 		
 		
 	}
