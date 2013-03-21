@@ -126,7 +126,7 @@
 	}
 	$(function() {
 		
-		$("select").multiselect({classes: "dishDialog"}).multiselectfilter();
+		$("select#dishIdList").multiselect({classes: "dishDialog"}).multiselectfilter();
 		$( "#section" ).sortable();
 		$( "#section" ).disableSelection();
 		$("#addSection").click(function( event ) {
@@ -185,6 +185,19 @@
 <input type="hidden" name="menuId" id="menuId" value="${menu.menuId}"/>
 <input type="text" name="name"  placeholder="Name" value="${menu.name}"/><br/>
 <input type="text" name="description"  placeholder="Description" value="${menu.description}"/> <br/>
+Status: 
+<select name="status">
+<c:forEach items="${statusTypes}" var="statusType">
+	<c:choose>
+		<c:when test="${statusType == menu.status }">
+			<option value="${statusType}" selected="selected">${statusType}</option>
+		</c:when>
+		<c:otherwise>
+			<option value="${statusType}">${statusType}</option>
+		</c:otherwise>
+	</c:choose>
+</c:forEach>
+</select>
 <ul id="section">
 <c:if test="${!empty menu.sections}">
 <c:set var="sectionCount" value='0'/>

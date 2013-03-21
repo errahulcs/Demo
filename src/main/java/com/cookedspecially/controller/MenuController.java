@@ -31,6 +31,7 @@ import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.Menu;
 import com.cookedspecially.domain.MenuWrapper;
 import com.cookedspecially.domain.Section;
+import com.cookedspecially.enums.Status;
 import com.cookedspecially.service.DishService;
 import com.cookedspecially.service.MenuService;
 import com.cookedspecially.service.SectionService;
@@ -69,6 +70,7 @@ public class MenuController {
 	public String createMenu(Map<String, Object> map, HttpServletRequest request) {
 
 		map.put("menu", new Menu());
+		map.put("statusTypes", Status.values());
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
 		return "newMenu";
 	}
@@ -90,6 +92,7 @@ public class MenuController {
 		}
 		map.put("existingDishIds", existingDishIds);
 		*/
+		map.put("statusTypes", Status.values());
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
 		return "newMenu";
 	}
