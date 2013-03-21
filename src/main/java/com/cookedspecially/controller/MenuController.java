@@ -30,6 +30,7 @@ import com.cookedspecially.config.CSConstants;
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.Menu;
 import com.cookedspecially.domain.MenuWrapper;
+import com.cookedspecially.domain.Menus;
 import com.cookedspecially.domain.Section;
 import com.cookedspecially.enums.Status;
 import com.cookedspecially.service.DishService;
@@ -198,7 +199,13 @@ public class MenuController {
 	@RequestMapping("/getjson/{menuId}")
 	public @ResponseBody Menu showMenuJson(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
 		return menuService.getMenu(menuId);//MenuWrapper.getMenuWrapper(menuService.getMenu(menuId));
-		
-		
+	}
+	
+	@RequestMapping("/getallmenusjson")
+	public @ResponseBody Menus showAllMenusJson(Map<String, Object> map) {
+		Menus menus = new Menus();
+		menus.setStatus(Status.ACTIVE);
+		menus.setMenus(menuService.allMenusByStatus(Status.ACTIVE));
+		return menus;
 	}
 }

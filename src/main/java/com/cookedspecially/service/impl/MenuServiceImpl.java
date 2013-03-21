@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cookedspecially.dao.MenuDAO;
 import com.cookedspecially.domain.Menu;
+import com.cookedspecially.enums.Status;
 import com.cookedspecially.service.MenuService;
 
 /**
@@ -53,6 +54,13 @@ public class MenuServiceImpl implements MenuService {
 	@Transactional
 	public Menu getMenu(Integer id) {
 		return menuDAO.getMenu(id);
+	}
+
+
+	@Override
+	@Transactional
+	public List<Menu> allMenusByStatus(Status status) {
+		return menuDAO.allMenusByStatus(status);
 	}
 
 }

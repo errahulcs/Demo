@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cookedspecially.dao.MenuDAO;
 import com.cookedspecially.domain.Menu;
+import com.cookedspecially.enums.Status;
 
 /**
  * @author sagarwal
@@ -53,6 +54,11 @@ public class MenuDAOImpl implements MenuDAO {
 	@Override
 	public Menu getMenu(Integer id) {
 		return (Menu) sessionFactory.getCurrentSession().get(Menu.class, id);
+	}
+
+	@Override
+	public List<Menu> allMenusByStatus(Status status) {
+		return sessionFactory.getCurrentSession().createCriteria(Menu.class).add(Restrictions.eq("status", status)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
 	}
 
 }
