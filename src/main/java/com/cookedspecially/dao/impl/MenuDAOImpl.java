@@ -57,8 +57,8 @@ public class MenuDAOImpl implements MenuDAO {
 	}
 
 	@Override
-	public List<Menu> allMenusByStatus(Status status) {
-		return sessionFactory.getCurrentSession().createCriteria(Menu.class).add(Restrictions.eq("status", status)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+	public List<Menu> allMenusByStatus(Integer restaurantId, Status status) {
+		return sessionFactory.getCurrentSession().createCriteria(Menu.class).add(Restrictions.and(Restrictions.eq("status", status), Restrictions.eq("restaurantId", restaurantId))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
 	}
 
 }

@@ -28,6 +28,7 @@
 			<mvc:mapping path="/menu/**"/>
 			<mvc:exclude-mapping path="/menu/show/**"/>
 			<mvc:exclude-mapping path="/menu/getjson/**"/>
+			<mvc:exclude-mapping path="/menu/getallmenusjson/**"/>
 			<bean class="com.cookedspecially.interceptors.AdminInterceptors" />
 		</mvc:interceptor>	
 	</mvc:interceptors>

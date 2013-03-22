@@ -59,8 +59,8 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	@Transactional
-	public List<Menu> allMenusByStatus(Status status) {
-		return menuDAO.allMenusByStatus(status);
+	public List<Menu> allMenusByStatus(Integer restaurantId, Status status) {
+		return menuDAO.allMenusByStatus(restaurantId, status);
 	}
 
 }

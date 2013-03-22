@@ -127,7 +127,8 @@ public class MenuController {
 	@RequestMapping(value = "/addNew", method = RequestMethod.POST)
 	public String addNewMenu(@ModelAttribute("menu")
 	Menu menu, BindingResult result) {
-		System.out.println(menu);
+		//System.out.println(menu);
+		menu.setRestaurantId(menu.getUserId());
 		Set<String> dishIds = new HashSet<String>();
 		List<Section> menuSections = menu.getSections();
 		TreeMap<Integer, Section> sectionTree = new TreeMap<Integer, Section>();
@@ -204,11 +205,11 @@ public class MenuController {
 		return menuService.getMenu(menuId);//MenuWrapper.getMenuWrapper(menuService.getMenu(menuId));
 	}
 	
-	@RequestMapping("/getallmenusjson")
-	public @ResponseBody Menus showAllMenusJson(Map<String, Object> map) {
+	@RequestMapping("/getallmenusjson/{restaurantId}")
+	public @ResponseBody Menus showAllMenusJson(Map<String, Object> map, @PathVariable("restaurantId") Integer restaurantId) {
 		Menus menus = new Menus();
 		menus.setStatus(Status.ACTIVE);
-		menus.setMenus(menuService.allMenusByStatus(Status.ACTIVE));
+		menus.setMenus(menuService.allMenusByStatus(restaurantId, Status.ACTIVE));
 		return menus;
 	}
 }

@@ -15,7 +15,7 @@ import com.cookedspecially.enums.Status;
 public interface MenuDAO {
 	public void addMenu(Menu menu);
 	public List<Menu> listMenu();
-	public List<Menu> allMenusByStatus(Status status);
+	public List<Menu> allMenusByStatus(Integer restaurantId, Status status);
 	public List<Menu> listMenuByUser(Integer userId);
 	public void removeMenu(Integer id);
 	public Menu getMenu(Integer id);
