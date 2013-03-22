@@ -99,7 +99,7 @@ public class DishController {
             // store the bytes somewhere
            //return "uploadSuccess";
        } else {
-           return "uploadFailure";
+           //return "uploadFailure";
        }
 		if (!fileUrl.equals(dish.getImageUrl()) && dish.getImageUrl().startsWith("/")) {
 			File oldFile = new File("webapps" + dish.getImageUrl());
