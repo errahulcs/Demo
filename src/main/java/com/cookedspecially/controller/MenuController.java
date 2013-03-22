@@ -149,10 +149,13 @@ public class MenuController {
 		for (String dishId: dishIds) {
 			dishIdsArr[dishCounter++] = Integer.parseInt(dishId);
 		}
-		List<Dish> dishes = dishService.getDishes(dishIdsArr);
 		
-		for (Dish dish : dishes) {
-			dishMap.put(dish.getDishId(), dish);
+		if (dishIds.size() > 0) {
+			List<Dish> dishes = dishService.getDishes(dishIdsArr);
+			
+			for (Dish dish : dishes) {
+				dishMap.put(dish.getDishId(), dish);
+			}	
 		}
 		
 		ArrayList<Section> finalSections = new ArrayList<Section>();
