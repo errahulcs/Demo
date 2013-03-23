@@ -197,7 +197,7 @@ public class MenuController {
 	public String showMenu(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
 		Menu menu = menuService.getMenu(menuId);
 		map.put("menu", menu);
-		return "showMenu";
+		return "showNewMenu";
 	}
 	
 	@RequestMapping("/getjson/{menuId}")
