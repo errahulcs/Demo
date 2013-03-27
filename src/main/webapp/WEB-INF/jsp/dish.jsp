@@ -93,7 +93,12 @@
 	
 	<tr>
 		<td colspan="2">
-			<input type="submit" value="<spring:message code="label.adddish"/>"/>
+			
+				<c:choose>
+					<c:when test="${!empty dish.dishId}"><input type="submit" value="Save Dish"/></c:when>
+					<c:otherwise><input type="submit" value="Add Dish"/></c:otherwise>
+				</c:choose>
+			</input>
 		</td>
 	</tr>
 </table>	

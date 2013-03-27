@@ -231,7 +231,11 @@ Status:
 </c:if>
 </ul>
 <button type="button" id="addSomeSection" onclick="$('#sectionForm').dialog();">Add Section</button> <br/>
-<input type="button" onclick="submitMenu();" value="Add Menu"/>
+<c:choose>
+	<c:when test="${!empty menu.menuId}"><input type="button" onclick="submitMenu();" value="Save Menu"/></c:when>
+	<c:otherwise><input type="button" onclick="submitMenu();" value="Add Menu"/></c:otherwise>
+</c:choose>
+
 
 </form>
  
