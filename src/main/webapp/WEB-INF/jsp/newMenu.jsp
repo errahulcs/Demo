@@ -185,7 +185,7 @@
 <input type="hidden" name="menuId" id="menuId" value="${menu.menuId}"/>
 <input type="hidden" name="imageUrl" id="imageUrl" value="${menu.imageUrl}"/>
 <input type="text" name="name"  placeholder="Name" value="${menu.name}"/><br/>
-<input type="text" name="description"  placeholder="Description" value="${menu.description}"/> <br/>
+<textarea name="description"  placeholder="Description" >${menu.description}</textarea><br/>
 Menu Image (${menu.imageUrl}): <input type="file" name="file"/> <br/>
 Status: 
 <select name="status">
