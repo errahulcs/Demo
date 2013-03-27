@@ -69,4 +69,4 @@ CREATE TABLE USERS
     UNIQUE idx_user_username (username)
 );
 
-ALTER TABLE MENUS ADD COLUMN imageUrl VARCHAR(500);
+

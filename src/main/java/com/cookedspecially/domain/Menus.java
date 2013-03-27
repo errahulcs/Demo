@@ -13,12 +13,12 @@ import com.cookedspecially.enums.Status;
  */
 public class Menus {
 
-	List<Menu> menus;
+	List<MenuWrapper> menus;
 	Status status;
-	public List<Menu> getMenus() {
+	public List<MenuWrapper> getMenus() {
 		return menus;
 	}
-	public void setMenus(List<Menu> menus) {
+	public void setMenus(List<MenuWrapper> menus) {
 		this.menus = menus;
 	}
 	public Status getStatus() {

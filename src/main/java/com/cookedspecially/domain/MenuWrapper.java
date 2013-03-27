@@ -4,10 +4,10 @@
 package com.cookedspecially.domain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
+import com.cookedspecially.enums.Status;
 
 /**
  * @author sagarwal
@@ -25,7 +25,13 @@ public class MenuWrapper {
 	
 	private String description;
 
-	private List<CategoryWrapper> categories;
+	private Date modifiedTime;
+	
+	private Status status;
+	
+	private String imageUrl;
+	
+	private List<SectionWrapper> sections;
 
 	public static MenuWrapper getMenuWrapper(Menu menu) {
 		MenuWrapper menuWrapper = new MenuWrapper();
@@ -33,17 +39,16 @@ public class MenuWrapper {
 		menuWrapper.setUserId(menu.getUserId());
 		menuWrapper.setName(menu.getName());
 		menuWrapper.setDescription(menu.getDescription());
-		/*
-		List<Dish> dishes = menu.getDishes();
-		LinkedHashMap<Integer, CategoryWrapper> categoryWrappers = new LinkedHashMap<Integer, CategoryWrapper>();
-		for (Dish dish : dishes) {
-			if (!categoryWrappers.containsKey(dish.getCategory().getCategoryId())) {
-				categoryWrappers.put(dish.getCategory().getCategoryId(), CategoryWrapper.getCategoryWrapper(dish.getCategory()));
+		menuWrapper.setModifiedTime(menu.getModifiedTime());
+		menuWrapper.setStatus(menu.getStatus());
+		menuWrapper.setImageUrl(menu.getImageUrl());
+		List<Section> existingSections = menu.getSections();
+		if (existingSections != null) {
+			menuWrapper.sections = new ArrayList<SectionWrapper>();
+			for (Section section : existingSections) {
+				menuWrapper.sections.add(SectionWrapper.getSectionWrapper(section));
 			}
-			categoryWrappers.get(dish.getCategory().getCategoryId()).addDish(dish);
 		}
-		menuWrapper.setCategories(new ArrayList(categoryWrappers.values()));
-		*/
 		return menuWrapper;
 	}
 	
@@ -87,14 +92,37 @@ public class MenuWrapper {
 		this.description = description;
 	}
 
-	public List<CategoryWrapper> getCategories() {
-		return categories;
+	public Date getModifiedTime() {
+		return modifiedTime;
 	}
 
-	public void setCategories(List<CategoryWrapper> categories) {
-		this.categories = categories;
+	public void setModifiedTime(Date modifiedTime) {
+		this.modifiedTime = modifiedTime;
 	}
 
-	
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public List<SectionWrapper> getSections() {
+		return sections;
+	}
+
+	public void setSections(List<SectionWrapper> sections) {
+		this.sections = sections;
+	}
+
 	
 }

@@ -201,15 +201,20 @@ public class MenuController {
 	}
 	
 	@RequestMapping("/getjson/{menuId}")
-	public @ResponseBody Menu showMenuJson(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
-		return menuService.getMenu(menuId);//MenuWrapper.getMenuWrapper(menuService.getMenu(menuId));
+	public @ResponseBody MenuWrapper showMenuJson(Map<String, Object> map, @PathVariable("menuId") Integer menuId) {
+		return MenuWrapper.getMenuWrapper(menuService.getMenu(menuId));
 	}
 	
 	@RequestMapping("/getallmenusjson/{restaurantId}")
 	public @ResponseBody Menus showAllMenusJson(Map<String, Object> map, @PathVariable("restaurantId") Integer restaurantId) {
 		Menus menus = new Menus();
 		menus.setStatus(Status.ACTIVE);
-		menus.setMenus(menuService.allMenusByStatus(restaurantId, Status.ACTIVE));
+		List<Menu> menuList = menuService.allMenusByStatus(restaurantId, Status.ACTIVE);
+		List<MenuWrapper> menuWrappers = new ArrayList<MenuWrapper>();
+		for (Menu menu : menuList) {
+			menuWrappers.add(MenuWrapper.getMenuWrapper(menu));
+		}
+		menus.setMenus(menuWrappers);
 		return menus;
 	}
 }

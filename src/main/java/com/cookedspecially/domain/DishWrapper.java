@@ -3,13 +3,14 @@
  */
 package com.cookedspecially.domain;
 
+
 /**
  * @author sagarwal
  *
  */
 public class DishWrapper {
-
-	private Integer dishId;
+	
+	private Integer itemId;
 	
 	private Integer restaurantId;
 	
@@ -25,9 +26,16 @@ public class DishWrapper {
 	
 	private Float price;
 
+	private String itemType;
+	
+	private Boolean vegetarian;
+	
+	private Boolean alcoholic;
+
+
 	public static DishWrapper getDishWrapper(Dish dish) {
 		DishWrapper dishWrapper = new DishWrapper();
-		dishWrapper.setDishId(dish.getDishId());
+		dishWrapper.setItemId(dish.getDishId());
 		dishWrapper.setRestaurantId(dish.getRestaurantId());
 		dishWrapper.setUserId(dish.getUserId());
 		dishWrapper.setName(dish.getName());
@@ -35,16 +43,12 @@ public class DishWrapper {
 		dishWrapper.setShortDescription(dish.getShortDescription());
 		dishWrapper.setImageUrl(dish.getImageUrl());
 		dishWrapper.setPrice(dish.getPrice());
+		dishWrapper.setItemType(dish.getDishType());
+		dishWrapper.setVegetarian(dish.getVegetarian());
+		dishWrapper.setAlcoholic(dish.getAlcoholic());
 		return dishWrapper;
 	}
 	
-	public Integer getDishId() {
-		return dishId;
-	}
-
-	public void setDishId(Integer dishId) {
-		this.dishId = dishId;
-	}
 
 	public Integer getRestaurantId() {
 		return restaurantId;
@@ -100,6 +104,38 @@ public class DishWrapper {
 
 	public void setPrice(Float price) {
 		this.price = price;
+	}
+
+	public Integer getItemId() {
+		return itemId;
+	}
+
+	public void setItemId(Integer itemId) {
+		this.itemId = itemId;
+	}
+
+	public String getItemType() {
+		return itemType;
+	}
+
+	public void setItemType(String itemType) {
+		this.itemType = itemType;
+	}
+
+	public Boolean getVegetarian() {
+		return vegetarian;
+	}
+
+	public void setVegetarian(Boolean vegetarian) {
+		this.vegetarian = vegetarian;
+	}
+
+	public Boolean getAlcoholic() {
+		return alcoholic;
+	}
+
+	public void setAlcoholic(Boolean alcoholic) {
+		this.alcoholic = alcoholic;
 	}
 
 }
