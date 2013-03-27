@@ -3,14 +3,15 @@
  */
 package com.cookedspecially.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cookedspecially.config.CSConstants;
 import com.cookedspecially.domain.Dish;
@@ -35,7 +37,6 @@ import com.cookedspecially.domain.Section;
 import com.cookedspecially.enums.Status;
 import com.cookedspecially.service.DishService;
 import com.cookedspecially.service.MenuService;
-import com.cookedspecially.service.SectionService;
 import com.cookedspecially.utility.StringUtility;
 
 /**
@@ -126,8 +127,51 @@ public class MenuController {
 
 	@RequestMapping(value = "/addNew", method = RequestMethod.POST)
 	public String addNewMenu(@ModelAttribute("menu")
-	Menu menu, BindingResult result) {
+	Menu menu, BindingResult result, @RequestParam("file") MultipartFile file) {
 		//System.out.println(menu);
+		FileOutputStream fos = null;
+		String fileUrl = menu.getImageUrl();
+		if (!file.isEmpty()) {
+            try {
+				byte[] bytes = file.getBytes();
+				//System.out.println(file.getOriginalFilename());
+				//System.out.println(file.getContentType());
+				String fileDir = File.separator + "static" + File.separator + menu.getUserId() + File.separator ;
+				fileUrl = fileDir + menu.getMenuId() + "_menu_" + file.getOriginalFilename();
+				File dir = new File("webapps" + fileDir);
+				if (!dir.exists()) { 
+					dir.mkdirs();
+				}
+				File outfile = new File("webapps" + fileUrl); 
+				//System.out.println(outfile.getAbsolutePath());
+				fos = new FileOutputStream(outfile);
+				fos.write(bytes);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				if (fos != null) {
+					try {
+						fos.close();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+            // store the bytes somewhere
+           //return "uploadSuccess";
+       } else {
+           //return "uploadFailure";
+       }
+		if (!fileUrl.equals(menu.getImageUrl()) && menu.getImageUrl().startsWith("/")) {
+			File oldFile = new File("webapps" + menu.getImageUrl());
+			if (oldFile.exists()) {
+				oldFile.delete();
+			}
+		}
+		menu.setImageUrl(fileUrl);
 		menu.setRestaurantId(menu.getUserId());
 		Set<String> dishIds = new HashSet<String>();
 		List<Section> menuSections = menu.getSections();

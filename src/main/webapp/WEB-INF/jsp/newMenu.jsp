@@ -180,11 +180,13 @@
 
 <div id="menu">
 
-<form id="menuForm" action="/CookedSpecially/menu/addNew" method="post">
+<form id="menuForm" action="/CookedSpecially/menu/addNew" method="post"  enctype="multipart/form-data">
 <input type="hidden" name="userId" id="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
 <input type="hidden" name="menuId" id="menuId" value="${menu.menuId}"/>
+<input type="hidden" name="imageUrl" id="imageUrl" value="${menu.imageUrl}"/>
 <input type="text" name="name"  placeholder="Name" value="${menu.name}"/><br/>
 <input type="text" name="description"  placeholder="Description" value="${menu.description}"/> <br/>
+Menu Image (${menu.imageUrl}): <input type="file" name="file"/> <br/>
 Status: 
 <select name="status">
 <c:forEach items="${statusTypes}" var="statusType">
