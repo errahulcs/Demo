@@ -59,12 +59,25 @@
 	
 	<tr>
 		<td><form:label path="vegetarian">Vegetarian</form:label></td>
-		<td><input type="checkbox" id="vegetarian" name="vegetarian"></td>
+		<td>
+		<c:choose>
+			<c:when test="${dish.vegetarian}"><input type="checkbox" id="vegetarian" name="vegetarian" checked/></c:when>
+			<c:otherwise><input type="checkbox" id="vegetarian" name="vegetarian" /></c:otherwise>
+		</c:choose>
+		
+		</td>
 	</tr>
 	
 	<tr>
 		<td><form:label path="alcoholic">Alcoholic</form:label></td>
-		<td><input type="checkbox" id="alcoholic" name="alcoholic"></td>
+		<td>
+		<c:choose>
+			<c:when test="${dish.alcoholic}"><input type="checkbox" id="alcoholic" name="alcoholic" checked /></c:when>
+			<c:otherwise><input type="checkbox" id="alcoholic" name="alcoholic" /></c:otherwise>
+		</c:choose>
+		
+		
+		</td>
 	</tr>
 	
 	<tr>
