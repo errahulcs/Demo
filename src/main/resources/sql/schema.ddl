@@ -44,7 +44,8 @@ CREATE TABLE MENUS
     name VARCHAR(30),
     description VARCHAR(1000),
     modifiedTime TIMESTAMP,
-    status VARCHAR(10)
+    status VARCHAR(10),
+    imageUrl VARCHAR(500)
 );
 
 CREATE TABLE MENU_SECTION (
@@ -67,3 +68,5 @@ CREATE TABLE USERS
     businessName VARCHAR(100),
     UNIQUE idx_user_username (username)
 );
+
+ALTER TABLE MENUS ADD COLUMN imageUrl VARCHAR(500);

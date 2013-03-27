@@ -56,6 +56,9 @@ public class Menu {
 	@Column(name="STATUS")
 	private Status status = Status.ACTIVE;
 	
+	@Column(name="IMAGEURL")
+	private String imageUrl;
+	
 	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@IndexColumn(name="SECTIONPOSITION")
     @JoinTable(name="MENU_SECTION", 
@@ -128,6 +131,14 @@ public class Menu {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 	
 }
