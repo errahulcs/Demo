@@ -4,7 +4,7 @@ CREATE TABLE DISHES
     dishId INT PRIMARY KEY AUTO_INCREMENT,
     restaurantId INT,
     userId INT,
-    name VARCHAR(30),
+    name VARCHAR(300),
     description VARCHAR(1000),
     shortDescription VARCHAR(30),
     imageUrl VARCHAR(500),
