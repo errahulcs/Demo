@@ -40,7 +40,7 @@
 	</tr>
 	<tr>
 		<td><form:label path="description"><spring:message code="label.description"/></form:label></td>
-		<td><form:input path="description" /></td>
+		<td><textarea id="description" name="description"  placeholder="Description" >${dish.description}</textarea></td>
 	</tr>
 	<tr>
 		<td><form:label path="shortDescription">Short Description</form:label></td>
