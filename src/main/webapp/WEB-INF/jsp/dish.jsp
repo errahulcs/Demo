@@ -44,7 +44,7 @@
 	</tr>
 	<tr>
 		<td><form:label path="shortDescription">Short Description</form:label></td>
-		<td><form:input path="shortDescription" /></td>
+		<td><textarea id="shortDescription" name="shortDescription"  placeholder="Short Description" >${dish.shortDescription}</textarea></td>
 	</tr>
 	
 	<tr>
