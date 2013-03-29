@@ -37,6 +37,20 @@
 		sectionEl.find(".addedDishIds")[0].value = addedDishIds.toString();
 		*/
 	}
+	function editSection(sectionEditBtnEL) {
+		var sectionEL = sectionEditBtnEL.parent();
+		var sectionELId = sectionEL.attr('id');
+		$('#addSection').hide();
+		$('#saveSection').attr("data-sectionCount", sectionELId);
+		$('#saveSection').show();
+		$('#sectionId').val(sectionEL.find('.sectionSectionId')[0].value);
+		$('#name').val(sectionEL.find('.sectionName')[0].value);
+		$('#price').val(sectionEL.find('.sectionPrice')[0].value);
+		$('#description').val(sectionEL.find('.sectionDescription')[0].value);
+		$('#header').val(sectionEL.find('.sectionHeader')[0].value);
+		$('#footer').val(sectionEL.find('.sectionFooter')[0].value);
+		$('#sectionForm').dialog();
+	}
 	function removeSection(sectionEL) {
 		
 		$(sectionEL.parent()).find(".validSection")[0].value = false;
@@ -124,38 +138,73 @@
 		}
 		$("#menuForm").submit();
 	}
+	function openSectionForm() {
+		
+		$('#sectionId').val("");
+		$('#name').val("");
+		$('#price').val("");
+		$('#description').val("");
+		$('#header').val("");
+		$('#footer').val("");
+		$('#addSection').show();
+		$('#saveSection').hide();
+		$('#sectionForm').dialog();
+	}
 	$(function() {
 		
 		$("select#dishIdList").multiselect({classes: "dishDialog"}).multiselectfilter();
 		$( "#section" ).sortable();
 		$( "#section" ).disableSelection();
+		$( ".dish" ).sortable();
+		$( ".dish" ).disableSelection();
+		$("#saveSection").click(function( event ) {
+			var name = $( "#name" ).val(),
+			 price = $( "#price" ).val(),
+			 description = $( "#description" ).val(),
+			 header = $("#header").val(),
+			 footer = $("#footer").val(),
+			 sectionId = $("#sectionId").val();
+			$('#sectionForm').dialog('close');
+			var sectionELId = $(this).attr("data-sectionCount");
+			var sectionEL = $('#' + sectionELId);
+			$(sectionEL.find('.sectionNameText')[0]).text(name);
+			sectionEL.find('.sectionName')[0].value = name;
+			sectionEL.find('.sectionPrice')[0].value = price;
+			sectionEL.find('.sectionDescription')[0].value = description;
+			sectionEL.find('.sectionHeader')[0].value = header;
+			sectionEL.find('.sectionFooter')[0].value = footer;
+		});
 		$("#addSection").click(function( event ) {
 			 var name = $( "#name" ).val(),
 			 price = $( "#price" ).val(),
 			 description = $( "#description" ).val(),
 			 header = $("#header").val(),
-			 footer = $("#footer").val();
-			$('#sectionForm').dialog('close')
+			 footer = $("#footer").val(),
+			 sectionId = $("#sectionId").val();
+			$('#sectionForm').dialog("close");
 			var count = $("#section").children().size();			
 			//if(count < 1) {
         		
 			//}
 			
 
-			$("#section").append('<li id="section' + count + '" class="section ui-state-default">' + name 
+			$("#section").append('<li id="section' + count + '" class="section ui-state-default"><span class="sectionNameText">' + name + '</span>'
 					+ '<input type="hidden" class="addedDishIds" name="sections[' + count +'].dishIds" value=""/>'
-					+ '<input type="hidden" name="sections[' + count +'].name" value="' + name + '"/>'
-					+ '<input type="hidden" name="sections[' + count +'].price" value="' + price + '"/>'
-					+ '<input type="hidden" name="sections[' + count +'].description" value="' + description + '"/>'
-					+ '<input type="hidden" name="sections[' + count +'].header" value="' + header + '"/>'
-					+ '<input type="hidden" name="sections[' + count +'].footer" value="' + footer + '"/>'
+					+ '<input type="hidden" class="sectionSectionId" name="sections[' + count +'].sectionId" value="' + sectionId + '"/>'
+					+ '<input type="hidden" class="sectionName" name="sections[' + count +'].name" value="' + name + '"/>'
+					+ '<input type="hidden" class="sectionPrice" name="sections[' + count +'].price" value="' + price + '"/>'
+					+ '<input type="hidden" class="sectionDescription" name="sections[' + count +'].description" value="' + description + '"/>'
+					+ '<input type="hidden" class="sectionHeader" name="sections[' + count +'].header" value="' + header + '"/>'
+					+ '<input type="hidden" class="sectionFooter" name="sections[' + count +'].footer" value="' + footer + '"/>'
 					+ '<input type="hidden" name="sections[' + count +'].valid" class="validSection" value="true"/>'
 					+ '<input type="hidden" name="sections[' + count +'].position" class="position" value="'+count+'"/>'
 					+ '<button type="button" onclick="removeSection($(this));" style="float:right">x</button>'
+					+ '<button type="button" onclick="editSection($(this));" style="float:right">E</button>'
 					+ '<button type="button" class="addDish" onclick="addDishes(\'dish'+count + '\')" style="float:right">+</button>'
 					+ '<ul id="dish' + count + '" class="dish" ></ul> </li>');
 			
-			
+			$( "#dish" + count ).sortable();
+			$( "#dish" + count ).disableSelection();
 			/*
 			$(".removeSection").unbind("click");
 			$(".removeSection").bind("click", function(event ) {
@@ -204,16 +253,18 @@ Status:
 <c:if test="${!empty menu.sections}">
 <c:set var="sectionCount" value='0'/>
 <c:forEach items="${menu.sections}" var="section">
-<li id="section${sectionCount}" class="section ui-state-default"> ${section.name} 
+<li id="section${sectionCount}" class="section ui-state-default"> <span class="sectionNameText">${section.name}</span> 
 	<input type="hidden" class="addedDishIds" name="sections[${sectionCount}].dishIds" value=""/>
-	<input type="hidden" name="sections[${sectionCount}].name" value="${section.name}"/>
-	<input type="hidden" name="sections[${sectionCount}].price" value="${section.price}"/>
-	<input type="hidden" name="sections[${sectionCount}].description" value="${section.description}"/>
-	<input type="hidden" name="sections[${sectionCount}].header" value="${section.header}"/>
-	<input type="hidden" name="sections[${sectionCount}].footer" value="${section.footer}"/>
+	<input type="hidden" class="sectionSectionId" name="sections[${sectionCount}].sectionId" value="${section.sectionId}"/>
+	<input type="hidden" class="sectionName" name="sections[${sectionCount}].name" value="${section.name}"/>
+	<input type="hidden" class="sectionPrice" name="sections[${sectionCount}].price" value="${section.price}"/>
+	<input type="hidden" class="sectionDescription" name="sections[${sectionCount}].description" value="${section.description}"/>
+	<input type="hidden" class="sectionHeader" name="sections[${sectionCount}].header" value="${section.header}"/>
+	<input type="hidden" class="sectionFooter" name="sections[${sectionCount}].footer" value="${section.footer}"/>
 	<input type="hidden" name="sections[${sectionCount}].valid" class="validSection" value="true"/>
 	<input type="hidden" name="sections[${sectionCount}].position" class="position" value="${sectionCount}"/>
 	<button type="button" onclick="removeSection($(this));" style="float:right">x</button>
+	<button type="button" onclick="editSection($(this));" style="float:right">E</button>
 	<button type="button" class="addDish" onclick="addDishes('dish${sectionCount}')" style="float:right">+</button>
 	<ul id="dish${sectionCount}" class="dish" >
 		<c:if test="${!empty section.dishes}">
@@ -230,7 +281,7 @@ Status:
 </c:forEach>
 </c:if>
 </ul>
-<button type="button" id="addSomeSection" onclick="$('#sectionForm').dialog();">Add Section</button> <br/>
+<button type="button" id="addSomeSection" onclick="openSectionForm();">Add Section</button> <br/>
 <c:choose>
 	<c:when test="${!empty menu.menuId}"><input type="button" onclick="submitMenu();" value="Save Menu"/></c:when>
 	<c:otherwise><input type="button" onclick="submitMenu();" value="Add Menu"/></c:otherwise>
@@ -243,6 +294,7 @@ Status:
 
 
 <form id="sectionForm" hidden="true" title="Create Section ">
+<input type="hidden" id="sectionId" name="sectionId" />
 <input type="text" id="name" name="name" placeholder="Name" /> <input type="text" id="price" name="price" value="0.0" style="float: right;"/><br/>
 ( <input type="text" id="description" name="description" placeholder="Description"/> ) <br/>
 <input type="text" id="header" name="header" placeholder="Header"/> <br>
@@ -252,6 +304,7 @@ Dishes go here.<br>
 Dishes go here.<br>
 <input type="text" id="footer" name="footer" placeholder="Footer" /><br>
 <input type="button" id="addSection" value="Add Section" />
+<input type="button" id="saveSection" value="Save Section" data-sectionCount="" hidden="true"/>
 </form>
 
 <form id="dishSection" hidden="true" title="Select Dishes">
