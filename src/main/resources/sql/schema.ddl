@@ -6,7 +6,7 @@ CREATE TABLE DISHES
     userId INT,
     name VARCHAR(300),
     description VARCHAR(1000),
-    shortDescription VARCHAR(30),
+    shortDescription VARCHAR(1000),
     imageUrl VARCHAR(500),
     price FLOAT,
     dishType VARCHAR(100),
