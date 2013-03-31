@@ -11,7 +11,8 @@
     	<!--  <mapping class="com.cookedspecially.domain.Category" /> -->
     	<mapping class="com.cookedspecially.domain.Section" />
     	<mapping class="com.cookedspecially.domain.Menu" />
-    	<mapping class="com.cookedspecially.domain.User" />    
+    	<mapping class="com.cookedspecially.domain.User" />
+    	<mapping class="com.cookedspecially.domain.Restaurant" />    
     </session-factory>
 	    
 </hibernate-configuration>

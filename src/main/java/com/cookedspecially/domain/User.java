@@ -3,11 +3,21 @@
  */
 package com.cookedspecially.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.IndexColumn;
 
 /**
  * @author sagarwal
@@ -38,6 +48,12 @@ public class User {
 	
 	@Column(name="BUSINESSNAME")
 	private String businessName;
+	
+	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinTable(name="USER_RESTAURANT", 
+                joinColumns={@JoinColumn(name="USERID")}, 
+                inverseJoinColumns={@JoinColumn(name="RESTAURANTID")})
+    private List<Restaurant> restaurants = new ArrayList<Restaurant>();
 	
 	public Integer getUserId() {
 		return userId;
@@ -85,6 +101,14 @@ public class User {
 
 	public void setBusinessName(String businessName) {
 		this.businessName = businessName;
+	}
+
+	public List<Restaurant> getRestaurants() {
+		return restaurants;
+	}
+
+	public void setRestaurants(List<Restaurant> restaurants) {
+		this.restaurants = restaurants;
 	}
 
 	

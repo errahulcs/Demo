@@ -26,6 +26,7 @@
 			<mvc:mapping path="/category/**"/>
 			<mvc:mapping path="/dish/**"/>
 			<mvc:mapping path="/menu/**"/>
+			<mvc:mapping path="/restaurant/**"/>
 			<mvc:exclude-mapping path="/menu/show/**"/>
 			<mvc:exclude-mapping path="/menu/getjson/**"/>
 			<mvc:exclude-mapping path="/menu/getallmenusjson/**"/>

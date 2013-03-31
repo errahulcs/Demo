@@ -70,3 +70,25 @@ CREATE TABLE USERS
 );
 
 
+
+CREATE TABLE RESTAURANTS
+(
+    restaurantId INT PRIMARY KEY AUTO_INCREMENT,
+    userId INT,
+    name VARCHAR(300),
+    address1 VARCHAR(300),
+    address2 VARCHAR(300),
+    phone VARCHAR(15),
+    city VARCHAR(30),
+    state VARCHAR(30),
+    country VARCHAR(30)
+);
+
+CREATE TABLE USER_RESTAURANT (
+    userId INT NOT NULL,
+    restaurantId INT NOT NULL,
+    PRIMARY KEY (userId, restaurantId),
+    INDEX FK_RESTAURANT (restaurantId),
+    CONSTRAINT FK_USER FOREIGN KEY (userId) REFERENCES USERS (userId),
+    CONSTRAINT FK_RESTAURANT FOREIGN KEY (restaurantId) REFERENCES RESTAURANTS (restaurantId)
+);
