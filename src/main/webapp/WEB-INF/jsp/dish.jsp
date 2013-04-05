@@ -100,8 +100,8 @@
 		<td colspan="2">
 			
 				<c:choose>
-					<c:when test="${!empty dish.dishId}"><input type="submit" value="Save Dish"/></c:when>
-					<c:otherwise><input type="submit" value="Add Dish"/></c:otherwise>
+					<c:when test="${!empty dish.dishId}"><input type="submit" value="Save Dish"/><button type="button" onclick="document.location.href='/CookedSpecially/dish/'">Cancel</button></c:when>
+					<c:otherwise><input type="submit" value="Add Dish"/><input type="reset" value="Cancel"></c:otherwise>
 				</c:choose>
 			
 		</td>
