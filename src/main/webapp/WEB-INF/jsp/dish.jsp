@@ -24,7 +24,12 @@
 	</style>
 	<script type="text/javascript" src="/CookedSpecially/js/nicEdit.js"></script>
 	<script type="text/javascript">
-		bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+		bkLib.onDomLoaded(function() { 
+			//nicEditors.allTextAreas()
+			var nicEditorInstance = new nicEditor({fullPanel : false, buttonList : ['bold','italic','underline','left','center','right', 'justify', 'ol', 'ul', 'subscript', 'superscript', 'strikethrough', 'removeformat', 'indent', 'outdent', 'hr', 'forecolor', 'bgcolor', 'fontSize', 'fontFamily', 'fontFormat']});
+			nicEditorInstance.panelInstance('shortDescription');
+			nicEditorInstance.panelInstance('description');
+		});
 	</script>
 	
 </head>
@@ -45,11 +50,11 @@
 	</tr>
 	<tr>
 		<td><form:label path="description"><spring:message code="label.description"/></form:label></td>
-		<td><textarea id="description" name="description"  placeholder="Description" style="width:640px;">${dish.description}</textarea></td>
+		<td><textarea id="description" name="description"  placeholder="Description" style="width:680px;">${dish.description}</textarea></td>
 	</tr>
 	<tr>
 		<td><form:label path="shortDescription">Short Description</form:label></td>
-		<td><textarea id="shortDescription" name="shortDescription"  placeholder="Short Description" style="width:640px;">${dish.shortDescription}</textarea></td>
+		<td><textarea id="shortDescription" name="shortDescription"  placeholder="Short Description" style="width:680px;">${dish.shortDescription}</textarea></td>
 	</tr>
 	
 	<tr>
