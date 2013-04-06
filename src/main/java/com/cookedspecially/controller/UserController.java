@@ -45,9 +45,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
-	public String signup(@ModelAttribute("user") User user, BindingResult result, @RequestParam("password") String password) {
+	public String signup(@ModelAttribute("user") User user, HttpServletRequest request, BindingResult result, @RequestParam("password") String password) {
 		user.setPasswordHash(userService.getHash(password));
 		userService.addUser(user);
+		userLogin(request, user.getUsername(), password);
 		return "signupSuccess";
 	}
 	
@@ -59,12 +60,9 @@ public class UserController {
 		return "redirect:/";
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(HttpServletRequest request, HttpServletResponse response) {
-		//@RequestParam("username") String username, @RequestParam("password") String password,
-		System.out.println(request.getHeader("referer"));
-		String username = request.getParameter(CSConstants.USERNAME);
-		String password = request.getParameter(CSConstants.PASSWORD);
+	private String userLogin(HttpServletRequest request, String username, String password) {
+		String returnPath = null;
+		
 		//String signup = request.getParameter("signup");
 		if(!StringUtility.isNullOrEmpty(username) || !StringUtility.isNullOrEmpty(password)) {
 			
@@ -96,7 +94,20 @@ public class UserController {
 				*/
 			}
 		}
+		return returnPath;
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public String login(HttpServletRequest request, HttpServletResponse response) {
+		//@RequestParam("username") String username, @RequestParam("password") String password,
+		System.out.println(request.getHeader("referer"));
+		String username = request.getParameter(CSConstants.USERNAME);
+		String password = request.getParameter(CSConstants.PASSWORD);
 		
+		String returnPath = userLogin(request, username, password);
+		if (!StringUtility.isNullOrEmpty(returnPath)) {
+			return returnPath;
+		}
 		return "login";
 	}
 	
