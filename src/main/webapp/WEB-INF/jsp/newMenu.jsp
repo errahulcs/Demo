@@ -22,6 +22,14 @@
 	.ui-multiselect.dishDialog {font-size:1.0em;}
 	.ui-multiselect-menu.dishDialog {font-size:1.0em;}
 	</style>
+	<script type="text/javascript" src="/CookedSpecially/js/nicEdit.js"></script>
+	<script type="text/javascript">
+		bkLib.onDomLoaded(function() { 
+			//nicEditors.allTextAreas()
+			var nicEditorInstance = new nicEditor({fullPanel : false, buttonList : ['bold','italic','underline','left','center','right', 'justify', 'ol', 'ul', 'subscript', 'superscript', 'strikethrough', 'removeformat', 'indent', 'outdent', 'hr', 'forecolor', 'bgcolor', 'fontSize', 'fontFamily', 'fontFormat']});
+			nicEditorInstance.panelInstance('menuDescription');
+		});
+	</script>
 	<script>
 	function removeDish(dishEL) {
 		//alert(dishEL);
@@ -136,6 +144,8 @@
 			
 			$(sectionELs[i]).find(".addedDishIds")[0].value = addedDishIds.toString();
 		}
+		//$("#menuForm").find('[name="description"]')[0].value = $("menuDescription").val();
+		$('#menuDescription').val($($('#menuDescription').prev()).find('div.nicEdit-main').html());
 		$("#menuForm").submit();
 	}
 	function openSectionForm() {
@@ -233,8 +243,8 @@
 <input type="hidden" name="userId" id="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
 <input type="hidden" name="menuId" id="menuId" value="${menu.menuId}"/>
 <input type="hidden" name="imageUrl" id="imageUrl" value="${menu.imageUrl}"/>
-<input type="text" name="name"  placeholder="Name" value="${menu.name}"/><br/>
-<textarea name="description"  placeholder="Description" >${menu.description}</textarea><br/>
+Name: <input type="text" name="name"  placeholder="Name" value="${menu.name}"/><br/>
+Description: <textarea id="menuDescription" name="description" placeholder="Description" style="width: 640px">${menu.description}</textarea><br/>
 Menu Image (${menu.imageUrl}): <input type="file" name="file"/> <br/>
 Status: 
 <select name="status">
