@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -226,6 +227,9 @@ public class MenuController {
 			//sectionService.addSection(section);
 		}
 		menu.setSections(finalSections);
+		if (menu.getMenuId() != null && menu.getMenuId() > 0) {
+			menu.setModifiedTime(new Date());
+		}
 		menuService.addMenu(menu);
 		return "redirect:/menu/";
 	}
