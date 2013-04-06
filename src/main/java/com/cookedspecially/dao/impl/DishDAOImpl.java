@@ -31,6 +31,13 @@ public class DishDAOImpl implements DishDAO {
 	}
 
 	@Override
+	public void updateMenuModificationTime(Integer dishId) {
+		//List<Integer> menuIds = sessionFactory.getCurrentSession().createSQLQuery("select distinct(menuId) FROM MENU_SECTION JOIN (select distinct(sectionId) as sectionId FROM SECTION_DISH where dishId=" + dishId + " ) sec where sec.sectionId = MENU_SECTION.sectionId").list();
+		sessionFactory.getCurrentSession().createSQLQuery("update MENUS SET modifiedTime=CURRENT_TIMESTAMP() where menuId IN (select distinct(menuId) FROM MENU_SECTION JOIN (select distinct(sectionId) as sectionId FROM SECTION_DISH where dishId=" + dishId + " ) sec where sec.sectionId = MENU_SECTION.sectionId)").executeUpdate();
+		
+		
+	}
+	@Override
 	public List<Dish> listDish() {
 		return sessionFactory.getCurrentSession().createQuery("from Dish").list();
 	}

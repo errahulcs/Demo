@@ -32,6 +32,11 @@ public class DishServiceImpl implements DishService {
 
 	@Override
 	@Transactional
+	public void updateMenuModificationTime(Integer dishId) {
+		dishDAO.updateMenuModificationTime(dishId);
+	}
+	@Override
+	@Transactional
 	public List<Dish> listDish() {
 		return dishDAO.listDish();
 	}

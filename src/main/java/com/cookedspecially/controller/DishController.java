@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.service.DishService;
+import com.cookedspecially.utility.StringUtility;
 
 /**
  * @author sagarwal
@@ -99,8 +100,12 @@ public class DishController {
 		}
 
 		dish.setImageUrl(fileUrl);
+		Integer dishId = dish.getDishId();  
+		
 		dishService.addDish(dish);
-
+		if (dishId != null && dishId > 0) {
+			dishService.updateMenuModificationTime(dishId);
+		}
 		return "redirect:/dish/";
 	}
 

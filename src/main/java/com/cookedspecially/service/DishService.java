@@ -14,6 +14,7 @@ import com.cookedspecially.domain.Dish;
 public interface DishService {
 
 	public void addDish(Dish dish);
+	public void updateMenuModificationTime(Integer dishId);
 	public List<Dish> listDish();
 	public List<Dish> listDishByUser(Integer userId);
 	public void removeDish(Integer id);
