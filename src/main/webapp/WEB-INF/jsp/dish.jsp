@@ -34,6 +34,7 @@
 	
 </head>
 <body>
+<a href="/CookedSpecially/menu/" style="float: right;">Return to Menus</a>
 <hr/>
 <h3>Add Dish</h3>
 
