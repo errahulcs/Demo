@@ -5,6 +5,7 @@
 <html>
 <head>
 	<title>Dish Manager</title>
+	
 	<style type="text/css">
 		body {
 			font-family: sans-serif;
@@ -22,7 +23,8 @@
 			color: white;
 		}
 	</style>
-	<script type="text/javascript" src="/CookedSpecially/js/nicEdit.js"></script>
+	<base href="${pageContext.request.contextPath}/"/>
+	<script type="text/javascript" src="js/nicEdit.js"></script>
 	<script type="text/javascript">
 		bkLib.onDomLoaded(function() { 
 			//nicEditors.allTextAreas()
@@ -34,11 +36,11 @@
 	
 </head>
 <body>
-<a href="/CookedSpecially/menu/" style="float: right;">Return to Menus</a>
+<a href="menu/" style="float: right;">Return to Menus</a>
 <hr/>
 <h3>Add Dish</h3>
 
-<form:form method="post" action="/CookedSpecially/dish/add.html" commandName="dish" enctype="multipart/form-data">
+<form:form method="post" action="dish/add.html" commandName="dish" enctype="multipart/form-data">
 
 	<form:hidden path="dishId"/>
 	<form:hidden path="imageUrl"/>
@@ -106,7 +108,7 @@
 		<td colspan="2">
 			
 				<c:choose>
-					<c:when test="${!empty dish.dishId}"><input type="submit" value="Save Dish"/><button type="button" onclick="document.location.href='/CookedSpecially/dish/'">Cancel</button></c:when>
+					<c:when test="${!empty dish.dishId}"><input type="submit" value="Save Dish"/><button type="button" onclick="document.location.href='dish/'">Cancel</button></c:when>
 					<c:otherwise><input type="submit" value="Add Dish"/><input type="reset" value="Cancel"></c:otherwise>
 				</c:choose>
 			
@@ -133,8 +135,8 @@
 		<td>${dish.description}</td>
 		<td><img src="${dish.imageUrl}" /></td>
 		<td>${dish.price}</td>
-		<td><a href="/CookedSpecially/dish/delete/${dish.dishId}">delete</a></td>
-		<td><a href="/CookedSpecially/dish/edit/${dish.dishId}">edit</a></td>
+		<td><a href="dish/delete/${dish.dishId}">delete</a></td>
+		<td><a href="dish/edit/${dish.dishId}">edit</a></td>
 	</tr>
 </c:forEach>
 </table>
