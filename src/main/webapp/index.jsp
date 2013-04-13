@@ -15,7 +15,6 @@
 <div id="container">
 <div class="item"><a href="menu/">Menus</a></div>
 <div class="item"><a href="dish/">Dishes</a></div>
-<div class="item"><a href="category/">Categories</a></div>
 <c:set var="sessionUserId" value='<%=request.getSession().getAttribute("userId")%>'/>
 <div class="item">
 <c:if test='${!empty sessionUserId}'>
@@ -26,5 +25,10 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 </c:if>
 </div>
 </div>
+<!-- 
+hello this is symbol
+<link rel="stylesheet" type="text/css" href="http://cdn.webrupee.com/font">
+<span class="WebRupee">Rs</span>
+ -->
 </body>
 </html>

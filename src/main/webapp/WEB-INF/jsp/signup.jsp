@@ -52,7 +52,10 @@
 	</tr>
 	<tr>
 		<td><form:label path="username">Email *</form:label></td>
-		<td><form:input path="username" class="validate[required]" /></td> 
+		<td><form:input path="username" class="validate[required]" />
+		<form:errors path="username" style="color:red"/>		
+		</td>
+		 
 	</tr>
 	<tr>
 		<td>Password *</td>

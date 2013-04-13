@@ -47,8 +47,14 @@ public class UserController {
 	@RequestMapping(value="/signup", method=RequestMethod.POST)
 	public String signup(@ModelAttribute("user") User user, HttpServletRequest request, BindingResult result, @RequestParam("password") String password) {
 		user.setPasswordHash(userService.getHash(password));
-		userService.addUser(user);
-		userLogin(request, user.getUsername(), password);
+		User existingUser = userService.getUserByUsername(user.getUsername());
+		if (existingUser != null) {
+			result.rejectValue("username", "error.username.exists");
+			return "signup";
+		} else {
+			userService.addUser(user);
+			userLogin(request, user.getUsername(), password);
+		}
 		return "signupSuccess";
 	}
 	
