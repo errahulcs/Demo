@@ -4,6 +4,7 @@
 <html>
 <head>
 	<title>Menu Card</title>
+	<base href="${pageContext.request.contextPath}/"/>
 	<style type="text/css">
 		body {
 			font-family: sans-serif;
@@ -21,8 +22,8 @@
 			color: white;
 		}
 	</style>
-	<link rel="stylesheet" href="../../themes/base/jquery.ui.all.css" />
-	<script type="text/javascript" src="../../js/jquery-1.9.0.js"></script>
+	<link rel="stylesheet" href="themes/base/jquery.ui.all.css" />
+	<script type="text/javascript" src="js/jquery-1.9.0.js"></script>
 	<script type="text/javascript">
 	$(document).ready(function() {
 		$('.addDish').click(function() { 
@@ -78,7 +79,7 @@
 </table>
 </c:if>
 
-<form method="post" action="/CookedSpecially/order/save.html">
+<form method="post" action="order/save.html">
 <c:forEach items="${menu.dishes}" var="dish">
  <input type="checkbox" id="dishCheck${dish.dishId}" name="dishIds" value="${dish.dishId}" />
 </c:forEach> 

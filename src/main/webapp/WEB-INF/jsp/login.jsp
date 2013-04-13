@@ -4,6 +4,7 @@
 <html>
 <head>
 	<title>Login Manager</title>
+	<base href="${pageContext.request.contextPath}/"/>
 	<style type="text/css">
 		body {
 			font-family: sans-serif;
@@ -26,7 +27,7 @@
 <hr/>
 <h3>Login </h3>
 
-<form:form method="post" action="login.html">
+<form:form method="post" action="user/login.html">
 
 	<table>
 	<tr>
@@ -52,5 +53,5 @@
 </table>	
 </form:form>
 
-<a href="/CookedSpecially/user/signup"> Signup</a>
-<a href="/CookedSpecially/user/forgotPassword"> Forgot Password</a>
+<a href="user/signup"> Signup</a>
+<a href="user/forgotPassword"> Forgot Password</a>

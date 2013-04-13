@@ -4,6 +4,7 @@
 <html>
 <head>
 	<title>Menu Card</title>
+	<base href="${pageContext.request.contextPath}/"/>
 	<style type="text/css">
 		body {
 			font-family: sans-serif;
@@ -21,8 +22,8 @@
 			color: white;
 		}
 	</style>
-	<link rel="stylesheet" href="../../themes/base/jquery.ui.all.css" />
-	<script type="text/javascript" src="../../js/jquery-1.9.0.js"></script>
+	<link rel="stylesheet" href="themes/base/jquery.ui.all.css" />
+	<script type="text/javascript" src="js/jquery-1.9.0.js"></script>
 </head>
 <body>
 <hr/>

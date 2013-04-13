@@ -1,2 +1,3 @@
 Successfully Logged out
-<a href="/CookedSpecially/">Go to Home</a>  
+
+<a href="${pageContext.request.contextPath}/">Go to Home</a>  

@@ -4,10 +4,11 @@
 <html>
 <head>
 	<title>Menu Manager</title>
-	<link rel="stylesheet" href="/CookedSpecially/css/style.css" />
-	<link rel="stylesheet" href="/CookedSpecially/themes/base/jquery.ui.all.css" />
-	<script type="text/javascript" src="/CookedSpecially/js/jquery-1.9.0.js"></script>
-	<script type="text/javascript" src="/CookedSpecially/js/ui/jquery-ui.js"></script>
+	<base href="${pageContext.request.contextPath}/"/>
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="themes/base/jquery.ui.all.css" />
+	<script type="text/javascript" src="js/jquery-1.9.0.js"></script>
+	<script type="text/javascript" src="js/ui/jquery-ui.js"></script>
 	<style type="text/css">
 		  #list .ui-selecting { background: #FECA40; }
 		  #list .ui-selecting .handle { background: #ddd; }
@@ -73,7 +74,7 @@
 <body>
 <c:set var="sessionUserId" value='<%=request.getSession().getAttribute("userId")%>'/>
 <c:if test='${!empty sessionUserId}'>
-Logged in as <%=request.getSession().getAttribute("username")%> <a href="/CookedSpecially/user/logout">Logout</a>
+Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/logout">Logout</a>
 </c:if>
 
 <hr/>
@@ -81,7 +82,7 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="/Cooked
  
   
                    
-<form:form method="post" action="/CookedSpecially/menu/add.html" commandName="menu">
+<form:form method="post" action="menu/add.html" commandName="menu">
 
 	<form:hidden path="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
 	<form:hidden path="menuId" />
@@ -175,9 +176,9 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="/Cooked
 	<tr>
 		<td>${menu.name}</td>
 		<td>${menu.description}</td>
-		<td><a href="/CookedSpecially/menu/delete/${menu.menuId}">Delete</a></td>
-		<td><a href="/CookedSpecially/menu/edit/${menu.menuId}">Edit</a></td>
-		<td><a href="/CookedSpecially/menu/show/${menu.menuId}">Show</a></td>
+		<td><a href="menu/delete/${menu.menuId}">Delete</a></td>
+		<td><a href="menu/edit/${menu.menuId}">Edit</a></td>
+		<td><a href="menu/show/${menu.menuId}">Show</a></td>
 	</tr>
 </c:forEach>
 </table>

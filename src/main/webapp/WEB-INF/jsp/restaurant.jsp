@@ -5,6 +5,7 @@
 <html>
 <head>
 	<title>Restaurant Manager</title>
+	<base href="${pageContext.request.contextPath}/"/>
 	<style type="text/css">
 		body {
 			font-family: sans-serif;
@@ -27,7 +28,7 @@
 <hr/>
 <h3>Add Restaurant</h3>
 
-<form:form method="post" action="/CookedSpecially/restaurant/add.html" commandName="restaurant">
+<form:form method="post" action="restaurant/add.html" commandName="restaurant">
 
 	<form:hidden path="restaurantId"/>
 	<form:hidden path="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
@@ -91,8 +92,8 @@
 		<td>${restaurant.name}</td>
 		<td>${restaurant.address1}<br/> ${restaurant.address2} <br/> ${restaurant.city} <br/> ${restaurant.state} <br/> ${restaurant.country} </td>
 		<td>${restaurant.phone}</td>
-		<td><a href="/CookedSpecially/restaurant/delete/${restaurant.restaurantId}">delete</a></td>
-		<td><a href="/CookedSpecially/restaurant/edit/${restaurant.restaurantId}">edit</a></td>
+		<td><a href="restaurant/delete/${restaurant.restaurantId}">delete</a></td>
+		<td><a href="restaurant/edit/${restaurant.restaurantId}">edit</a></td>
 	</tr>
 </c:forEach>
 </table>

@@ -49,7 +49,7 @@ public class AdminInterceptors implements HandlerInterceptor {
 		String uri = request.getRequestURI();
 		uri = uri.replaceAll(base, "");
 		
-		String redirect = "/CookedSpecially/user/login";
+		String redirect = request.getContextPath() + "/user/login";
 		boolean valid = true;
 		if (StringUtility.isNullOrEmpty(username) || StringUtility.isNullOrEmpty(token)) {
 			valid = false;
