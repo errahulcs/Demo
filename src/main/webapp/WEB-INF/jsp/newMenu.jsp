@@ -5,13 +5,14 @@
 <head>
 	<meta charset="utf-8">
 	<title>Cooked specially</title>
-	<link rel="stylesheet" href="/CookedSpecially/themes/base/jquery.ui.all.css">
-	<link rel="stylesheet" type="text/css" href="/CookedSpecially/themes/base/jquery.multiselect.css" />
-	<link rel="stylesheet" type="text/css" href="/CookedSpecially/themes/base/jquery.multiselect.filter.css" />
-	<script src="/CookedSpecially/js/jquery-1.9.0.js"></script>
-	<script src="/CookedSpecially/js/ui/jquery-ui.js"></script>
-	<script type="text/javascript" src="/CookedSpecially/js/jquery.multiselect.js"></script>
-	<script type="text/javascript" src="/CookedSpecially/js/jquery.multiselect.filter.js"></script>	
+	<base href="${pageContext.request.contextPath}/"/>
+	<link rel="stylesheet" href="themes/base/jquery.ui.all.css">
+	<link rel="stylesheet" type="text/css" href="themes/base/jquery.multiselect.css" />
+	<link rel="stylesheet" type="text/css" href="themes/base/jquery.multiselect.filter.css" />
+	<script src="js/jquery-1.9.0.js"></script>
+	<script src="js/ui/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery.multiselect.js"></script>
+	<script type="text/javascript" src="js/jquery.multiselect.filter.js"></script>	
 
 	<!--  <link rel="stylesheet" href="../demos.css">  -->
 	<style>
@@ -22,7 +23,7 @@
 	.ui-multiselect.dishDialog {font-size:1.0em;}
 	.ui-multiselect-menu.dishDialog {font-size:1.0em;}
 	</style>
-	<script type="text/javascript" src="/CookedSpecially/js/nicEdit.js"></script>
+	<script type="text/javascript" src="js/nicEdit.js"></script>
 	<script type="text/javascript">
 		bkLib.onDomLoaded(function() { 
 			//nicEditors.allTextAreas()
@@ -239,7 +240,7 @@
 
 <div id="menu">
 
-<form id="menuForm" action="/CookedSpecially/menu/addNew" method="post"  enctype="multipart/form-data">
+<form id="menuForm" action="menu/addNew" method="post"  enctype="multipart/form-data">
 <input type="hidden" name="userId" id="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
 <input type="hidden" name="menuId" id="menuId" value="${menu.menuId}"/>
 <input type="hidden" name="imageUrl" id="imageUrl" value="${menu.imageUrl}"/>
