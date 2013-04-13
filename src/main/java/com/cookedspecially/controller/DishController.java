@@ -64,7 +64,7 @@ public class DishController {
 				//System.out.println(file.getOriginalFilename());
 				//System.out.println(file.getContentType());
 				String fileDir = File.separator + "static" + File.separator + dish.getUserId() + File.separator ;
-				fileUrl = fileDir + dish.getDishId() + "_" + file.getOriginalFilename();
+				fileUrl = fileDir + dish.getDishId() + "_" + file.getOriginalFilename().replaceAll("[^a-zA-Z0-9_.]", "_");
 				File dir = new File("webapps" + fileDir);
 				if (!dir.exists()) { 
 					dir.mkdirs();

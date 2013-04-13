@@ -138,7 +138,7 @@ public class MenuController {
 				//System.out.println(file.getOriginalFilename());
 				//System.out.println(file.getContentType());
 				String fileDir = File.separator + "static" + File.separator + menu.getUserId() + File.separator ;
-				fileUrl = fileDir + menu.getMenuId() + "_menu_" + file.getOriginalFilename();
+				fileUrl = fileDir + menu.getMenuId() + "_menu_" + file.getOriginalFilename().replaceAll("[^a-zA-Z0-9_.]", "_");
 				File dir = new File("webapps" + fileDir);
 				if (!dir.exists()) { 
 					dir.mkdirs();
