@@ -33,7 +33,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.Restaurant;
+import com.cookedspecially.domain.User;
 import com.cookedspecially.service.RestaurantService;
+import com.cookedspecially.service.UserService;
+import com.cookedspecially.utility.StringUtility;
 
 /**
  * @author shashank
@@ -45,6 +48,9 @@ public class RestaurantController {
 
 	@Autowired
 	private RestaurantService restaurantService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping("/")
 	public String listRestaurants(Map<String, Object> map, HttpServletRequest request) {
@@ -73,12 +79,21 @@ public class RestaurantController {
 		return "redirect:/restaurant/";
 	}
 
-	@RequestMapping(value = "/files/APK", method = RequestMethod.GET)
+	@RequestMapping(value = "/resources/APK", method = RequestMethod.GET)
 	public void getFile(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String restaurantName = request.getParameter("restaurantName");
+		if (StringUtility.isNullOrEmpty(restaurantName)) {
+			Integer userId = (Integer) request.getSession().getAttribute("userId");
+			User user = userService.getUser(userId);
+			if (user != null) {
+				restaurantName = user.getBusinessName();
+			}
+		}
+		restaurantName = restaurantName.replaceAll("[^a-zA-Z0-9_]", ""); 
 		response.setContentType("application/force-download");
-		File f = new File("Downloads/404.jpg");
+		File f = new File("webapps" + File.separator + "static" + File.separator + "clients" + File.separator + "com"  + File.separator + "cookedspecially" + File.separator + restaurantName + File.separator + restaurantName + ".apk");
 		response.setContentLength(new Long(f.length()).intValue());
-        response.setHeader("Content-Disposition", "attachment; filename=APK.jpg");
+        response.setHeader("Content-Disposition", "attachment; filename=" + restaurantName + ".apk");
         FileCopyUtils.copy(new FileInputStream(f), response.getOutputStream());
 	}
 }

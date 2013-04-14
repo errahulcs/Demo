@@ -24,6 +24,13 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 <a href="user/login">Login</a>
 </c:if>
 </div>
+<div class="item">
+<c:if test='${!empty sessionUserId}'>
+<a href="restaurant/resources/APK">Download Android App</a>
+</c:if>
+
+</div>
+
 </div>
 <!-- 
 hello this is symbol
