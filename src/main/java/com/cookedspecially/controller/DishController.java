@@ -32,6 +32,7 @@ public class DishController {
 	@Autowired
 	private DishService dishService;
 	
+	private static int MAXFILESIZE=5; //in MB
 	//@Autowired
 	//private CategoryService categoryService;
 	
@@ -54,11 +55,17 @@ public class DishController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String addDish(@ModelAttribute("dish")
+	public String addDish(Map<String, Object> map, @ModelAttribute("dish")
 	Dish dish, BindingResult result, @RequestParam("file") MultipartFile file) {
 		FileOutputStream fos = null;
 		String fileUrl = dish.getImageUrl();
 		if (!file.isEmpty()) {
+			if (file.getSize() > MAXFILESIZE*1000*1000) {
+				result.rejectValue("imageUrl", "error.upload.sizeExceeded", "You cannot upload the file of more than " + MAXFILESIZE + " MB");
+				map.put("dish", dish);
+				map.put("dishList", dishService.listDishByUser(dish.getUserId()));
+				return "dish";
+			}
             try {
 				byte[] bytes = file.getBytes();
 				//System.out.println(file.getOriginalFilename());

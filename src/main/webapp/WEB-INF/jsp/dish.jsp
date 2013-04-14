@@ -101,7 +101,8 @@
 			<c:when test="${fn:startsWith(dish.imageUrl, '/')}">(${dish.imageUrl})</c:when>
 		</c:choose> 
 		</form:label></td>
-		<td><input type="file" name="file"/></td>
+		<td><input type="file" name="file"/>
+		<form:errors path="imageUrl" style="color:red;"/> </td>
 	</tr>
 	
 	<tr>
