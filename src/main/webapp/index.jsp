@@ -30,6 +30,9 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 </c:if>
 
 </div>
+<div class="item">
+<a href="restaurant/resources/APK?restaurantName=axis">Download Android App for Axis</a>
+</div>
 
 </div>
 <!-- 
