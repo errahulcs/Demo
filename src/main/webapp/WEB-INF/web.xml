@@ -17,6 +17,10 @@
 		<error-code>405</error-code>
 		<location>/405.jsp</location>
 	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/500.jsp</location>
+	</error-page>
 	<servlet>
 		<servlet-name>spring</servlet-name>
 		<servlet-class>
