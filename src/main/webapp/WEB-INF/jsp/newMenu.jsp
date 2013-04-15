@@ -58,7 +58,10 @@
 		$('#description').val(sectionEL.find('.sectionDescription')[0].value);
 		$('#header').val(sectionEL.find('.sectionHeader')[0].value);
 		$('#footer').val(sectionEL.find('.sectionFooter')[0].value);
-		$('#sectionForm').dialog();
+		$('#sectionForm').dialog({
+			width: 500,
+			modal: true
+			});
 	}
 	function removeSection(sectionEL) {
 		
@@ -93,7 +96,7 @@
 		}
 		$("#addDish").attr("data-disheselid", dishesELId);
 		//$("#dishSection").dialog("open");
-		$("#dishSection").dialog();
+		$("#dishSection").dialog({width:500, modal: true});
 	}
 	
 	function addSelectedDish() {
@@ -159,7 +162,10 @@
 		$('#footer').val("");
 		$('#addSection').show();
 		$('#saveSection').hide();
-		$('#sectionForm').dialog();
+		$('#sectionForm').dialog({
+			width: 500,
+			modal: true
+			});
 	}
 	$(function() {
 		
@@ -304,9 +310,9 @@ Status:
 </div>
 
 
-<form id="sectionForm" hidden="true" title="Create Section ">
+<form id="sectionForm" hidden="true" title="Create Section" style="width:400px;">
 <input type="hidden" id="sectionId" name="sectionId" />
-<input type="text" id="name" name="name" placeholder="Name" /> <input type="text" id="price" name="price" value="0.0" style="float: right;"/><br/>
+<input type="text" id="name" name="name" placeholder="Name" /> <input type="text" id="price" name="price" value="0.0" style="float: right;" placeholder="Price"/><br/>
 ( <input type="text" id="description" name="description" placeholder="Description"/> ) <br/>
 <input type="text" id="header" name="header" placeholder="Header"/> <br>
 Dishes go here.<br>
