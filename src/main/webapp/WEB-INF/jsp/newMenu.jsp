@@ -96,7 +96,8 @@
 		}
 		$("#addDish").attr("data-disheselid", dishesELId);
 		//$("#dishSection").dialog("open");
-		$("#dishSection").dialog({width:500, modal: true});
+		$("#dishSection").dialog({width:500});
+		$("select#dishIdList").multiselect({classes: "dishDialog", autoOpen: true}).multiselectfilter();
 	}
 	
 	function addSelectedDish() {
