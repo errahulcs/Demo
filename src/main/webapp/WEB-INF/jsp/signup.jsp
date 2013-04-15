@@ -48,13 +48,13 @@
 		<td><form:input path="lastName" class="validate[required]" /></td> 
 	</tr>
 	<tr>
-		<td><form:label path="businessName">Business Name</form:label></td>
+		<td><form:label path="businessName">Restaurant Name</form:label></td>
 		<td><form:input path="businessName" /></td> 
 	</tr>
 	<tr>
 		<td><form:label path="username">Email *</form:label></td>
 		<td><form:input path="username" class="validate[required]" />
-		<form:errors path="username" style="color:red"/>		
+		<form:errors path="username" style="color:red;"/>		
 		</td>
 		 
 	</tr>
