@@ -26,10 +26,23 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 </div>
 <div class="item">
 <c:if test='${!empty sessionUserId}'>
-<a href="restaurant/resources/APK">Download Android App</a>
+<!--a href="restaurant/resources/APK">Download Android App</a-->
+<script type="text/javascript">
+	var username = "<%=request.getSession().getAttribute("username")%>";
+	var usernameMatch = /(.+)\@(.+)\.(.+)/;
+
+	if (usernameMatch.test(username)) {
+		alert("match");
+		var matchArray = usernameMatch.exec(username).slice();
+		document.write('<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/' + matchArray[1] + '.apk">Download Android App for your business<\/a>');
+	}
+	else {
+		alert("no match");
+	}
+</script>
 </c:if>
 <c:if test='${empty sessionUserId}'>
-<a href="restaurant/resources/APK?restaurantName=axis">Download Android App for Axis</a>
+<!--a href="restaurant/resources/APK?restaurantName=axis">Download Android App for Axis</a-->
 </c:if>
 </div>
 
