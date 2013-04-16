@@ -32,7 +32,7 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 	var usernameMatch = /(.+)\@(.+)\.(.+)/;
 
 	if (usernameMatch.test(username)) {
-		alert("match");
+		//alert("match");
 		var matchArray = usernameMatch.exec(username).slice();
 		document.write('<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/' + matchArray[1] + '.apk">Download Android App for your business<\/a>');
 	}
