@@ -28,7 +28,7 @@
 	<script type="text/javascript">
 		bkLib.onDomLoaded(function() { 
 			//nicEditors.allTextAreas()
-			var nicEditorInstance = new nicEditor({fullPanel : false, buttonList : ['bold','italic','underline','left','center','right', 'justify', 'ol', 'ul', 'subscript', 'superscript', 'strikethrough', 'removeformat', 'indent', 'outdent', 'hr', 'forecolor', 'bgcolor', 'fontSize', 'fontFamily', 'fontFormat']});
+			var nicEditorInstance = new nicEditor({fullPanel : false, iconsPath: 'images/nicEditorIcons.gif', buttonList : ['bold','italic','underline','left','center','right', 'justify', 'ol', 'ul', 'subscript', 'superscript', 'strikethrough', 'removeformat', 'indent', 'outdent', 'hr', 'forecolor', 'bgcolor', 'fontSize', 'fontFamily', 'fontFormat']});
 			nicEditorInstance.panelInstance('shortDescription');
 			nicEditorInstance.panelInstance('description');
 		});
