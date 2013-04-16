@@ -37,7 +37,7 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 		document.write('<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/' + matchArray[1] + '.apk">Download Android App for your business<\/a>');
 	}
 	else {
-		alert("no match");
+		//alert("no match");
 	}
 </script>
 </c:if>
