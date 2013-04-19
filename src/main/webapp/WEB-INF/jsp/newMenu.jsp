@@ -32,12 +32,18 @@
 		});
 	</script>
 	<script>
+
+	
 	function removeDish(dishEL) {
+		
 		//alert(dishEL);
 		//var sectionEl = dishEL.parent().parent().parent();
 		
 		//var dishesEl = dishEL.parent().parent();
-		dishEL.parent().remove();
+		
+		if (confirm('Do you want to remove this dish?')) {
+			dishEL.parent().remove();
+		}
 		/*var dishELs = el.find("li");
 		var addedDishIds = new Array();
 		for (var i = 0; i < countDishes; i++) {
@@ -64,9 +70,10 @@
 			});
 	}
 	function removeSection(sectionEL) {
-		
-		$(sectionEL.parent()).find(".validSection")[0].value = false;
-		$(sectionEL.parent()).hide();
+		if (confirm('Do you really want to delete this section?')) {
+			$(sectionEL.parent()).find(".validSection")[0].value = false;
+			$(sectionEL.parent()).hide();
+		}
 		
 	}
 	function addDishes(dishesELId) {
@@ -169,7 +176,6 @@
 			});
 	}
 	$(function() {
-		
 		$("select#dishIdList").multiselect({classes: "dishDialog"}).multiselectfilter();
 		$( "#section" ).sortable();
 		$( "#section" ).disableSelection();
