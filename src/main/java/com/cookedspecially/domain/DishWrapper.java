@@ -39,8 +39,8 @@ public class DishWrapper {
 		dishWrapper.setRestaurantId(dish.getRestaurantId());
 		dishWrapper.setUserId(dish.getUserId());
 		dishWrapper.setName(dish.getName());
-		dishWrapper.setDescription(dish.getDescription());
-		dishWrapper.setShortDescription(dish.getShortDescription());
+		dishWrapper.setDescription(dish.getDescription().replaceAll("'", "&#39;"));
+		dishWrapper.setShortDescription(dish.getShortDescription().replaceAll("'", "&#39;"));
 		dishWrapper.setImageUrl(dish.getImageUrl());
 		dishWrapper.setPrice(dish.getPrice());
 		dishWrapper.setItemType(dish.getDishType());

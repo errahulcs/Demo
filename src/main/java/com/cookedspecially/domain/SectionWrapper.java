@@ -35,7 +35,7 @@ public class SectionWrapper {
 		sectionWrapper.setSectionId(section.getSectionId());
 		sectionWrapper.setUserId(section.getUserId());
 		sectionWrapper.setName(section.getName());
-		sectionWrapper.setDescription(section.getDescription());
+		sectionWrapper.setDescription(section.getDescription().replaceAll("'", "&#39;"));
 		sectionWrapper.setHeader(section.getHeader());
 		sectionWrapper.setFooter(section.getFooter());
 		sectionWrapper.setPrice(section.getPrice());

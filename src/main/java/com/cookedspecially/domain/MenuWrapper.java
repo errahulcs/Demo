@@ -38,7 +38,7 @@ public class MenuWrapper {
 		menuWrapper.setMenuId(menu.getMenuId());
 		menuWrapper.setUserId(menu.getUserId());
 		menuWrapper.setName(menu.getName());
-		menuWrapper.setDescription(menu.getDescription());
+		menuWrapper.setDescription(menu.getDescription().replaceAll("'", "&#39;"));
 		menuWrapper.setModifiedTime(menu.getModifiedTime());
 		menuWrapper.setStatus(menu.getStatus());
 		menuWrapper.setImageUrl(menu.getImageUrl());
