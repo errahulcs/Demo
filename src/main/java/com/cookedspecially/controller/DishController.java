@@ -8,7 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -117,12 +120,16 @@ public class DishController {
 	}
 
 	@RequestMapping("/delete/{dishId}")
-	public String deleteDish(@PathVariable("dishId")
-	Integer dishId) {
+	public String deleteDish(Map<String, Object> map, HttpServletRequest request, @PathVariable("dishId") Integer dishId) {
 
-		dishService.removeDish(dishId);
-
-		return "redirect:/dish/";
+		try {
+			dishService.removeDish(dishId);
+		} catch (DataIntegrityViolationException exp) {
+			map.put("errorMsg", "Sorry, this dish is associated with some id and could not be deleted");
+		} catch (Exception e) {
+			map.put("errorMsg", "Sorry, something went wrong and we could not delete this dish.");
+		}
+		return listDishes(map, request);
 	}
 	
 

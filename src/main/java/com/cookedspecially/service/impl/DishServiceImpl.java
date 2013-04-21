@@ -49,7 +49,7 @@ public class DishServiceImpl implements DishService {
 
 	@Override
 	@Transactional
-	public void removeDish(Integer id) {
+	public void removeDish(Integer id) throws Exception{
 		dishDAO.removeDish(id);
 
 	}

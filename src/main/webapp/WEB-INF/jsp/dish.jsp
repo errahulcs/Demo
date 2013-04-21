@@ -32,12 +32,19 @@
 			nicEditorInstance.panelInstance('shortDescription');
 			nicEditorInstance.panelInstance('description');
 		});
+		function deleteDish(dishId) {
+			if (confirm('Do you really want to delete this dish')) {
+				window.location.href = 'dish/delete/' + dishId;
+			} 
+			
+		}
 	</script>
 	
 </head>
 <body>
 <a href="menu/" style="float: right;">Return to Menus</a>
 <hr/>
+<div style="color:red;">${errorMsg}</div>
 <h3>Add Dish</h3>
 
 <form:form method="post" action="dish/add.html" commandName="dish" enctype="multipart/form-data">
@@ -136,7 +143,7 @@
 		<td>${dish.description}</td>
 		<td><img src="${dish.imageUrl}" /></td>
 		<td>${dish.price}</td>
-		<td><a href="dish/delete/${dish.dishId}">delete</a></td>
+		<td><button type="button" onclick="deleteDish(${dish.dishId});">delete</button></td>
 		<td><a href="dish/edit/${dish.dishId}">edit</a></td>
 	</tr>
 </c:forEach>

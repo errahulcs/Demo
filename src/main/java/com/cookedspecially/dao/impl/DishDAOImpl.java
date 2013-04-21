@@ -49,7 +49,7 @@ public class DishDAOImpl implements DishDAO {
 
 	
 	@Override
-	public void removeDish(Integer id) {
+	public void removeDish(Integer id) throws Exception{
 		Dish dish = (Dish) sessionFactory.getCurrentSession().load(Dish.class, id);
 		if (null != dish) {
 			sessionFactory.getCurrentSession().delete(dish);

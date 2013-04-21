@@ -17,7 +17,7 @@ public interface DishService {
 	public void updateMenuModificationTime(Integer dishId);
 	public List<Dish> listDish();
 	public List<Dish> listDishByUser(Integer userId);
-	public void removeDish(Integer id);
+	public void removeDish(Integer id) throws Exception;
 	public List<Dish> getDishes(Integer[] ids);
 	public Dish getDish(Integer id);
 }
