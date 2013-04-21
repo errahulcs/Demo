@@ -144,7 +144,7 @@
 		<td><img src="${dish.imageUrl}" /></td>
 		<td>${dish.price}</td>
 		<td><button type="button" onclick="deleteDish(${dish.dishId});">delete</button></td>
-		<td><a href="dish/edit/${dish.dishId}">edit</a></td>
+		<td><button type="button" onclick="window.location.href='dish/edit/${dish.dishId}';">edit</button></td>
 	</tr>
 </c:forEach>
 </table>

@@ -72,7 +72,11 @@
 		</td>
 	</tr>
 </table>	
+<c:set var="existingUsernameErrors"><form:errors path="username"/></c:set>
 </form:form>
+<c:if test="${not empty existingUsernameErrors}">
+	<button type="button" onclick="window.location.href='user/forgotPassword';"> Forgot Password</button>
+</c:if>
 </body>
 <script>
 	$(function() {
