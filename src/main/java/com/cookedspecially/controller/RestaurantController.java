@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
@@ -95,5 +96,15 @@ public class RestaurantController {
 		response.setContentLength(new Long(f.length()).intValue());
         response.setHeader("Content-Disposition", "attachment; filename=" + restaurantName + ".apk");
         FileCopyUtils.copy(new FileInputStream(f), response.getOutputStream());
+	}
+	
+	@RequestMapping(value="/getrestaurantinfo", method=RequestMethod.GET)
+	public @ResponseBody Map<String, String> getReataurantInfo(HttpServletRequest request, HttpServletResponse response) {
+		String username = request.getParameter("username");
+		User user = userService.getUserByUsername(username);
+		Map<String, String> map = new HashMap<String, String>();
+		
+		map.put("restaurantId", user.getUserId().toString());
+		return map;
 	}
 }
