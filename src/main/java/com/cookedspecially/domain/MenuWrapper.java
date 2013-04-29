@@ -17,7 +17,7 @@ public class MenuWrapper {
 
 	private Integer menuId;
 	
-	private String restaurantId;
+	private Integer restaurantId;
 	
 	private Integer userId;
 	
@@ -37,6 +37,7 @@ public class MenuWrapper {
 		MenuWrapper menuWrapper = new MenuWrapper();
 		menuWrapper.setMenuId(menu.getMenuId());
 		menuWrapper.setUserId(menu.getUserId());
+		menuWrapper.setRestaurantId(menu.getRestaurantId());
 		menuWrapper.setName(menu.getName());
 		menuWrapper.setDescription(menu.getDescription().replaceAll("'", "&#39;"));
 		menuWrapper.setModifiedTime(menu.getModifiedTime());
@@ -60,11 +61,11 @@ public class MenuWrapper {
 		this.menuId = menuId;
 	}
 
-	public String getRestaurantId() {
+	public Integer getRestaurantId() {
 		return restaurantId;
 	}
 
-	public void setRestaurantId(String restaurantId) {
+	public void setRestaurantId(Integer restaurantId) {
 		this.restaurantId = restaurantId;
 	}
 
