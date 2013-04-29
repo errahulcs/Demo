@@ -17,6 +17,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,9 +36,11 @@ import com.cookedspecially.domain.Menu;
 import com.cookedspecially.domain.MenuWrapper;
 import com.cookedspecially.domain.Menus;
 import com.cookedspecially.domain.Section;
+import com.cookedspecially.domain.User;
 import com.cookedspecially.enums.Status;
 import com.cookedspecially.service.DishService;
 import com.cookedspecially.service.MenuService;
+import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.StringUtility;
 
 /**
@@ -53,6 +56,9 @@ public class MenuController {
 	
 	@Autowired
 	private DishService dishService;
+	
+	@Autowired
+	private UserService userService;
 	
 	//@Autowired
 	//private SectionService sectionService;
@@ -257,7 +263,32 @@ public class MenuController {
 	public @ResponseBody Menus showAllMenusJson(Map<String, Object> map, @PathVariable("restaurantId") Integer restaurantId) {
 		Menus menus = new Menus();
 		menus.setStatus(Status.ACTIVE);
+		menus.setRestaurantId(restaurantId);
 		List<Menu> menuList = menuService.allMenusByStatus(restaurantId, Status.ACTIVE);
+		List<MenuWrapper> menuWrappers = new ArrayList<MenuWrapper>();
+		for (Menu menu : menuList) {
+			menuWrappers.add(MenuWrapper.getMenuWrapper(menu));
+		}
+		menus.setMenus(menuWrappers);
+		return menus;
+	}
+	
+	@RequestMapping("/getmenusjsonbyuname")
+	public @ResponseBody Menus getMenusJsonByUsername(HttpServletRequest request, HttpServletResponse response){
+		String username = request.getParameter("username");
+		Menus menus = new Menus();
+		if (StringUtility.isNullOrEmpty(username)) {
+			return menus;
+		}
+		
+		
+		User user = userService.getUserByUsername(username);
+		if (user == null) {
+			return menus;
+		}
+		menus.setStatus(Status.ACTIVE);
+		menus.setRestaurantId(user.getUserId());
+		List<Menu> menuList = menuService.allMenusByStatus(user.getUserId(), Status.ACTIVE);
 		List<MenuWrapper> menuWrappers = new ArrayList<MenuWrapper>();
 		for (Menu menu : menuList) {
 			menuWrappers.add(MenuWrapper.getMenuWrapper(menu));
