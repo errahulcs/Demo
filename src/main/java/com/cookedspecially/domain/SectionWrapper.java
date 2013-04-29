@@ -43,7 +43,9 @@ public class SectionWrapper {
 		if (dishes != null) {
 			sectionWrapper.items = new ArrayList<DishWrapper>();
 			for (Dish dish : dishes) {
-				sectionWrapper.items.add(DishWrapper.getDishWrapper(dish));
+				if (dish != null) {
+					sectionWrapper.items.add(DishWrapper.getDishWrapper(dish));
+				}
 			}
 		}
 		return sectionWrapper;
