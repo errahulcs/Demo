@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.IndexColumn;
 
 import com.cookedspecially.enums.Status;
@@ -59,7 +60,8 @@ public class Menu {
 	@Column(name="IMAGEURL")
 	private String imageUrl;
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(fetch=FetchType.EAGER, orphanRemoval=true)
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.REMOVE})
 	@IndexColumn(name="SECTIONPOSITION")
     @JoinTable(name="MENU_SECTION", 
                 joinColumns={@JoinColumn(name="MENUID")}, 

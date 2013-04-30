@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.IndexColumn;
 
 /**
@@ -61,8 +62,9 @@ public class Section {
 	@Transient
 	private int position;
 	
-	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@ManyToMany(fetch=FetchType.EAGER)
 	@IndexColumn(name="DISHPOSITION")
+	@Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinTable(name="SECTION_DISH", 
                 joinColumns={@JoinColumn(name="SECTIONID")}, 
                 inverseJoinColumns={@JoinColumn(name="DISHID")})
