@@ -22,6 +22,13 @@
 		}
 	</style>
 
+<script type="text/javascript">
+function deleteMenu(menuId) {
+	if (confirm('Do you really want to delete this Menu')) {
+		window.location.href = 'menu/delete/' + menuId;
+	}
+}
+</script>
 </head>
 <body>
 <a href="menu/create">Create Menu</a> <br/>
@@ -46,9 +53,9 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 	<tr>
 		<td>${menu.name}</td>
 		<td>${menu.description}</td>
-		<td><a href="menu/delete/${menu.menuId}">Delete</a></td>
-		<td><a href="menu/edit/${menu.menuId}">Edit</a></td>
-		<td><a href="menu/show/${menu.menuId}">Show</a></td>
+		<td><button type="button" onclick="deleteMenu(${menu.menuId})">Delete</button></td>
+		<td><button type="button"  onclick="window.location.href='menu/edit/${menu.menuId}';">Edit</button></td>
+		<td><button type="button"  onclick="window.location.href='menu/show/${menu.menuId}';">Show</button></td>
 	</tr>
 </c:forEach>
 </table>
