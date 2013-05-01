@@ -3,6 +3,8 @@
  */
 package com.cookedspecially.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,5 +28,10 @@ public class SectionServiceImpl implements SectionService {
 		sectionDAO.addSection(section);
 	}
 
+	@Override
+	@Transactional
+	public void removeSections(List<Integer> sectionIds) {
+		sectionDAO.removeSections(sectionIds);
+	}
 	
 }

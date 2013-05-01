@@ -40,6 +40,7 @@ import com.cookedspecially.domain.User;
 import com.cookedspecially.enums.Status;
 import com.cookedspecially.service.DishService;
 import com.cookedspecially.service.MenuService;
+import com.cookedspecially.service.SectionService;
 import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.StringUtility;
 
@@ -60,8 +61,8 @@ public class MenuController {
 	@Autowired
 	private UserService userService;
 	
-	//@Autowired
-	//private SectionService sectionService;
+	@Autowired
+	private SectionService sectionService;
 	
 	@RequestMapping("/")
 	public String listMenus(Map<String, Object> map, HttpServletRequest request) {
@@ -183,6 +184,7 @@ public class MenuController {
 		Set<String> dishIds = new HashSet<String>();
 		List<Section> menuSections = menu.getSections();
 		TreeMap<Integer, Section> sectionTree = new TreeMap<Integer, Section>();
+		List<Integer> removedSections = new ArrayList<Integer>();
 		if (menuSections != null && menuSections.size() > 0) {
 			for (Section menuSection : menuSections) {
 				if (menuSection.isValid() && !StringUtility.isNullOrEmpty(menuSection.getDishIds())) {
@@ -191,6 +193,9 @@ public class MenuController {
 					if (dishIdsStrArr != null) {
 						dishIds.addAll(Arrays.asList(dishIdsStrArr));
 					}
+				}
+				if (!menuSection.isValid() && menuSection.getSectionId() != null && menuSection.getSectionId() > 0) {
+					removedSections.add(menuSection.getSectionId());
 				}
 			}
 		}
@@ -237,6 +242,9 @@ public class MenuController {
 			menu.setModifiedTime(new Date());
 		}
 		menuService.addMenu(menu);
+		if (removedSections.size() > 0) {
+			sectionService.removeSections(removedSections);
+		}
 		return "redirect:/menu/";
 	}
 	@RequestMapping("/delete/{menuId}")
