@@ -12,7 +12,12 @@
     	<mapping class="com.cookedspecially.domain.Section" />
     	<mapping class="com.cookedspecially.domain.Menu" />
     	<mapping class="com.cookedspecially.domain.User" />
-    	<mapping class="com.cookedspecially.domain.Restaurant" />    
+    	<mapping class="com.cookedspecially.domain.Restaurant" />
+    	<mapping class="com.cookedspecially.domain.Customer" />
+    	<mapping class="com.cookedspecially.domain.Order" />
+    	<mapping class="com.cookedspecially.domain.SeatingTable" />
+    	<mapping class="com.cookedspecially.domain.OrderDish" />
+    	    
     </session-factory>
 	    
 </hibernate-configuration>
