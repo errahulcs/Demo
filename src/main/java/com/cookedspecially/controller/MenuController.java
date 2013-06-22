@@ -272,6 +272,12 @@ public class MenuController {
 		Menus menus = new Menus();
 		menus.setStatus(Status.ACTIVE);
 		menus.setRestaurantId(restaurantId);
+		//Currently restarant Id and userId are same.
+		User user = userService.getUser(restaurantId);
+		if (user != null) {
+			menus.setPortraitImageUrl(user.getBusinessPortraitImageUrl());
+			menus.setLandscapeImageUrl(user.getBusinessLandscapeImageUrl());
+		}
 		List<Menu> menuList = menuService.allMenusByStatus(restaurantId, Status.ACTIVE);
 		List<MenuWrapper> menuWrappers = new ArrayList<MenuWrapper>();
 		for (Menu menu : menuList) {
@@ -296,6 +302,8 @@ public class MenuController {
 		}
 		menus.setStatus(Status.ACTIVE);
 		menus.setRestaurantId(user.getUserId());
+		menus.setPortraitImageUrl(user.getBusinessPortraitImageUrl());
+		menus.setLandscapeImageUrl(user.getBusinessLandscapeImageUrl());
 		List<Menu> menuList = menuService.allMenusByStatus(user.getUserId(), Status.ACTIVE);
 		List<MenuWrapper> menuWrappers = new ArrayList<MenuWrapper>();
 		for (Menu menu : menuList) {

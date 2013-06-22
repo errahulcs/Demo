@@ -49,6 +49,12 @@ public class User {
 	@Column(name="BUSINESSNAME")
 	private String businessName;
 	
+	@Column(name="BUSINESSPORTRAITIMAGEURL")
+	private String businessPortraitImageUrl;
+	
+	@Column(name="BUSINESSLANDSCAPEIMAGEURL")
+	private String businessLandscapeImageUrl;
+	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(name="USER_RESTAURANT", 
                 joinColumns={@JoinColumn(name="USERID")}, 
@@ -109,6 +115,22 @@ public class User {
 
 	public void setRestaurants(List<Restaurant> restaurants) {
 		this.restaurants = restaurants;
+	}
+
+	public String getBusinessPortraitImageUrl() {
+		return businessPortraitImageUrl;
+	}
+
+	public void setBusinessPortraitImageUrl(String businessPortraitImageUrl) {
+		this.businessPortraitImageUrl = businessPortraitImageUrl;
+	}
+
+	public String getBusinessLandscapeImageUrl() {
+		return businessLandscapeImageUrl;
+	}
+
+	public void setBusinessLandscapeImageUrl(String businessLandscapeImageUrl) {
+		this.businessLandscapeImageUrl = businessLandscapeImageUrl;
 	}
 
 	

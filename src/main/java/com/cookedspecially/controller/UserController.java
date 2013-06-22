@@ -3,6 +3,10 @@
  */
 package com.cookedspecially.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cookedspecially.config.CSConstants;
 import com.cookedspecially.domain.User;
@@ -32,6 +37,8 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	private static int MAXFILESIZE=5; //in MB
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String login(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response ) {
@@ -66,6 +73,90 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping(value="/edit", method=RequestMethod.GET)
+	public String editUser(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
+		Object userIdObj = request.getSession().getAttribute("userId");
+		if(userIdObj != null) {
+			map.put("user", userService.getUser((Integer) userIdObj));
+			return "editUser";
+		}
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String updateUser(Map<String, Object> map, @ModelAttribute("user")
+	User user, BindingResult result, @RequestParam("files[0]") MultipartFile portraitImage, @RequestParam("files[1]") MultipartFile landscapeImage) {
+		FileOutputStream fos = null;
+		ArrayList<MultipartFile> files = new ArrayList<MultipartFile>();
+		files.add(portraitImage);
+		files.add(landscapeImage);
+		if (files != null && files.size() == 2) {
+			String[] fileUrls = new String[2];
+			int iter = 0;
+			for (MultipartFile file : files) {
+				String fileUrl = (iter==0)?user.getBusinessPortraitImageUrl():user.getBusinessLandscapeImageUrl();
+				if (!file.isEmpty()) {
+					if (file.getSize() > MAXFILESIZE*1000*1000) {
+						result.rejectValue(((iter == 0)?"businessPortraitImageUrl":"businessLandscapeImageUrl"), "error.upload.sizeExceeded", "You cannot upload the file of more than " + MAXFILESIZE + " MB");
+						map.put("user", user);
+						return "editUser";
+					}
+					try {
+						byte[] bytes = file.getBytes();
+						
+						//System.out.println(file.getOriginalFilename());
+						//System.out.println(file.getContentType());
+						String fileDir = File.separator + "static" + File.separator + user.getUserId() + File.separator ;
+						fileUrl = fileDir + ((iter==0)?"portrait":"landscape") + "_" + file.getOriginalFilename().replaceAll("[^a-zA-Z0-9_.]", "_");
+						fileUrls[iter] = fileUrl;
+						File dir = new File("webapps" + fileDir);
+						if (!dir.exists()) { 
+							dir.mkdirs();
+						}
+						File outfile = new File("webapps" + fileUrl); 
+						//System.out.println(outfile.getAbsolutePath());
+						fos = new FileOutputStream(outfile);
+						fos.write(bytes);
+						
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} finally {
+						if (fos != null) {
+							try {
+								fos.close();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+				iter++;
+			}
+			
+			for (iter = 0; iter < 2; iter++) {
+				String existingImageUrl = (iter==0)?user.getBusinessPortraitImageUrl():user.getBusinessLandscapeImageUrl();
+				String fileUrl = fileUrls[iter];
+				if(!StringUtility.isNullOrEmpty(fileUrl)) {
+					if (!fileUrl.equals(existingImageUrl) && existingImageUrl.startsWith("/")) {
+						File oldFile = new File("webapps" + existingImageUrl);
+						if (oldFile.exists()) {
+							oldFile.delete();
+						}
+					}
+					if (iter == 0) {
+						user.setBusinessPortraitImageUrl(fileUrl);
+					} else {
+						user.setBusinessLandscapeImageUrl(fileUrl);
+					}
+				}
+			}
+		}
+		userService.addUser(user);    
+		return "redirect:/";
+	}
+
 	private String userLogin(HttpServletRequest request, String username, String password) {
 		String returnPath = null;
 		

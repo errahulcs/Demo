@@ -18,7 +18,7 @@
 <c:set var="sessionUserId" value='<%=request.getSession().getAttribute("userId")%>'/>
 <div class="item">
 <c:if test='${!empty sessionUserId}'>
-Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/logout">Logout</a>
+Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/edit">Edit</a> | <a href="user/logout">Logout</a>
 </c:if>
 <c:if test='${empty sessionUserId}'>
 <a href="user/login">Login</a>

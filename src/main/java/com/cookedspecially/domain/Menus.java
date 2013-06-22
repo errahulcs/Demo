@@ -17,6 +17,9 @@ public class Menus {
 	Integer restaurantId;
 	
 	Status status;
+	String portraitImageUrl;
+	String landscapeImageUrl;
+	
 	public List<MenuWrapper> getMenus() {
 		return menus;
 	}
@@ -34,5 +37,17 @@ public class Menus {
 	}
 	public void setRestaurantId(Integer restaurantId) {
 		this.restaurantId = restaurantId;
+	}
+	public String getPortraitImageUrl() {
+		return portraitImageUrl;
+	}
+	public void setPortraitImageUrl(String portraitImageUrl) {
+		this.portraitImageUrl = portraitImageUrl;
+	}
+	public String getLandscapeImageUrl() {
+		return landscapeImageUrl;
+	}
+	public void setLandscapeImageUrl(String landscapeImageUrl) {
+		this.landscapeImageUrl = landscapeImageUrl;
 	}
 }
