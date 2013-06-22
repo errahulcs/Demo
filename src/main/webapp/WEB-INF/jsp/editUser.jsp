@@ -80,7 +80,7 @@
 	<tr>
 		<td colspan="2">
 			<input type="submit" value="Save User"/>
-			<button type="button" onclick="document.location.href='/'">Cancel</button>
+			<button type="button" onclick="document.location.href=''">Cancel</button>
 		</td>
 	</tr>
 </table>	
