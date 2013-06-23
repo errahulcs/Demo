@@ -42,6 +42,7 @@ import com.cookedspecially.service.DishService;
 import com.cookedspecially.service.MenuService;
 import com.cookedspecially.service.SectionService;
 import com.cookedspecially.service.UserService;
+import com.cookedspecially.utility.ImageUtility;
 import com.cookedspecially.utility.StringUtility;
 
 /**
@@ -238,20 +239,38 @@ public class MenuController {
 			//sectionService.addSection(section);
 		}
 		menu.setSections(finalSections);
-		if (menu.getMenuId() != null && menu.getMenuId() > 0) {
+		Integer menuId = menu.getMenuId();
+		if (menuId != null && menuId > 0) {
 			menu.setModifiedTime(new Date());
-		}
+		} 
 		menuService.addMenu(menu);
+		if (fileUrl != null && fileUrl.contains("null_")) {
+			String newFileUrl = renameFileToHaveMenuId(fileUrl, menu.getMenuId());
+			menu.setImageUrl(newFileUrl);
+			menuService.addMenu(menu);
+		}
 		if (removedSections.size() > 0) {
 			sectionService.removeSections(removedSections);
 		}
+		
 		return "redirect:/menu/";
 	}
 	@RequestMapping("/delete/{menuId}")
 	public String deleteMenu(@PathVariable("menuId")
 	Integer menuId) {
 
-		menuService.removeMenu(menuId);
+		Menu menu = menuService.getMenu(menuId);
+		if (menu != null) {
+			String menuImageUrl = menu.getImageUrl();
+			if (!StringUtility.isNullOrEmpty(menuImageUrl) && menuImageUrl.startsWith("/")) {
+				File image = new File("webapps" + menuImageUrl);
+				if (image.exists()) {
+					image.delete();
+				}
+			}
+			menuService.removeMenu(menuId);
+		}
+		
 		return "redirect:/menu/";
 	}
 	
@@ -311,5 +330,13 @@ public class MenuController {
 		}
 		menus.setMenus(menuWrappers);
 		return menus;
+	}
+	
+	private String renameFileToHaveMenuId(String fileUrl, Integer menuId) {
+		File oldFile = new File("webapps" + fileUrl);
+		String newFileUrl = fileUrl.replace("null_", menuId + "_");
+		File newFile = new File("webapps" + newFileUrl);
+		oldFile.renameTo(newFile);
+		return newFileUrl;
 	}
 }

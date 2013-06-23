@@ -6,6 +6,7 @@ package com.cookedspecially.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.cookedspecially.domain.Dish;
+import com.cookedspecially.domain.User;
 import com.cookedspecially.service.DishService;
+import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.ImageUtility;
 import com.cookedspecially.utility.StringUtility;
 
@@ -35,6 +38,9 @@ public class DishController {
 
 	@Autowired
 	private DishService dishService;
+	
+	@Autowired
+	private UserService userService;
 	
 	private static int MAXFILESIZE=5; //in MB
 	//@Autowired
@@ -165,6 +171,27 @@ public class DishController {
 			map.put("errorMsg", "Sorry, something went wrong and we could not delete this dish.");
 		}
 		return listDishes(map, request);
+	}
+	
+	@RequestMapping("/resizeDishes/{userId}")
+	public String resizeDishes(Map<String, Object> map, HttpServletRequest request, @PathVariable("userId") Integer userId) {
+		Integer adminUserId = (Integer) request.getSession().getAttribute("userId");
+		User adminUser = userService.getUser(adminUserId);
+		if ("shashankagarwal1706@gmail.com".equals(adminUser.getUsername())) {
+
+			List<Dish> dishes = dishService.listDishByUser(userId);
+			for (Dish dish : dishes) {
+				String dishImageUrl = dish.getImageUrl();
+				if (!StringUtility.isNullOrEmpty(dishImageUrl)) {
+					String localUrl = "webapps" + dishImageUrl;
+					File dishImage = new File(localUrl);
+					if (dishImage.exists()) {
+						ImageUtility.resizeImage(localUrl, ImageUtility.getSmallImageUrl(localUrl, 200, 200), "jpg", 200, 200);
+					}
+				}
+			}
+		}
+		return "redirect:/dish/";
 	}
 	
 	private String renameFileToHaveDishId(String fileUrl, Integer dishId) {
