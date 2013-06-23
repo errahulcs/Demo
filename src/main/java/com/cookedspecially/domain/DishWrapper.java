@@ -3,6 +3,8 @@
  */
 package com.cookedspecially.domain;
 
+import com.cookedspecially.utility.ImageUtility;
+
 
 /**
  * @author sagarwal
@@ -24,6 +26,8 @@ public class DishWrapper {
 	
 	private String imageUrl;
 	
+	private String smallImageUrl;
+	
 	private Float price;
 
 	private String itemType;
@@ -42,6 +46,7 @@ public class DishWrapper {
 		dishWrapper.setDescription(dish.getDescription().replaceAll("'", "&#39;"));
 		dishWrapper.setShortDescription(dish.getShortDescription().replaceAll("'", "&#39;"));
 		dishWrapper.setImageUrl(dish.getImageUrl());
+		dishWrapper.setSmallImageUrl(ImageUtility.getSmallImageUrl(dish.getImageUrl(), 200, 200));
 		dishWrapper.setPrice(dish.getPrice());
 		dishWrapper.setItemType(dish.getDishType());
 		dishWrapper.setVegetarian(dish.getVegetarian());
@@ -136,6 +141,16 @@ public class DishWrapper {
 
 	public void setAlcoholic(Boolean alcoholic) {
 		this.alcoholic = alcoholic;
+	}
+
+
+	public String getSmallImageUrl() {
+		return smallImageUrl;
+	}
+
+
+	public void setSmallImageUrl(String smallImageUrl) {
+		this.smallImageUrl = smallImageUrl;
 	}
 
 }

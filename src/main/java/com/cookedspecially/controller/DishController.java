@@ -102,7 +102,7 @@ public class DishController {
 				}
 			}
             if (!StringUtility.isNullOrEmpty(outFileUrl)) {
-            	ImageUtility.resizeImage(outFileUrl, outFileUrl.replace(".", "200x200."), "jpeg", 200, 200);
+            	ImageUtility.resizeImage(outFileUrl, ImageUtility.getSmallImageUrl(outFileUrl, 200, 200), "jpg", 200, 200);
             }
 			
             // store the bytes somewhere
@@ -115,7 +115,7 @@ public class DishController {
 			if (oldFile.exists()) {
 				oldFile.delete();
 			}
-			File oldSmallFile = new File("webapps" + dish.getImageUrl().replace(".", "200x200."));
+			File oldSmallFile = new File("webapps" + ImageUtility.getSmallImageUrl(dish.getImageUrl(), 200, 200) );
 			if (oldSmallFile.exists()) {
 				oldSmallFile.delete();
 			}
@@ -132,7 +132,7 @@ public class DishController {
 				String newFileUrl = renameFileToHaveDishId(fileUrl, dish.getDishId());
 				dish.setImageUrl(newFileUrl);
 				dishService.addDish(dish);
-				String smallFileOldUrl = fileUrl.replace(".", "200x200.");
+				String smallFileOldUrl = ImageUtility.getSmallImageUrl(fileUrl, 200, 200);
 				renameFileToHaveDishId(smallFileOldUrl, dish.getDishId());
 			}
 		}
@@ -153,7 +153,7 @@ public class DishController {
 					if (image.exists()) {
 						image.delete();
 					}
-					File smallImage = new File("webapps" + dishImageUrl.replace(".", "200x200."));
+					File smallImage = new File("webapps" + ImageUtility.getSmallImageUrl(dishImageUrl, 200, 200));
 					if (smallImage.exists()) {
 						smallImage.delete();
 					}

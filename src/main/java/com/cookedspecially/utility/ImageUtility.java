@@ -45,4 +45,11 @@ public class ImageUtility {
 	 
 		return targetImage;
 	}
+	
+	public static String getSmallImageUrl(String imageUrl, int resolutionX, int resolutionY) {
+		if (imageUrl != null && imageUrl.lastIndexOf('.') >= 0) {
+			return imageUrl.substring(0, imageUrl.lastIndexOf('.')).concat(resolutionX + "x" + resolutionY + ".jpg");
+		}
+		return imageUrl;
+	}
 }
