@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-import org.hibernate.exception.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.service.DishService;
+import com.cookedspecially.utility.ImageUtility;
 import com.cookedspecially.utility.StringUtility;
 
 /**
@@ -62,6 +63,7 @@ public class DishController {
 	Dish dish, BindingResult result, @RequestParam("file") MultipartFile file) {
 		FileOutputStream fos = null;
 		String fileUrl = dish.getImageUrl();
+		String outFileUrl = null;
 		if (!file.isEmpty()) {
 			if (file.getSize() > MAXFILESIZE*1000*1000) {
 				result.rejectValue("imageUrl", "error.upload.sizeExceeded", "You cannot upload the file of more than " + MAXFILESIZE + " MB");
@@ -71,6 +73,7 @@ public class DishController {
 			}
             try {
 				byte[] bytes = file.getBytes();
+				
 				//System.out.println(file.getOriginalFilename());
 				//System.out.println(file.getContentType());
 				String fileDir = File.separator + "static" + File.separator + dish.getUserId() + File.separator ;
@@ -79,7 +82,8 @@ public class DishController {
 				if (!dir.exists()) { 
 					dir.mkdirs();
 				}
-				File outfile = new File("webapps" + fileUrl); 
+				outFileUrl = "webapps" + fileUrl;
+				File outfile = new File(outFileUrl); 
 				//System.out.println(outfile.getAbsolutePath());
 				fos = new FileOutputStream(outfile);
 				fos.write(bytes);
@@ -97,6 +101,10 @@ public class DishController {
 					}
 				}
 			}
+            if (!StringUtility.isNullOrEmpty(outFileUrl)) {
+            	ImageUtility.resizeImage(outFileUrl, outFileUrl.replace(".", "200x200."), "jpeg", 200, 200);
+            }
+			
             // store the bytes somewhere
            //return "uploadSuccess";
        } else {
@@ -107,23 +115,50 @@ public class DishController {
 			if (oldFile.exists()) {
 				oldFile.delete();
 			}
+			File oldSmallFile = new File("webapps" + dish.getImageUrl().replace(".", "200x200."));
+			if (oldSmallFile.exists()) {
+				oldSmallFile.delete();
+			}
 		}
-
+		
 		dish.setImageUrl(fileUrl);
 		Integer dishId = dish.getDishId();  
 		
 		dishService.addDish(dish);
 		if (dishId != null && dishId > 0) {
 			dishService.updateMenuModificationTime(dishId);
+		} else {
+			if (fileUrl.contains("null_")) {
+				String newFileUrl = renameFileToHaveDishId(fileUrl, dish.getDishId());
+				dish.setImageUrl(newFileUrl);
+				dishService.addDish(dish);
+				String smallFileOldUrl = fileUrl.replace(".", "200x200.");
+				renameFileToHaveDishId(smallFileOldUrl, dish.getDishId());
+			}
 		}
 		return "redirect:/dish/";
 	}
+
 
 	@RequestMapping("/delete/{dishId}")
 	public String deleteDish(Map<String, Object> map, HttpServletRequest request, @PathVariable("dishId") Integer dishId) {
 
 		try {
-			dishService.removeDish(dishId);
+			Dish dish = dishService.getDish(dishId);
+			if (dish != null) {
+				String dishImageUrl = dish.getImageUrl();
+				dishService.removeDish(dishId);
+				if (!StringUtility.isNullOrEmpty(dishImageUrl) && dishImageUrl.startsWith("/")) {
+					File image = new File("webapps" + dishImageUrl);
+					if (image.exists()) {
+						image.delete();
+					}
+					File smallImage = new File("webapps" + dishImageUrl.replace(".", "200x200."));
+					if (smallImage.exists()) {
+						smallImage.delete();
+					}
+				}
+			}
 		} catch (DataIntegrityViolationException exp) {
 			map.put("errorMsg", "Sorry, this dish is associated with some id and could not be deleted");
 		} catch (Exception e) {
@@ -132,5 +167,11 @@ public class DishController {
 		return listDishes(map, request);
 	}
 	
-
+	private String renameFileToHaveDishId(String fileUrl, Integer dishId) {
+		File oldFile = new File("webapps" + fileUrl);
+		String newFileUrl = fileUrl.replace("null_", dishId + "_");
+		File newFile = new File("webapps" + newFileUrl);
+		oldFile.renameTo(newFile);
+		return newFileUrl;
+	}
 }
