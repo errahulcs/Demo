@@ -25,6 +25,10 @@
 	</style>
 	<base href="${pageContext.request.contextPath}/"/>
 	<script type="text/javascript" src="js/nicEdit.js"></script>
+	<script type="text/javascript" src="js/jquery-1.9.0.js"></script>
+	<script src="js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
 	<script type="text/javascript">
 		bkLib.onDomLoaded(function() { 
 			//nicEditors.allTextAreas()
@@ -55,12 +59,12 @@
 	<table>
 	
 	<tr>
-		<td><form:label path="name"><spring:message code="label.name"/></form:label></td>
-		<td><form:input path="name" /></td> 
+		<td><form:label path="name"><spring:message code="label.name"/>* </form:label></td>
+		<td><form:input path="name" class="validate[required]" /></td> 
 	</tr>
 	<tr>
 		<td><form:label path="description"><spring:message code="label.description"/></form:label></td>
-		<td><textarea id="description" name="description"  placeholder="Description" style="width:680px;">${dish.description}</textarea></td>
+		<td><textarea id="description" name="description"  placeholder="Description" style="width:680px;" >${dish.description}</textarea></td>
 	</tr>
 	<tr>
 		<td><form:label path="shortDescription">Short Description</form:label></td>
@@ -68,8 +72,8 @@
 	</tr>
 	
 	<tr>
-		<td><form:label path="price">Price</form:label></td>
-		<td><form:input path="price" /></td>
+		<td><form:label path="price">Price* </form:label></td>
+		<td><form:input path="price" class="validate[required]" /></td>
 	</tr>
 	
 	<tr>
@@ -152,4 +156,9 @@
 
 
 </body>
+<script>
+	$(function() {
+		$("#dish").validationEngine();
+	});
+</script>
 </html>
