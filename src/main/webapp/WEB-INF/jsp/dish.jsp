@@ -103,7 +103,17 @@
 		
 		</td>
 	</tr>
-	
+	<tr>
+		<td><form:label path="disabled">Disabled</form:label></td>
+		<td>
+		<c:choose>
+			<c:when test="${dish.disabled}"><input type="checkbox" id="disabled" name="disabled" checked /></c:when>
+			<c:otherwise><input type="checkbox" id="disabled" name="disabled" /></c:otherwise>
+		</c:choose>
+		
+		
+		</td>
+	</tr>
 	<tr>
 		<td><form:label path="imageUrl">
 		<spring:message code="label.imageUrl"/>

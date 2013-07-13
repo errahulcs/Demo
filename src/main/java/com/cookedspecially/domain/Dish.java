@@ -53,6 +53,9 @@ public class Dish {
 	@Column(name="ALCOHOLIC")
 	private Boolean alcoholic;
 	
+	@Column(name="DISABLED")
+	private Boolean disabled;
+	
 	public Integer getDishId() {
 		return dishId;
 	}
@@ -139,6 +142,14 @@ public class Dish {
 
 	public void setAlcoholic(Boolean alcoholic) {
 		this.alcoholic = alcoholic;
+	}
+
+	public Boolean getDisabled() {
+		return disabled;
+	}
+
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
 	}
 	
 

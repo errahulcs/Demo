@@ -11,7 +11,8 @@ CREATE TABLE DISHES
     price FLOAT,
     dishType VARCHAR(100),
     vegetarian BOOL,
-    alcoholic BOOL
+    alcoholic BOOL,
+    disabled BOOL
 );
 
 CREATE TABLE SECTIONS

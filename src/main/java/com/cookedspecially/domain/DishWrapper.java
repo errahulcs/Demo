@@ -36,7 +36,8 @@ public class DishWrapper {
 	
 	private Boolean alcoholic;
 
-
+	private Boolean disabled;
+	
 	public static DishWrapper getDishWrapper(Dish dish) {
 		DishWrapper dishWrapper = new DishWrapper();
 		dishWrapper.setItemId(dish.getDishId());
@@ -51,6 +52,7 @@ public class DishWrapper {
 		dishWrapper.setItemType(dish.getDishType());
 		dishWrapper.setVegetarian(dish.getVegetarian());
 		dishWrapper.setAlcoholic(dish.getAlcoholic());
+		dishWrapper.setDisabled(dish.getDisabled());
 		return dishWrapper;
 	}
 	
@@ -151,6 +153,16 @@ public class DishWrapper {
 
 	public void setSmallImageUrl(String smallImageUrl) {
 		this.smallImageUrl = smallImageUrl;
+	}
+
+
+	public Boolean getDisabled() {
+		return disabled;
+	}
+
+
+	public void setDisabled(Boolean disabled) {
+		this.disabled = disabled;
 	}
 
 }

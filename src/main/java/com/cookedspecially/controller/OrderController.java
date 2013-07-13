@@ -11,11 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.cookedspecially.domain.JsonOrder;
 import com.cookedspecially.domain.Order;
 import com.cookedspecially.domain.SeatingTable;
 import com.cookedspecially.service.MenuService;
@@ -58,6 +61,11 @@ public class OrderController {
 		return "redirect:/orders/";
 	}
 
+	@RequestMapping(value = "/submitOrder", method = RequestMethod.POST, consumes = "application/json")
+	public void submitOrder(@RequestBody JsonOrder order, Model model) {
+		System.out.println(order.toString());
+	}
+	
 	@RequestMapping(value = "/tableOrder")
 	public String tableOrder(Map<String, Object> map, HttpServletRequest request) {
 		Integer menuId = Integer.getInteger(request.getParameter("menuId"));
