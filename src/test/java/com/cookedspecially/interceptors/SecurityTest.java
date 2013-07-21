@@ -26,12 +26,12 @@ import junit.framework.TestCase;
  */
 public class SecurityTest extends TestCase {
 
-//	public void testPassword() {
-//		PasswordEncoder encoder = new ShaPasswordEncoder();
-//		String hash = encoder.encodePassword("hello", "BITE MY SHINY METAL ASS!");
-//		//System.out.println(hash);
-//		//System.out.println(encoder.isPasswordValid(hash, "hello", "BITE MY SHINY METAL ASS!"));
-//	}
+	public void testPassword() {
+		PasswordEncoder encoder = new ShaPasswordEncoder();
+		String hash = encoder.encodePassword("hello", "BITE MY SHINY METAL ASS!");
+		//System.out.println(hash);
+		//System.out.println(encoder.isPasswordValid(hash, "hello", "BITE MY SHINY METAL ASS!"));
+	}
 //	
 //	
 //	public void testEncoding() throws IOException {
@@ -46,10 +46,10 @@ public class SecurityTest extends TestCase {
 //		
 //	}
 	
-//	public void testCalendar() {
-//		Calendar cal = Calendar.getInstance();
-//		System.out.println(cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US));
-//	}
+	public void testCalendar() {
+		Calendar cal = Calendar.getInstance();
+		System.out.println(cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US));
+	}
 //	private static BufferedImage resizeImage(BufferedImage originalImage, int type){
 //		BufferedImage resizedImage = new BufferedImage(100, 100, type);
 //		Graphics2D g = resizedImage.createGraphics();
