@@ -291,7 +291,7 @@ public class MenuController {
 		Menus menus = new Menus();
 		menus.setStatus(Status.ACTIVE);
 		menus.setRestaurantId(restaurantId);
-		//Currently restarant Id and userId are same.
+		//Currently restaurant Id and userId are same.
 		User user = userService.getUser(restaurantId);
 		if (user != null) {
 			menus.setPortraitImageUrl(user.getBusinessPortraitImageUrl());

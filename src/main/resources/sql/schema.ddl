@@ -12,7 +12,15 @@ CREATE TABLE DISHES
     dishType VARCHAR(100),
     vegetarian BOOL,
     alcoholic BOOL,
-    disabled BOOL
+    disabled BOOL,
+	activeDays INT,
+	happyHourEnabled BOOL,
+	happyHourDays INT,
+	happyHourStartHour INT,
+	happyHourStartMin INT,
+	happyHourEndHour INT,
+	happyHourEndMin INT,
+	happyHourPrice FLOAT
 );
 
 CREATE TABLE SECTIONS

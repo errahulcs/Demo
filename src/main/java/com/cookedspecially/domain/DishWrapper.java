@@ -48,7 +48,7 @@ public class DishWrapper {
 		dishWrapper.setShortDescription(dish.getShortDescription().replaceAll("'", "&#39;"));
 		dishWrapper.setImageUrl(dish.getImageUrl());
 		dishWrapper.setSmallImageUrl(ImageUtility.getSmallImageUrl(dish.getImageUrl(), 200, 200));
-		dishWrapper.setPrice(dish.getPrice());
+		dishWrapper.setPrice(dish.getPriceByHappyHour());
 		dishWrapper.setItemType(dish.getDishType());
 		dishWrapper.setVegetarian(dish.getVegetarian());
 		dishWrapper.setAlcoholic(dish.getAlcoholic());

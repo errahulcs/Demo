@@ -6,6 +6,8 @@ package com.cookedspecially.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.User;
+import com.cookedspecially.enums.WeekDayFlags;
 import com.cookedspecially.service.DishService;
 import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.ImageUtility;
@@ -46,20 +49,50 @@ public class DishController {
 	//@Autowired
 	//private CategoryService categoryService;
 	
+	private static int HOURS[] = new int[24];
+	private static int MINS[] = new int[4];
+	private static boolean ALLWEEKDAYS[] = new boolean[7];
+	static {
+		for (int i = 0; i < 24; i++) {
+			HOURS[i] = i;
+		}
+		for (int i = 0; i < 4; i++) {
+			MINS[i] = i*15;
+		}
+		for (int i = 0; i < 7; i++) {
+			ALLWEEKDAYS[i] = true;
+		}
+	}
+	
 	@RequestMapping("/")
 	public String listDishes(Map<String, Object> map, HttpServletRequest request) {
 
-		map.put("dish", new Dish());
+		Dish dish = new Dish();
+		//dish.setActiveDays(WeekDayFlags.getWeekDayVal(ALLWEEKDAYS));
+		//dish.setHappyHourDays(WeekDayFlags.getWeekDayVal(ALLWEEKDAYS));
+		dish.setDishActiveDays(ALLWEEKDAYS);
+		dish.setHappyHourActiveDays(ALLWEEKDAYS);
+		map.put("dish", dish);
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
+		map.put("hours", HOURS);
+		map.put("mins", MINS);
+		map.put("currTime", new Date().toLocaleString());
+		map.put("weekdayFlags", WeekDayFlags.values());
 		//map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
 		return "dish";
 	}
 
 	@RequestMapping("/edit/{dishId}")
 	public String editDish(Map<String, Object> map, HttpServletRequest request, @PathVariable("dishId") Integer dishId) {
-
-		map.put("dish", dishService.getDish(dishId));
+		Dish dish = dishService.getDish(dishId);
+		dish.setDishActiveDays(WeekDayFlags.getWeekDayFlagsArr(dish.getActiveDays()));
+		dish.setHappyHourActiveDays(WeekDayFlags.getWeekDayFlagsArr(dish.getHappyHourDays()));
+		map.put("dish", dish);
 		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
+		map.put("hours", HOURS);
+		map.put("mins", MINS);
+		map.put("weekdayFlags", WeekDayFlags.values());
+		map.put("currTime", new Date().toLocaleString());
 		//map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
 		return "dish";
 	}
@@ -129,7 +162,8 @@ public class DishController {
 		
 		dish.setImageUrl(fileUrl);
 		Integer dishId = dish.getDishId();  
-		
+		dish.setActiveDays(WeekDayFlags.getWeekDayVal(dish.getDishActiveDays()));
+		dish.setHappyHourDays(WeekDayFlags.getWeekDayVal(dish.getHappyHourActiveDays()));
 		dishService.addDish(dish);
 		if (dishId != null && dishId > 0) {
 			dishService.updateMenuModificationTime(dishId);

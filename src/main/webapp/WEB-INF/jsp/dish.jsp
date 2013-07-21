@@ -114,6 +114,25 @@
 		
 		</td>
 	</tr>
+	<!-- Dish active days -->
+	<tr>
+		<td><form:label path="dishActiveDays">Dish Active days</form:label></td>
+		<td>
+		<c:forEach items="${weekdayFlags}" var="weekdayFlag">
+			${weekdayFlag.weekdayCode}
+				<c:choose>
+					<c:when test="${dish.dishActiveDays[weekdayFlag.index]}">
+						<input type="checkbox" id="dishActiveDays[${weekdayFlag.index}]" name="dishActiveDays[${weekdayFlag.index}]" checked />
+					</c:when>
+					<c:otherwise>
+						<input type="checkbox" id="dishActiveDays[${weekdayFlag.index}]" name="dishActiveDays[${weekdayFlag.index}]" />
+					</c:otherwise>
+				</c:choose>
+			
+		</c:forEach>
+		</td>
+	</tr>
+	
 	<tr>
 		<td><form:label path="imageUrl">
 		<spring:message code="label.imageUrl"/>
@@ -125,7 +144,110 @@
 		<td><input type="file" name="file"/>
 		<form:errors path="imageUrl" style="color:red;"/> </td>
 	</tr>
+	<tr>
+	<td>Current Time : ${currTime}</td>
+	</tr>
 	
+	<tr>
+	<td>Happy hour</td>
+	</tr>
+	<tr>
+	
+		<td><form:label path="happyHourEnabled">Enabled</form:label></td>
+		<td>
+		<c:choose>
+			<c:when test="${dish.happyHourEnabled}"><input type="checkbox" id="happyHourEnabled" name="happyHourEnabled" checked /></c:when>
+			<c:otherwise><input type="checkbox" id="happyHourEnabled" name="happyHourEnabled" /></c:otherwise>
+		</c:choose>
+		</td>
+	</tr>
+	<!-- Happy Hour active days -->
+	<tr>
+		<td><form:label path="happyHourActiveDays">Happy hour Active days</form:label></td>
+		<td>
+		<c:forEach items="${weekdayFlags}" var="weekdayFlag">
+			${weekdayFlag.weekdayCode}
+			
+				<c:choose>
+					<c:when test="${dish.happyHourActiveDays[weekdayFlag.index]}">
+						<input type="checkbox" id="happyHourActiveDays[${weekdayFlag.index}]" name="happyHourActiveDays[${weekdayFlag.index}]" checked />
+					</c:when>
+					<c:otherwise>
+						<input type="checkbox" id="happyHourActiveDays[${weekdayFlag.index}]" name="happyHourActiveDays[${weekdayFlag.index}]" />
+					</c:otherwise>
+				</c:choose>
+			
+		</c:forEach>
+		</td>
+	</tr>
+	
+	<tr>
+		<td><form:label path="happyHourStartHour">Happy Hour Start</form:label></td>
+		<td>
+		Hour
+		<select name="happyHourStartHour">
+			 
+			<c:forEach items="${hours}" var="hour">
+				<c:choose>
+					<c:when test="${happyHourStartHour == hour}">
+						<option value="${hour}" selected>${hour}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${hour}">${hour}</option>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</select>
+		Min 
+		<select name="happyHourStartMin">
+			<c:forEach items="${mins}" var="min">
+				<c:choose>
+					<c:when test="${happyHourStartMin == min}">
+						<option value="${min}" selected>${min}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${min}">${min}</option>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td><form:label path="happyHourEndHour">Happy Hour End</form:label></td>
+		<td>
+		Hour 
+		<select name="happyHourEndHour">
+			<c:forEach items="${hours}" var="hour">
+				<c:choose>
+					<c:when test="${happyHourEndHour == hour}">
+						<option value="${hour}" selected>${hour}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${hour}">${hour}</option>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</select>
+		Min 
+		<select name="happyHourEndMin">
+			<c:forEach items="${mins}" var="min">
+				<c:choose>
+					<c:when test="${happyHourEndMin == min}">
+						<option value="${min}" selected>${min}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${min}">${min}</option>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td><form:label path="happyHourPrice">Happy hour Price </form:label></td>
+		<td><form:input path="happyHourPrice" /></td>
+	</tr>
 	<tr>
 		<td colspan="2">
 			
