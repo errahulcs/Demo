@@ -9,6 +9,6 @@ package com.cookedspecially.enums.order;
  */
 public enum Status {
 
-	KITCHEN, READY, DELIVERED, CLOSED;
+	PLACED, KITCHEN, READY, DELIVERED, PAID, CANCELLED;
 	
 }

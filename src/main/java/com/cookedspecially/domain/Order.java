@@ -57,7 +57,7 @@ public class Order {
 	private Integer sourceId;
 	
 	@Column(name="DESTINATIONTYPE")
-	private DestinationType destiantionType;
+	private DestinationType destinationType;
 	
 	/*
 	 * This will be : 
@@ -121,12 +121,12 @@ public class Order {
 		this.sourceId = sourceId;
 	}
 
-	public DestinationType getDestiantionType() {
-		return destiantionType;
+	public DestinationType getDestinationType() {
+		return destinationType;
 	}
 
-	public void setDestiantionType(DestinationType destiantionType) {
-		this.destiantionType = destiantionType;
+	public void setDestinationType(DestinationType destinationType) {
+		this.destinationType = destinationType;
 	}
 
 	public Integer getDestinationId() {

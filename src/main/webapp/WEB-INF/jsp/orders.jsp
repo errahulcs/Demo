@@ -4,7 +4,7 @@
 <head>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript">
-var order = {number:20,time:'',price:'20.3',items:[]};
+var order = {number:20, tableId:1, time:'',price:'20.3',items:[]};
 order.items[0]={id: "", name :"", price: ""};
 order.items[1]={id: "", name :"", price: ""};
 order.items[2]={id: "", name :"", price: ""};
@@ -24,7 +24,7 @@ JSONTest = function() {
     var resultDiv = $("#resultDivContainer");
 
     $.ajax({
-        url: "http://localhost:8080/CookedSpecially/order/submitOrder",
+        url: "http://localhost:8080/CookedSpecially/order/submitTableOrder",
         type: "POST",
         data: JSON.stringify(order),
         contentType:"application/json; charset=utf-8",

@@ -20,7 +20,7 @@ CREATE TABLE ORDERS
 	userId INT,
 	sourceType VARCHAR(50),
 	sourceId INT,
-	destiantionType VARCHAR(50),
+	destinationType VARCHAR(50),
 	destinationId INT,
 	createdTime TIMESTAMP,
 	bill FLOAT,
@@ -80,3 +80,4 @@ UPDATE DISHES SET happyHourEndMin=0;
 UPDATE DISHES SET vegetarian=false where vegetarian IS NULL;
 UPDATE DISHES SET alcoholic=false where alcoholic IS NULL;
 
+ALTER TABLE ORDERS CHANGE destiantionType destinationType VARCHAR(50);
