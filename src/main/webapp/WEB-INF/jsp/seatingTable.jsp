@@ -94,6 +94,7 @@
 <tr>
 	<th>Name</th>
 	<th>Seats</th>
+	<th>Status</th>
 	<th>&nbsp;</th>
 	<th>&nbsp;</th>
 </tr>
@@ -101,6 +102,7 @@
 	<tr>
 		<td>${seatingTab.name}</td>
 		<td>${seatingTab.seats}</td>
+		<td>${seatingTab.status}</td>
 		<td><button type="button" onclick="deleteSeatingTable(${seatingTab.seatingTableId});">delete</button></td>
 		<td><button type="button" onclick="window.location.href='seatingTable/edit/${seatingTab.seatingTableId}';">edit</button></td>
 	</tr>

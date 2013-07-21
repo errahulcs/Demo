@@ -15,6 +15,7 @@
 <div id="container">
 <div class="item"><a href="menu/">Menus</a></div>
 <div class="item"><a href="dish/">Dishes</a></div>
+<div class="item"><a href="seatingTable/">Manage Tables</a></div>
 <c:set var="sessionUserId" value='<%=request.getSession().getAttribute("userId")%>'/>
 <div class="item">
 <c:if test='${!empty sessionUserId}'>

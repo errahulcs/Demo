@@ -29,7 +29,7 @@
 			<mvc:mapping path="/restaurant/**"/>
 			<mvc:mapping path="/customer/**"/>
 			<mvc:mapping path="/order/**"/>
-			<mvc:mapping path="/seatingtable/**"/>
+			<mvc:mapping path="/seatingTable/**"/>
 			<mvc:exclude-mapping path="/menu/show/**"/>
 			<mvc:exclude-mapping path="/menu/getjson/**"/>
 			<mvc:exclude-mapping path="/menu/getallmenusjson/**"/>
