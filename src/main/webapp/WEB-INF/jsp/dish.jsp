@@ -189,7 +189,7 @@
 			 
 			<c:forEach items="${hours}" var="hour">
 				<c:choose>
-					<c:when test="${happyHourStartHour == hour}">
+					<c:when test="${dish.happyHourStartHour == hour}">
 						<option value="${hour}" selected>${hour}</option>
 					</c:when>
 					<c:otherwise>
@@ -202,7 +202,7 @@
 		<select name="happyHourStartMin">
 			<c:forEach items="${mins}" var="min">
 				<c:choose>
-					<c:when test="${happyHourStartMin == min}">
+					<c:when test="${dish.happyHourStartMin == min}">
 						<option value="${min}" selected>${min}</option>
 					</c:when>
 					<c:otherwise>
@@ -220,7 +220,7 @@
 		<select name="happyHourEndHour">
 			<c:forEach items="${hours}" var="hour">
 				<c:choose>
-					<c:when test="${happyHourEndHour == hour}">
+					<c:when test="${dish.happyHourEndHour == hour}">
 						<option value="${hour}" selected>${hour}</option>
 					</c:when>
 					<c:otherwise>
@@ -233,7 +233,7 @@
 		<select name="happyHourEndMin">
 			<c:forEach items="${mins}" var="min">
 				<c:choose>
-					<c:when test="${happyHourEndMin == min}">
+					<c:when test="${dish.happyHourEndMin == min}">
 						<option value="${min}" selected>${min}</option>
 					</c:when>
 					<c:otherwise>
