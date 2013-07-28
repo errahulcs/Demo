@@ -36,6 +36,7 @@ import com.cookedspecially.service.MenuService;
 import com.cookedspecially.service.OrderDishService;
 import com.cookedspecially.service.OrderService;
 import com.cookedspecially.service.SeatingTableService;
+import com.cookedspecially.utility.StringUtility;
 
 /**
  * @author shashank
@@ -69,10 +70,34 @@ public class OrderController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addOrder(Map<String, Object> map, @ModelAttribute("order") Order order ) {
 		order.setRestaurantId(order.getUserId());
+		order.setStatus(Status.PLACED);
 		orderService.addOrder(order);
+		
 		return "redirect:/orders/";
 	}
 
+	@RequestMapping("/checkout")
+	public @ResponseBody String checkout(HttpServletRequest request, HttpServletResponse response){
+		int tableId = Integer.parseInt(request.getParameter("tableId"));
+		int restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		Map<String, Object> queryMap = new HashMap<String, Object>();
+		queryMap.put("restaurantId", restaurantId);
+		queryMap.put("sourceType", SourceType.TABLE);
+		queryMap.put("sourceId", tableId);
+		queryMap.put("status", Status.PLACED);
+		List<Order> orders = orderService.listOrders(queryMap);
+		String paidOrders = "";
+		for(Order order : orders) {
+			order.setStatus(Status.PAID);
+			orderService.addOrder(order);
+			if (!StringUtility.isNullOrEmpty(paidOrders)) {
+				paidOrders += ',';
+			}
+			paidOrders += order.getOrderId();
+		}
+		return "Checked out table: " + tableId +" Orders:" + paidOrders;
+	}
+	
 	@RequestMapping("/getactiveorders")
 	public @ResponseBody List<Order> getActiveOrdersJsonByTable(HttpServletRequest request, HttpServletResponse response){
 		int tableId = Integer.parseInt(request.getParameter("tableId"));
@@ -132,6 +157,7 @@ public class OrderController {
 		
 		return "orders";
 	}
+
 	
 	@RequestMapping("/cancel/{orderId}")
 	public String cancelOrder(Map<String, Object> map, HttpServletRequest request, @PathVariable("orderId") Integer orderId) {
