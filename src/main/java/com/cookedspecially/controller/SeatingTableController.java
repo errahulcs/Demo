@@ -94,5 +94,15 @@ public class SeatingTableController {
 		return tables;
 	}
 
+	@RequestMapping(value = "/getRestaurantTables.json", method = RequestMethod.GET)
+	public @ResponseBody SeatingTables getRestaurantTablesJson(HttpServletRequest request, HttpServletResponse response){
+		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		SeatingTables tables = new SeatingTables();
+		
+		List<SeatingTable> seatingTables = seatingTableService.listRestaurantSeatingTables(restaurantId);
+		
+		tables.setTables(seatingTables);
+		return tables;
+	}
 
 }

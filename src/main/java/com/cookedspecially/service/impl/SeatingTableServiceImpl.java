@@ -51,4 +51,11 @@ public class SeatingTableServiceImpl implements SeatingTableService {
 		return seatingTableDAO.getSeatingTable(id);
 	}
 
+
+	@Override
+	@Transactional
+	public List<SeatingTable> listRestaurantSeatingTables(Integer restaurantId) {
+		return seatingTableDAO.listRestaurantSeatingTables(restaurantId);
+	}
+
 }

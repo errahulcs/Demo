@@ -49,4 +49,10 @@ public class SeatingTableDAOImpl implements SeatingTableDAO {
 		return (SeatingTable) sessionFactory.getCurrentSession().get(SeatingTable.class, id);
 	}
 
+
+	@Override
+	public List<SeatingTable> listRestaurantSeatingTables(Integer restaurantId) {
+		return sessionFactory.getCurrentSession().createCriteria(SeatingTable.class).add(Restrictions.eq("restaurantId", restaurantId)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+	}
+
 }
