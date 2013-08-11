@@ -55,7 +55,10 @@
 		<td><form:label path="seats">Number of seats</form:label></td>
 		<td><form:input path="seats" /></td>
 	</tr>
-	
+	<tr>
+		<td><form:label path="description">Description</form:label></td>
+		<td><form:input path="description" /></td>
+	</tr>
 	<tr>
 		<td><form:label path="status">Status</form:label></td>
 		<td>

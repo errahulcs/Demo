@@ -76,13 +76,13 @@ public class User {
 	private ChargesType additionalChargesType3;
 	
 	@Column(name="additionalChargesValue1")
-	private int additionalChargesValue1 = 0;
+	private float additionalChargesValue1 = 0.0f;
 	
 	@Column(name="additionalChargesValue2")
-	private int additionalChargesValue2 = 0;
+	private float additionalChargesValue2 = 0.0f;
 	
 	@Column(name="additionalChargesValue3")
-	private int additionalChargesValue3 = 0;
+	private float additionalChargesValue3 = 0.0f;
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(name="USER_RESTAURANT", 
@@ -162,77 +162,76 @@ public class User {
 		this.businessLandscapeImageUrl = businessLandscapeImageUrl;
 	}
 
-	public final String getAdditionalChargesName1() {
+	public String getAdditionalChargesName1() {
 		return additionalChargesName1;
 	}
 
-	public final void setAdditionalChargesName1(String additionalChargesName1) {
+	public void setAdditionalChargesName1(String additionalChargesName1) {
 		this.additionalChargesName1 = additionalChargesName1;
 	}
 
-	public final ChargesType getAdditionalChargesType1() {
+	public ChargesType getAdditionalChargesType1() {
 		return additionalChargesType1;
 	}
 
-	public final void setAdditionalChargesType1(ChargesType additionalChargesType1) {
+	public void setAdditionalChargesType1(ChargesType additionalChargesType1) {
 		this.additionalChargesType1 = additionalChargesType1;
 	}
 
-	public final String getAdditionalChargesName2() {
+	public String getAdditionalChargesName2() {
 		return additionalChargesName2;
 	}
 
-	public final void setAdditionalChargesName2(String additionalChargesName2) {
+	public void setAdditionalChargesName2(String additionalChargesName2) {
 		this.additionalChargesName2 = additionalChargesName2;
 	}
 
-	public final ChargesType getAdditionalChargesType2() {
+	public ChargesType getAdditionalChargesType2() {
 		return additionalChargesType2;
 	}
 
-	public final void setAdditionalChargesType2(ChargesType additionalChargesType2) {
+	public void setAdditionalChargesType2(ChargesType additionalChargesType2) {
 		this.additionalChargesType2 = additionalChargesType2;
 	}
 
-	public final String getAdditionalChargesName3() {
+	public String getAdditionalChargesName3() {
 		return additionalChargesName3;
 	}
 
-	public final void setAdditionalChargesName3(String additionalChargesName3) {
+	public void setAdditionalChargesName3(String additionalChargesName3) {
 		this.additionalChargesName3 = additionalChargesName3;
 	}
 
-	public final ChargesType getAdditionalChargesType3() {
+	public ChargesType getAdditionalChargesType3() {
 		return additionalChargesType3;
 	}
 
-	public final void setAdditionalChargesType3(ChargesType additionalChargesType3) {
+	public void setAdditionalChargesType3(ChargesType additionalChargesType3) {
 		this.additionalChargesType3 = additionalChargesType3;
 	}
 
-	public final int getAdditionalChargesValue1() {
+	public float getAdditionalChargesValue1() {
 		return additionalChargesValue1;
 	}
 
-	public final void setAdditionalChargesValue1(int additionalChargesValue1) {
+	public void setAdditionalChargesValue1(float additionalChargesValue1) {
 		this.additionalChargesValue1 = additionalChargesValue1;
 	}
 
-	public final int getAdditionalChargesValue2() {
+	public float getAdditionalChargesValue2() {
 		return additionalChargesValue2;
 	}
 
-	public final void setAdditionalChargesValue2(int additionalChargesValue2) {
+	public void setAdditionalChargesValue2(float additionalChargesValue2) {
 		this.additionalChargesValue2 = additionalChargesValue2;
 	}
 
-	public final int getAdditionalChargesValue3() {
+	public float getAdditionalChargesValue3() {
 		return additionalChargesValue3;
 	}
 
-	public final void setAdditionalChargesValue3(int additionalChargesValue3) {
+	public void setAdditionalChargesValue3(float additionalChargesValue3) {
 		this.additionalChargesValue3 = additionalChargesValue3;
 	}
 
-	
 }

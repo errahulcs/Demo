@@ -83,9 +83,9 @@ CREATE TABLE USERS
 	additionalChargesType1 VARCHAR(10),
 	additionalChargesType2 VARCHAR(10),
 	additionalChargesType3 VARCHAR(10),
-	additionalChargesValue1 INT,
-	additionalChargesValue2 INT,
-	additionalChargesValue3 INT,
+	additionalChargesValue1 FLOAT,
+	additionalChargesValue2 FLOAT,
+	additionalChargesValue3 FLOAT,
     UNIQUE idx_user_username (username)
 );
 
