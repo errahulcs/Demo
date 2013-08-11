@@ -75,6 +75,17 @@ CREATE TABLE USERS
     firstName VARCHAR(50),
     lastName VARCHAR(50),
     businessName VARCHAR(100),
+    BUSINESSPORTRAITIMAGEURL VARCHAR(500),
+	BUSINESSLANDSCAPEIMAGEURL VARCHAR(500),
+    additionalChargesName1 VARCHAR(100),
+	additionalChargesName2 VARCHAR(100),
+	additionalChargesName3 VARCHAR(100),
+	additionalChargesType1 VARCHAR(10),
+	additionalChargesType2 VARCHAR(10),
+	additionalChargesType3 VARCHAR(10),
+	additionalChargesValue1 INT,
+	additionalChargesValue2 INT,
+	additionalChargesValue3 INT,
     UNIQUE idx_user_username (username)
 );
 

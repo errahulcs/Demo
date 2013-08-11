@@ -77,6 +77,72 @@
 		<td><input type="file" name="files[1]"/>
 		<form:errors path="businessLandscapeImageUrl" style="color:red;"/> </td>
 	</tr>
+	
+	Additional Charges:
+	
+	<table class="data">
+	<tr>
+		<th>Name</th>
+		<th>Charge Type</th>	
+		<th>Value</th>
+	</tr>
+	<tr>
+		<td><form:input path="additionalChargesName1" /></td>
+		<td>
+			<select name="additionalChargesType1">
+				<c:forEach items="${chargeTypes}" var="chargeType">
+					<c:choose>
+						<c:when test="${chargeType == user.additionalChargesType1}">
+							<option value="${chargeType}" selected="selected">${chargeType}</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${chargeType}">${chargeType}</option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</select>
+		</td>
+		<td><form:input path="additionalChargesValue1" /></td>
+	</tr>
+	<tr>
+		<td><form:input path="additionalChargesName2" /></td>
+		<td>
+			<select name="additionalChargesType2">
+				<c:forEach items="${chargeTypes}" var="chargeType">
+					<c:choose>
+						<c:when test="${chargeType == user.additionalChargesType2}">
+							<option value="${chargeType}" selected="selected">${chargeType}</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${chargeType}">${chargeType}</option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</select>
+		</td>
+		<td><form:input path="additionalChargesValue2" /></td>
+	</tr>
+	<tr>
+		<td><form:input path="additionalChargesName3" /></td>
+		<td>
+			<select name="additionalChargesType3">
+				<c:forEach items="${chargeTypes}" var="chargeType">
+					<c:choose>
+						<c:when test="${chargeType == user.additionalChargesType3}">
+							<option value="${chargeType}" selected="selected">${chargeType}</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${chargeType}">${chargeType}</option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</select>
+		</td>
+		<td><form:input path="additionalChargesValue3" /></td>
+	</tr>
+	
+	</table>
+	
 	<tr>
 		<td colspan="2">
 			<input type="submit" value="Save User"/>

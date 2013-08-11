@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cookedspecially.config.CSConstants;
 import com.cookedspecially.domain.User;
+import com.cookedspecially.enums.restaurant.ChargesType;
 import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.MailerUtility;
 import com.cookedspecially.utility.StringUtility;
@@ -48,6 +49,7 @@ public class UserController {
 	@RequestMapping(value="/signup", method=RequestMethod.GET)
 	public String signup(Map<String, Object> map) {
 		map.put("user", new User());
+		// map.put("chargeTypes", ChargesType.values());
 		return "signup";
 	}
 	
@@ -78,6 +80,7 @@ public class UserController {
 		Object userIdObj = request.getSession().getAttribute("userId");
 		if(userIdObj != null) {
 			map.put("user", userService.getUser((Integer) userIdObj));
+			map.put("chargeTypes", ChargesType.values());
 			return "editUser";
 		}
 		return "redirect:/";
