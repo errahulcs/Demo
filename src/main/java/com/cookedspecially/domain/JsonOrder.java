@@ -15,9 +15,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JsonOrder implements Serializable {
 
+	public int checkId;
 	public int number;
 	public int tableId;
+	public int custId;
 	public float price;
+	
 	public List<JsonDish> items;
 	
 	public int getNumber() {
@@ -43,6 +46,18 @@ public class JsonOrder implements Serializable {
 	}
 	public void setTableId(int tableId) {
 		this.tableId = tableId;
+	}
+	public int getCheckId() {
+		return checkId;
+	}
+	public void setCheckId(int checkId) {
+		this.checkId = checkId;
+	}
+	public int getCustId() {
+		return custId;
+	}
+	public void setCustId(int custId) {
+		this.custId = custId;
 	}
 	
 }

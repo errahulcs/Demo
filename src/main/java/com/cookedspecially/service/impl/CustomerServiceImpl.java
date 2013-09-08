@@ -3,6 +3,8 @@
  */
 package com.cookedspecially.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,4 +43,9 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerDAO.getCustomer(id);
 	}
 
+	@Override
+	@Transactional
+	public List<Customer> getCustomerByParams(Integer custId, String email, String phone) {
+		return customerDAO.getCustomerByParams(custId, email, phone);
+	}
 }

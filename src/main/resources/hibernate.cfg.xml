@@ -17,7 +17,7 @@
     	<mapping class="com.cookedspecially.domain.Order" />
     	<mapping class="com.cookedspecially.domain.SeatingTable" />
     	<mapping class="com.cookedspecially.domain.OrderDish" />
-    	    
+    	<mapping class="com.cookedspecially.domain.Check" />
     </session-factory>
 	    
 </hibernate-configuration>

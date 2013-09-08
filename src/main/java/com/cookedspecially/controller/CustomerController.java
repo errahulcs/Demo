@@ -3,9 +3,12 @@
  */
 package com.cookedspecially.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,9 +16,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cookedspecially.domain.Check;
 import com.cookedspecially.domain.Customer;
+import com.cookedspecially.domain.Customers;
 import com.cookedspecially.service.CustomerService;
+import com.cookedspecially.utility.StringUtility;
 
 /**
  * @author shashank
@@ -60,5 +67,64 @@ public class CustomerController {
 		return index(map, request);
 	}
 
-	
+	@RequestMapping(value = "/getCustomerInfo.json", method = RequestMethod.GET)
+	public @ResponseBody Customers getCustomerInfoJSON(HttpServletRequest request, HttpServletResponse response) {
+		String email = request.getParameter("email");
+		String phone = request.getParameter("phone");
+		String custIdStr = request.getParameter("custId");
+		Integer custId = -1;
+		if (!StringUtility.isNullOrEmpty(custIdStr)) {
+			custId = Integer.parseInt(custIdStr);
+		}
+		List<Customer> customerList = customerService.getCustomerByParams(custId, email, phone);
+		Customers customers = new Customers();
+		if (customerList != null && customerList.size() < 1) {
+			customerList = new ArrayList<Customer>();
+			Customer customer = new Customer();
+			customer.setPhone(phone);
+			customer.setEmail(email);
+			customerService.addCustomer(customer);
+			customerList.add(customer);
+			customers.setExactMatch(false);
+			customers.setNewCustomer(true);
+		} else {
+			customers.setNewCustomer(false);
+			Customer exactCustomer = null;
+			for (Customer customer : customerList) {
+				boolean exactMatch = false;
+				if (custId > 0) {
+					if (custId != customer.getCustomerId()) {
+						continue;
+					}
+					exactMatch = true;
+				}
+				if (!StringUtility.isNullOrEmpty(phone)) {
+					if (!phone.equals(customer.getPhone())) {
+						continue;
+					}
+					exactMatch = true;
+				}
+				if (!StringUtility.isNullOrEmpty(email)) {
+					if (!phone.equals(customer.getPhone())) {
+						continue;
+					}
+					exactMatch = true;
+				}
+				if (exactMatch) {
+					exactCustomer = customer;
+					break;
+				}
+			}
+			if (exactCustomer != null) {
+				customerList = new ArrayList<Customer>();
+				customerList.add(exactCustomer);
+				customers.setExactMatch(true);
+			} else {
+				customers.setExactMatch(false);
+			}
+		}
+		
+		customers.setCustomers(customerList);
+		return customers;
+	}
 }
