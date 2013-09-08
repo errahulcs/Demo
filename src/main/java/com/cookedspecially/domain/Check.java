@@ -37,7 +37,7 @@ import com.cookedspecially.enums.check.Status;
 public class Check {
 
 	@Id
-	@Column(name="CHECKID")
+	@Column(name="ID")
 	@GeneratedValue
 	private Integer checkId;
 	
@@ -53,6 +53,9 @@ public class Check {
 	@Column(name="CUSTOMERID")
 	private Integer customerId;
 	
+	@Column(name="GUESTS")
+	private Integer guests;
+	
 	@Column(name="PAYMENT")
 	private PaymentMode payment;
 	
@@ -60,8 +63,16 @@ public class Check {
 	private Status status;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="CREATEDTIME")
-	private Date createdTime;
+	@Column(name="OPENTIME")
+	private Date openTime;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="CLOSETIME")
+	private Date closeTime;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="MODIFIEDTIME")
+	private Date modifiedTime;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(orphanRemoval=true)
@@ -127,20 +138,44 @@ public class Check {
 		this.status = status;
 	}
 
-	public Date getCreatedTime() {
-		return createdTime;
-	}
-
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
 	public List<Order> getOrders() {
 		return orders;
 	}
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+
+	public Integer getGuests() {
+		return guests;
+	}
+
+	public void setGuests(Integer guests) {
+		this.guests = guests;
+	}
+
+	public Date getOpenTime() {
+		return openTime;
+	}
+
+	public void setOpenTime(Date openTime) {
+		this.openTime = openTime;
+	}
+
+	public Date getCloseTime() {
+		return closeTime;
+	}
+
+	public void setCloseTime(Date closeTime) {
+		this.closeTime = closeTime;
+	}
+
+	public Date getModifiedTime() {
+		return modifiedTime;
+	}
+
+	public void setModifiedTime(Date modifiedTime) {
+		this.modifiedTime = modifiedTime;
 	}
 	
 	

@@ -68,6 +68,17 @@ public class SeatingTableController {
 		return "redirect:/seatingTable/";
 	}
 
+	@RequestMapping(value = "/setStatus", method = RequestMethod.POST)
+	public @ResponseBody SeatingTable setSeatingTableStatus(HttpServletRequest request, HttpServletResponse response) {
+		Integer tableId = Integer.parseInt(request.getParameter("tableId"));
+		String statusStr = request.getParameter("status");
+		Status status = Status.valueOf(Status.class, statusStr);
+		SeatingTable table = seatingTableService.getSeatingTable(tableId);
+		table.setStatus(status);
+		seatingTableService.addSeatingTable(table);
+		return table;
+	}
+	
 	@RequestMapping("/delete/{seatingTableId}")
 	public String deleteSeatingTable(Map<String, Object> map, HttpServletRequest request, @PathVariable("seatingTableId") Integer seatingTableId) {
 

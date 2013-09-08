@@ -9,5 +9,5 @@ package com.cookedspecially.enums.check;
  */
 public enum Status {
 
-	PAID, UNPAID;
+	PAID, UNPAID, READYTOPAY;
 }

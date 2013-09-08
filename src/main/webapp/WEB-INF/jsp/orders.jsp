@@ -4,7 +4,7 @@
 <head>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script type="text/javascript">
-var order = {number:20, checkId:1, tableId:1, time:'',price:'20.3',items:[]};
+var order = {number:20, checkId:2, tableId:1, time:'',price:'20.3',items:[]};
 order.items[0]={id: "", name :"", price: ""};
 order.items[1]={id: "", name :"", price: ""};
 order.items[2]={id: "", name :"", price: ""};

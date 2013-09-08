@@ -82,8 +82,8 @@ public class OrderController {
 		return "redirect:/orders/";
 	}
 
-	@RequestMapping("/checkout")
-	public @ResponseBody String checkout(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping("/closeCheck")
+	public @ResponseBody String closeCheck(HttpServletRequest request, HttpServletResponse response) {
 		int tableId = Integer.parseInt(request.getParameter("tableId"));
 		int restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
 		SeatingTable seatingTable = seatingTableService.getSeatingTable(tableId);
@@ -93,12 +93,35 @@ public class OrderController {
 			
 			if (check != null) {
 				check.setStatus(com.cookedspecially.enums.check.Status.PAID);
+				check.setCloseTime(new Date());
+				check.setModifiedTime(new Date());
 				checkService.addCheck(check);
 			}
 			seatingTableService.addSeatingTable(seatingTable);
 		}
 		String result = "";
 		if (seatingTable != null && check != null) {
+			result = "Checked out table: " + tableId + " check Id : " + check.getCheckId();
+		} else {
+			result = "Nothing to checkout";
+		}
+		return result;
+	}
+	
+	@RequestMapping("/checkout")
+	public @ResponseBody String checkout(HttpServletRequest request, HttpServletResponse response) {
+		int tableId = Integer.parseInt(request.getParameter("tableId"));
+		int restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		Check check = checkService.getCheckByTableId(restaurantId, tableId);
+			
+		if (check != null) {
+			check.setStatus(com.cookedspecially.enums.check.Status.READYTOPAY);
+			check.setModifiedTime(new Date());
+			checkService.addCheck(check);
+		}
+		
+		String result = "";
+		if (check != null) {
 			result = "Checked out table: " + tableId + " check Id : " + check.getCheckId();
 		} else {
 			result = "Nothing to checkout";
@@ -231,7 +254,7 @@ public class OrderController {
 		if (check == null) {
 			check = new Check();
 			check.setRestaurantId(restaurantId);
-			check.setCreatedTime(new Date());
+			check.setOpenTime(new Date());
 			check.setStatus(com.cookedspecially.enums.check.Status.UNPAID);
 			if (tableId > 0) {
 				SeatingTable table = seatingTableService.getSeatingTable(tableId);
@@ -247,6 +270,16 @@ public class OrderController {
 			checkService.addCheck(check);
 		}
 		
+		return check;
+	}
+	
+	@RequestMapping(value = "/setCheckStatus", method = RequestMethod.POST)
+	public @ResponseBody Check setCheckStatus(HttpServletRequest request, HttpServletResponse response) {
+		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
+		String statusStr = request.getParameter("status");
+		com.cookedspecially.enums.check.Status status = com.cookedspecially.enums.check.Status.valueOf(com.cookedspecially.enums.check.Status.class, statusStr);
+		Check check = checkService.getCheck(checkId);
+		check.setStatus(status);
 		return check;
 	}
 	
@@ -297,6 +330,7 @@ public class OrderController {
 			if (check != null && check.getStatus() == com.cookedspecially.enums.check.Status.UNPAID) {
 				List<Order> orders = check.getOrders();
 				orders.add(targetOrder);
+				check.setModifiedTime(new Date());
 				checkService.addCheck(check);
 			}
 		}
