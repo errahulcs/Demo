@@ -41,7 +41,7 @@
 
 <form:form method="post" action="seatingTable/add.html" commandName="seatingTable" >
 
-	<form:hidden path="seatingTableId"/>
+	<form:hidden path="id"/>
 	<form:hidden path="restaurantId"/>
 	<form:hidden path="userId" value='<%=request.getSession().getAttribute("userId")%>'/>
 	<table>
@@ -81,7 +81,7 @@
 		<td colspan="2">
 			
 				<c:choose>
-					<c:when test="${!empty seatingTable.seatingTableId}"><input type="submit" value="Save Table"/><button type="button" onclick="document.location.href='seatingTable/'">Cancel</button></c:when>
+					<c:when test="${!empty seatingTable.id}"><input type="submit" value="Save Table"/><button type="button" onclick="document.location.href='seatingTable/'">Cancel</button></c:when>
 					<c:otherwise><input type="submit" value="Add Table"/><input type="reset" value="Cancel"></c:otherwise>
 				</c:choose>
 			
@@ -106,8 +106,8 @@
 		<td>${seatingTab.name}</td>
 		<td>${seatingTab.seats}</td>
 		<td>${seatingTab.status}</td>
-		<td><button type="button" onclick="deleteSeatingTable(${seatingTab.seatingTableId});">delete</button></td>
-		<td><button type="button" onclick="window.location.href='seatingTable/edit/${seatingTab.seatingTableId}';">edit</button></td>
+		<td><button type="button" onclick="deleteSeatingTable(${seatingTab.id});">delete</button></td>
+		<td><button type="button" onclick="window.location.href='seatingTable/edit/${seatingTab.id}';">edit</button></td>
 	</tr>
 </c:forEach>
 </table>

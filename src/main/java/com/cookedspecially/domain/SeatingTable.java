@@ -24,7 +24,7 @@ public class SeatingTable {
 	@Id
 	@Column(name="SEATINGTABLEID")
 	@GeneratedValue
-	private Integer seatingTableId;
+	private Integer id;
 	
 	@Column(name="RESTAURANTID")
 	private Integer restaurantId;
@@ -47,12 +47,12 @@ public class SeatingTable {
 	@Column(name="STARTTIME")
 	private Date startTime;
 	
-	public Integer getSeatingTableId() {
-		return seatingTableId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setSeatingTableId(Integer seatingTableId) {
-		this.seatingTableId = seatingTableId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getSeats() {
