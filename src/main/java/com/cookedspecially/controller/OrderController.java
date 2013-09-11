@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cookedspecially.dao.CheckDAO;
 import com.cookedspecially.domain.Check;
+import com.cookedspecially.domain.Customer;
 import com.cookedspecially.domain.JsonDish;
 import com.cookedspecially.domain.JsonOrder;
 import com.cookedspecially.domain.Menus;
@@ -35,6 +36,7 @@ import com.cookedspecially.enums.order.DestinationType;
 import com.cookedspecially.enums.order.SourceType;
 import com.cookedspecially.enums.order.Status;
 import com.cookedspecially.service.CheckService;
+import com.cookedspecially.service.CustomerService;
 import com.cookedspecially.service.MenuService;
 import com.cookedspecially.service.OrderDishService;
 import com.cookedspecially.service.OrderService;
@@ -63,6 +65,9 @@ public class OrderController {
 	
 	@Autowired
 	private CheckService checkService;
+	
+	@Autowired
+	private CustomerService customerService;
 	
 	@RequestMapping("/")
 	public String listOrders(Map<String, Object> map, HttpServletRequest request) {
@@ -256,18 +261,25 @@ public class OrderController {
 			check.setRestaurantId(restaurantId);
 			check.setOpenTime(new Date());
 			check.setStatus(com.cookedspecially.enums.check.Status.UNPAID);
+			SeatingTable table = null;
 			if (tableId > 0) {
-				SeatingTable table = seatingTableService.getSeatingTable(tableId);
+				table = seatingTableService.getSeatingTable(tableId);
 				if (table != null) {
 					check.setTableId(tableId);
 					table.setStatus(com.cookedspecially.enums.table.Status.BUSY);
 					seatingTableService.addSeatingTable(table);
 				}
 			}
+			Customer customer = null;
 			if (custId > 0) {
-				check.setCustomerId(custId);
+				customer = customerService.getCustomer(custId);
+				if (customer != null) {
+					check.setCustomerId(custId);
+				}
 			}
-			checkService.addCheck(check);
+			if (table != null || customer != null) {
+				checkService.addCheck(check);
+			}
 		}
 		
 		return check;
