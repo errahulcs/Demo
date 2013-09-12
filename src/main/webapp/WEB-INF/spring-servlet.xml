@@ -28,12 +28,13 @@
 			<mvc:mapping path="/menu/**"/>
 			<mvc:mapping path="/restaurant/**"/>
 			<mvc:mapping path="/customer/**"/>
-			<mvc:mapping path="/order/**"/>
+			<!--  <mvc:mapping path="/order/**"/>  -->
 			<mvc:mapping path="/seatingTable/**"/>
 			<mvc:exclude-mapping path="/menu/show/**"/>
 			<mvc:exclude-mapping path="/menu/getjson/**"/>
 			<mvc:exclude-mapping path="/menu/getallmenusjson/**"/>
 			<mvc:exclude-mapping path="/menu/getmenusjsonbyuname/**"/>
+			<mvc:exclude-mapping path="/seatingTable/setStatus/**"/>
 			<mvc:exclude-mapping path="/seatingTable/gettablesjsonbyuname/**"/>
 			<mvc:exclude-mapping path="/seatingTable/getRestaurantTables.json/**"/>
 			<mvc:exclude-mapping path="/restaurant/resources/**"/>

@@ -68,7 +68,7 @@ public class SeatingTableController {
 		return "redirect:/seatingTable/";
 	}
 
-	@RequestMapping(value = "/setStatus", method = RequestMethod.POST)
+	@RequestMapping(value = "/setStatus")
 	public @ResponseBody SeatingTable setSeatingTableStatus(HttpServletRequest request, HttpServletResponse response) {
 		Integer tableId = Integer.parseInt(request.getParameter("tableId"));
 		String statusStr = request.getParameter("status");
