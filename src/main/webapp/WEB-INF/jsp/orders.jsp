@@ -79,7 +79,7 @@ SubmitOrderJSON = function() {
     <table>
         <tr><td> CheckId: </td><td><input type="text" name="checkId" id="checkId"/>  </td></tr>
         <tr><td> TableId </td><td><input type="text" name="tableId" id="tableId"/>  </td></tr>
-        
+        <tr><td> RestaurantId: </td><td><input type="text" name="restaurantId" id="restaurantId"/>  </td></tr>
         <tr><td>  </td><td>  <input type="button" id="createOrder" value="Initialize Order" onclick="initializeOrder()" /></td></tr>
 
     </table>

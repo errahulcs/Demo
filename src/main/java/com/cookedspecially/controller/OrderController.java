@@ -310,58 +310,91 @@ public class OrderController {
 	
 	@RequestMapping(value = "/addToCheck.json", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody OrderResponse addToCheckJSON(@RequestBody JsonOrder order, Model model, HttpServletRequest request) {
-		
-		Order targetOrder = new Order();
-		Integer userId = (Integer) request.getSession().getAttribute("userId");
-		targetOrder.setUserId(userId);
-		targetOrder.setRestaurantId(userId);
-		targetOrder.setCreatedTime(new Date());
-		if (order.getTableId() > 0) {
-			targetOrder.setSourceType(SourceType.TABLE);
-			targetOrder.setSourceId(order.getTableId());
-			targetOrder.setDestinationType(DestinationType.TABLE);
-			targetOrder.setDestinationId(order.getTableId());	
-		} else if (order.getCustId() > 0) {
-			targetOrder.setSourceType(SourceType.COUNTER);
-			targetOrder.setSourceId(order.getCustId());
-			targetOrder.setDestinationType(DestinationType.COUNTER);
-			targetOrder.setDestinationId(order.getCustId());
-		}
-		
-		targetOrder.setStatus(Status.NEW);
-		List<JsonDish> jsonDishes = order.getItems();
-		Float bill = 0.0f;
-		HashMap<Integer, OrderDish> orderDishMap = new HashMap<Integer, OrderDish>();
-		for (JsonDish jsonDish  : jsonDishes) {
-			if (orderDishMap.get(jsonDish.getId()) != null) {
-				orderDishMap.get(jsonDish.getId()).addMore(1);
-			} else {
-				OrderDish orderDish = new OrderDish();
-				orderDish.setDishId(jsonDish.getId());
-				orderDish.setQuantity(1);
-				orderDish.setPrice(jsonDish.getPrice());
-				orderDishMap.put(orderDish.getDishId(), orderDish);
-			}
-			bill += jsonDish.getPrice();
-		}
-		targetOrder.setBill(bill);
-		if (orderDishMap.size() > 0) {
-			targetOrder.setOrderDishes(new ArrayList<OrderDish>(orderDishMap.values()));
-		}
-		//orderService.addOrder(targetOrder);
 		Check check = null;
+		String error = "";
+		Integer restaurantId = null;
 		if (order.getCheckId() > 0) {
 			check = checkService.getCheck(order.getCheckId());
+		}
+		SeatingTable table = null;
+		if (order.getTableId() > 0) {
+			table = seatingTableService.getSeatingTable(order.getTableId());
+			if (table != null) {
+				restaurantId = table.getRestaurantId();
+				check = checkService.getCheckByTableId(table.getRestaurantId(), table.getId());
+			}
+		}
+		if (check != null) {
+			restaurantId = check.getRestaurantId();
+		} else if (table == null) {
+			error = "No table found";
+		} else {
+			check = new Check();
+			check.setOpenTime(new Date());
+			check.setRestaurantId(restaurantId);
+			check.setStatus(com.cookedspecially.enums.check.Status.Unpaid);
+			check.setTableId(table.getId());
+			check.setUserId(restaurantId);
+		}
+		
+		OrderResponse orderResp = new OrderResponse();
+		if (StringUtility.isNullOrEmpty(error))
+		{
+			Order targetOrder = new Order();
+			targetOrder.setUserId(check.getUserId());
+			targetOrder.setRestaurantId(restaurantId);
+			targetOrder.setCreatedTime(new Date());
+			if (check.getTableId() > 0) {
+				targetOrder.setSourceType(SourceType.TABLE);
+				targetOrder.setSourceId(order.getTableId());
+				targetOrder.setDestinationType(DestinationType.TABLE);
+				targetOrder.setDestinationId(order.getTableId());	
+			} else if (check.getCustomerId() > 0) {
+				targetOrder.setSourceType(SourceType.COUNTER);
+				targetOrder.setSourceId(order.getCustId());
+				targetOrder.setDestinationType(DestinationType.COUNTER);
+				targetOrder.setDestinationId(order.getCustId());
+			}
+			
+			targetOrder.setStatus(Status.NEW);
+			List<JsonDish> jsonDishes = order.getItems();
+			Float bill = 0.0f;
+			HashMap<Integer, OrderDish> orderDishMap = new HashMap<Integer, OrderDish>();
+			for (JsonDish jsonDish  : jsonDishes) {
+				if (orderDishMap.get(jsonDish.getId()) != null) {
+					orderDishMap.get(jsonDish.getId()).addMore(1);
+				} else {
+					OrderDish orderDish = new OrderDish();
+					orderDish.setDishId(jsonDish.getId());
+					orderDish.setQuantity(1);
+					orderDish.setPrice(jsonDish.getPrice());
+					orderDishMap.put(orderDish.getDishId(), orderDish);
+				}
+				bill += jsonDish.getPrice();
+			}
+			targetOrder.setBill(bill);
+			if (orderDishMap.size() > 0) {
+				targetOrder.setOrderDishes(new ArrayList<OrderDish>(orderDishMap.values()));
+			}
+			//orderService.addOrder(targetOrder);
+			
 			if (check != null && check.getStatus() == com.cookedspecially.enums.check.Status.Unpaid) {
 				List<Order> orders = check.getOrders();
 				orders.add(targetOrder);
 				check.setModifiedTime(new Date());
 				checkService.addCheck(check);
 			}
+			
+			orderResp.setOrderId(targetOrder.getOrderId());
+			orderResp.setTableId(check.getTableId());
+			orderResp.setRestaurantId(restaurantId);
+			orderResp.setCheckId(check.getCheckId());
+			orderResp.setStatus("Success");
+		} else {
+			orderResp.setStatus("Failed");
+			orderResp.setError(error);
 		}
-		
-		OrderResponse orderResp = new OrderResponse();
-		orderResp.setOrderId(targetOrder.getOrderId());
+
 		return orderResp;
 	}
 }
