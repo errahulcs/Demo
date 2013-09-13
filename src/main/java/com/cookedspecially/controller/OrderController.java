@@ -81,7 +81,7 @@ public class OrderController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public String addOrder(Map<String, Object> map, @ModelAttribute("order") Order order ) {
 		order.setRestaurantId(order.getUserId());
-		order.setStatus(Status.PLACED);
+		order.setStatus(Status.NEW);
 		orderService.addOrder(order);
 		
 		return "redirect:/orders/";
@@ -142,7 +142,7 @@ public class OrderController {
 		queryMap.put("restaurantId", restaurantId);
 		queryMap.put("sourceType", SourceType.TABLE);
 		queryMap.put("sourceId", tableId);
-		queryMap.put("status", Status.PLACED);
+		queryMap.put("status", Status.NEW);
 		List<Order> orders = orderService.listOrders(queryMap);
 		String paidOrders = "";
 		for(Order order : orders) {
@@ -164,7 +164,7 @@ public class OrderController {
 		queryMap.put("userId", userId);
 		queryMap.put("sourceType", SourceType.TABLE);
 		queryMap.put("sourceId", tableId);
-		queryMap.put("status", Status.PLACED);
+		queryMap.put("status", Status.NEW);
 		return orderService.listOrders(queryMap);		
 	}
 	
@@ -179,7 +179,7 @@ public class OrderController {
 		targetOrder.setSourceId(order.getTableId());
 		targetOrder.setDestinationType(DestinationType.TABLE);
 		targetOrder.setDestinationId(order.getTableId());
-		targetOrder.setStatus(Status.PLACED);
+		targetOrder.setStatus(Status.NEW);
 		List<JsonDish> jsonDishes = order.getItems();
 		Float bill = 0.0f;
 		HashMap<Integer, OrderDish> orderDishMap = new HashMap<Integer, OrderDish>();
@@ -285,6 +285,18 @@ public class OrderController {
 		return check;
 	}
 	
+	@RequestMapping(value = "/setOrderStatus")
+	public @ResponseBody Order setOrderStatus(HttpServletRequest request, HttpServletResponse response) {
+		Integer orderId = Integer.parseInt(request.getParameter("orderId"));
+		String statusStr = request.getParameter("status");
+		statusStr = statusStr.toUpperCase();
+		Status status = Status.valueOf(Status.class, statusStr);
+		Order order = orderService.getOrder(orderId);
+		order.setStatus(status);
+		orderService.addOrder(order);
+		return order;
+	}
+	
 	@RequestMapping(value = "/setCheckStatus")
 	public @ResponseBody Check setCheckStatus(HttpServletRequest request, HttpServletResponse response) {
 		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
@@ -292,6 +304,7 @@ public class OrderController {
 		com.cookedspecially.enums.check.Status status = com.cookedspecially.enums.check.Status.valueOf(com.cookedspecially.enums.check.Status.class, statusStr);
 		Check check = checkService.getCheck(checkId);
 		check.setStatus(status);
+		checkService.addCheck(check);
 		return check;
 	}
 	
@@ -315,7 +328,7 @@ public class OrderController {
 			targetOrder.setDestinationId(order.getCustId());
 		}
 		
-		targetOrder.setStatus(Status.PLACED);
+		targetOrder.setStatus(Status.NEW);
 		List<JsonDish> jsonDishes = order.getItems();
 		Float bill = 0.0f;
 		HashMap<Integer, OrderDish> orderDishMap = new HashMap<Integer, OrderDish>();
