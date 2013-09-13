@@ -42,7 +42,7 @@ public class SeatingTable {
 	private Integer seats;
 
 	@Column(name="STATUS")
-	private Status status = Status.AVAILABLE;
+	private Status status = Status.Available;
 	
 	@Column(name="STARTTIME")
 	private Date startTime;

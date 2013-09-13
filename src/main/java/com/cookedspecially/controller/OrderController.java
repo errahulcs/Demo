@@ -94,10 +94,10 @@ public class OrderController {
 		SeatingTable seatingTable = seatingTableService.getSeatingTable(tableId);
 		Check check = checkService.getCheckByTableId(restaurantId, tableId);
 		if (seatingTable != null) {
-			seatingTable.setStatus(com.cookedspecially.enums.table.Status.AVAILABLE);
+			seatingTable.setStatus(com.cookedspecially.enums.table.Status.Available);
 			
 			if (check != null) {
-				check.setStatus(com.cookedspecially.enums.check.Status.PAID);
+				check.setStatus(com.cookedspecially.enums.check.Status.Paid);
 				check.setCloseTime(new Date());
 				check.setModifiedTime(new Date());
 				checkService.addCheck(check);
@@ -120,7 +120,7 @@ public class OrderController {
 		Check check = checkService.getCheckByTableId(restaurantId, tableId);
 			
 		if (check != null) {
-			check.setStatus(com.cookedspecially.enums.check.Status.READYTOPAY);
+			check.setStatus(com.cookedspecially.enums.check.Status.Readytopay);
 			check.setModifiedTime(new Date());
 			checkService.addCheck(check);
 		}
@@ -260,13 +260,13 @@ public class OrderController {
 			check = new Check();
 			check.setRestaurantId(restaurantId);
 			check.setOpenTime(new Date());
-			check.setStatus(com.cookedspecially.enums.check.Status.UNPAID);
+			check.setStatus(com.cookedspecially.enums.check.Status.Unpaid);
 			SeatingTable table = null;
 			if (tableId > 0) {
 				table = seatingTableService.getSeatingTable(tableId);
 				if (table != null) {
 					check.setTableId(tableId);
-					table.setStatus(com.cookedspecially.enums.table.Status.BUSY);
+					table.setStatus(com.cookedspecially.enums.table.Status.Busy);
 					seatingTableService.addSeatingTable(table);
 				}
 			}
@@ -285,7 +285,7 @@ public class OrderController {
 		return check;
 	}
 	
-	@RequestMapping(value = "/setCheckStatus", method = RequestMethod.POST)
+	@RequestMapping(value = "/setCheckStatus")
 	public @ResponseBody Check setCheckStatus(HttpServletRequest request, HttpServletResponse response) {
 		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
 		String statusStr = request.getParameter("status");
@@ -339,7 +339,7 @@ public class OrderController {
 		Check check = null;
 		if (order.getCheckId() > 0) {
 			check = checkService.getCheck(order.getCheckId());
-			if (check != null && check.getStatus() == com.cookedspecially.enums.check.Status.UNPAID) {
+			if (check != null && check.getStatus() == com.cookedspecially.enums.check.Status.Unpaid) {
 				List<Order> orders = check.getOrders();
 				orders.add(targetOrder);
 				check.setModifiedTime(new Date());

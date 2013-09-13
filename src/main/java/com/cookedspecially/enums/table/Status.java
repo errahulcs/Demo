@@ -9,5 +9,5 @@ package com.cookedspecially.enums.table;
  */
 public enum Status {
 
-	RESERVED, BUSY, AVAILABLE;
+	Reserved, Busy, Available;
 }
