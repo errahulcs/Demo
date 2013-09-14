@@ -31,6 +31,9 @@ public class OrderDish {
 	@Column(name="PRICE")
 	private Float price;
 
+	@Column(name="name")
+	private String name;
+	
 	public Integer getOrderDishId() {
 		return orderDishId;
 	}
@@ -67,6 +70,14 @@ public class OrderDish {
 
 	public void setDishId(Integer dishId) {
 		this.dishId = dishId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }

@@ -27,6 +27,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import com.cookedspecially.enums.check.PaymentMode;
 import com.cookedspecially.enums.check.Status;
+import com.cookedspecially.enums.restaurant.ChargesType;
 
 /**
  * @author shashank
@@ -73,6 +74,27 @@ public class Check {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="MODIFIEDTIME")
 	private Date modifiedTime;
+	
+	@Column(name="BILL")
+	private float bill;
+	
+	@Column(name="additionalChargesName1")
+	private String additionalChargesName1;
+	
+	@Column(name="additionalChargesName2")
+	private String additionalChargesName2;
+	
+	@Column(name="additionalChargesName3")
+	private String additionalChargesName3;
+	
+	@Column(name="additionalChargesValue1")
+	private float additionalChargesValue1 = 0.0f;
+	
+	@Column(name="additionalChargesValue2")
+	private float additionalChargesValue2 = 0.0f;
+	
+	@Column(name="additionalChargesValue3")
+	private float additionalChargesValue3 = 0.0f;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(orphanRemoval=true)
@@ -177,6 +199,61 @@ public class Check {
 	public void setModifiedTime(Date modifiedTime) {
 		this.modifiedTime = modifiedTime;
 	}
-	
+
+	public float getBill() {
+		return bill;
+	}
+
+	public void setBill(float bill) {
+		this.bill = bill;
+	}
+
+	public String getAdditionalChargesName1() {
+		return additionalChargesName1;
+	}
+
+	public void setAdditionalChargesName1(String additionalChargesName1) {
+		this.additionalChargesName1 = additionalChargesName1;
+	}
+
+	public String getAdditionalChargesName2() {
+		return additionalChargesName2;
+	}
+
+	public void setAdditionalChargesName2(String additionalChargesName2) {
+		this.additionalChargesName2 = additionalChargesName2;
+	}
+
+	public String getAdditionalChargesName3() {
+		return additionalChargesName3;
+	}
+
+	public void setAdditionalChargesName3(String additionalChargesName3) {
+		this.additionalChargesName3 = additionalChargesName3;
+	}
+
+	public float getAdditionalChargesValue1() {
+		return additionalChargesValue1;
+	}
+
+	public void setAdditionalChargesValue1(float additionalChargesValue1) {
+		this.additionalChargesValue1 = additionalChargesValue1;
+	}
+
+	public float getAdditionalChargesValue2() {
+		return additionalChargesValue2;
+	}
+
+	public void setAdditionalChargesValue2(float additionalChargesValue2) {
+		this.additionalChargesValue2 = additionalChargesValue2;
+	}
+
+	public float getAdditionalChargesValue3() {
+		return additionalChargesValue3;
+	}
+
+	public void setAdditionalChargesValue3(float additionalChargesValue3) {
+		this.additionalChargesValue3 = additionalChargesValue3;
+	}	
 	
 }

@@ -233,5 +233,15 @@ public class User {
 	public void setAdditionalChargesValue3(float additionalChargesValue3) {
 		this.additionalChargesValue3 = additionalChargesValue3;
 	}
-
+	
+	public float getAdditionalCharge(float bill, ChargesType chargeType, float additionalChargeValue) {
+		float retVal = 0;
+		if (chargeType == ChargesType.RAW) {
+			retVal = additionalChargeValue;
+		} else if (chargeType == ChargesType.PERCENT) {
+			retVal = bill * additionalChargeValue;
+		}
+		
+		return retVal;
+	}
 }

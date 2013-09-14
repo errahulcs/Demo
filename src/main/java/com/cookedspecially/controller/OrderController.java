@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cookedspecially.dao.CheckDAO;
 import com.cookedspecially.domain.Check;
+import com.cookedspecially.domain.CheckResponse;
 import com.cookedspecially.domain.Customer;
 import com.cookedspecially.domain.JsonDish;
 import com.cookedspecially.domain.JsonOrder;
@@ -32,6 +33,7 @@ import com.cookedspecially.domain.Order;
 import com.cookedspecially.domain.OrderDish;
 import com.cookedspecially.domain.OrderResponse;
 import com.cookedspecially.domain.SeatingTable;
+import com.cookedspecially.domain.User;
 import com.cookedspecially.enums.order.DestinationType;
 import com.cookedspecially.enums.order.SourceType;
 import com.cookedspecially.enums.order.Status;
@@ -41,6 +43,7 @@ import com.cookedspecially.service.MenuService;
 import com.cookedspecially.service.OrderDishService;
 import com.cookedspecially.service.OrderService;
 import com.cookedspecially.service.SeatingTableService;
+import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.StringUtility;
 
 /**
@@ -51,6 +54,9 @@ import com.cookedspecially.utility.StringUtility;
 @RequestMapping("/order")
 public class OrderController {
 
+	@Autowired
+	private UserService userService;
+	
 	@Autowired
 	private OrderService orderService;
 	
@@ -240,11 +246,7 @@ public class OrderController {
 		return listOrders(map, request);
 	}
 
-	@RequestMapping(value = "/getCheck.json", method = RequestMethod.GET)
-	public @ResponseBody Check getCheckJSON(HttpServletRequest request, HttpServletResponse response) {
-		String tableIdStr = request.getParameter("tableId");
-		String custIdStr = request.getParameter("custId");
-		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+	private Check getCheck(String tableIdStr, String custIdStr, Integer restaurantId) {
 		Check check = null;
 		Integer tableId = -1;
 		Integer custId = -1;
@@ -260,6 +262,14 @@ public class OrderController {
 			check = new Check();
 			check.setRestaurantId(restaurantId);
 			check.setOpenTime(new Date());
+			// We use restaurant Id as userId currently. will have to fix this in future.
+			Integer userId = restaurantId;
+			User user = userService.getUser(userId);
+			if (user != null) {
+				check.setAdditionalChargesName1(user.getAdditionalChargesName1());
+				check.setAdditionalChargesName2(user.getAdditionalChargesName2());
+				check.setAdditionalChargesName3(user.getAdditionalChargesName3());
+			}
 			check.setStatus(com.cookedspecially.enums.check.Status.Unpaid);
 			SeatingTable table = null;
 			if (tableId > 0) {
@@ -280,9 +290,52 @@ public class OrderController {
 			if (table != null || customer != null) {
 				checkService.addCheck(check);
 			}
+		} else {
+			List<Order> orders = check.getOrders();
+			if (orders != null && orders.size() > 0 && check.getBill() == 0) {
+				// This is a case where migration is not performed.
+				// We use restaurant Id as userId currently. will have to fix this in future.
+				Integer userId = check.getRestaurantId();
+				User user = userService.getUser(userId);
+				if (user != null) {
+					check.setAdditionalChargesName1(user.getAdditionalChargesName1());
+					check.setAdditionalChargesName2(user.getAdditionalChargesName2());
+					check.setAdditionalChargesName3(user.getAdditionalChargesName3());
+					float checkBill = 0;
+					for (Order order : orders) {
+						checkBill += order.getBill();
+					}
+					check.setBill(checkBill);
+					check.setAdditionalChargesValue1(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType1(), user.getAdditionalChargesValue1()));
+					check.setAdditionalChargesValue2(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType2(), user.getAdditionalChargesValue2()));
+					check.setAdditionalChargesValue3(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType3(), user.getAdditionalChargesValue3()));
+					checkService.addCheck(check);
+				}
+			}
 		}
 		
 		return check;
+	}
+	
+	@RequestMapping(value = "/getCheckWithOrders.json", method = RequestMethod.GET)
+	public @ResponseBody Check getCheckWithOrderJSON(HttpServletRequest request, HttpServletResponse response) {
+		String tableIdStr = request.getParameter("tableId");
+		String custIdStr = request.getParameter("custId");
+		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		return getCheck(tableIdStr, custIdStr, restaurantId);
+	}
+	
+	@RequestMapping(value = "/getCheck.json", method = RequestMethod.GET)
+	public @ResponseBody CheckResponse getCheckJSON(HttpServletRequest request, HttpServletResponse response) {
+		String tableIdStr = request.getParameter("tableId");
+		String custIdStr = request.getParameter("custId");
+		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		Check check = getCheck(tableIdStr, custIdStr, restaurantId);
+		if (check != null) {
+			return new CheckResponse(check);
+		} else {
+			return null;
+		}
 	}
 	
 	@RequestMapping(value = "/setOrderStatus")
@@ -381,7 +434,19 @@ public class OrderController {
 			if (check != null && check.getStatus() == com.cookedspecially.enums.check.Status.Unpaid) {
 				List<Order> orders = check.getOrders();
 				orders.add(targetOrder);
+				Float checkBill = check.getBill() + targetOrder.getBill();
+				check.setBill(checkBill);
+				User user = userService.getUser(check.getRestaurantId());
+				if (user != null) {
+					check.setAdditionalChargesName1(user.getAdditionalChargesName1());
+					check.setAdditionalChargesName2(user.getAdditionalChargesName2());
+					check.setAdditionalChargesName3(user.getAdditionalChargesName3());
+					check.setAdditionalChargesValue1(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType1(), user.getAdditionalChargesValue1()));
+					check.setAdditionalChargesValue2(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType2(), user.getAdditionalChargesValue2()));
+					check.setAdditionalChargesValue3(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType3(), user.getAdditionalChargesValue3()));
+				}
 				check.setModifiedTime(new Date());
+				
 				checkService.addCheck(check);
 			}
 			
