@@ -338,6 +338,12 @@ public class OrderController {
 		}
 	}
 	
+	@RequestMapping(value = "/allOpenChecks.json", method = RequestMethod.GET)
+	public @ResponseBody List<Check> getAllOpenChecksJSON(HttpServletRequest request, HttpServletResponse response) {
+		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		return checkService.getAllOpenChecks(restaurantId);
+	}
+	
 	@RequestMapping(value = "/setOrderStatus")
 	public @ResponseBody Order setOrderStatus(HttpServletRequest request, HttpServletResponse response) {
 		Integer orderId = Integer.parseInt(request.getParameter("orderId"));

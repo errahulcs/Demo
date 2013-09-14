@@ -64,4 +64,8 @@ public class CheckDAOImpl implements CheckDAO {
 		}
 	}
 
+	@Override
+	public List<Check> getAllOpenChecks(Integer restaurantId) {
+		return sessionFactory.getCurrentSession().createCriteria(Check.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.ne("status", Status.Paid))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+	}
 }

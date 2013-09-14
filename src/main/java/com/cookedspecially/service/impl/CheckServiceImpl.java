@@ -3,6 +3,8 @@
  */
 package com.cookedspecially.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,4 +53,9 @@ public class CheckServiceImpl implements CheckService {
 		return checkDAO.getCheckByCustId(restaurantId, custId);
 	}
 
+	@Override
+	@Transactional
+	public List<Check> getAllOpenChecks(Integer restaurantId) {
+		return checkDAO.getAllOpenChecks(restaurantId);
+	}
 }
