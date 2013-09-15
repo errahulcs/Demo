@@ -239,7 +239,7 @@ public class User {
 		if (chargeType == ChargesType.RAW) {
 			retVal = additionalChargeValue;
 		} else if (chargeType == ChargesType.PERCENT) {
-			retVal = bill * additionalChargeValue;
+			retVal = bill * additionalChargeValue / 100;
 		}
 		
 		return retVal;
