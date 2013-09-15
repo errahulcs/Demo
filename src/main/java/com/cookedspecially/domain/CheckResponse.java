@@ -136,5 +136,13 @@ public class CheckResponse {
 	public void setItems(List<CheckDishResponse> items) {
 		this.items = items;
 	}
+
+	public Integer getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(Integer customerId) {
+		this.customerId = customerId;
+	}
 	
 }

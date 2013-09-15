@@ -317,6 +317,15 @@ public class OrderController {
 		return check;
 	}
 	
+	private CheckResponse getCheckResponse(String tableIdStr, String custIdStr, Integer restaurantId) {
+		Check check = getCheck(tableIdStr, custIdStr, restaurantId);
+		if (check != null) {
+			return new CheckResponse(check);
+		} else {
+			return null;
+		}
+	}
+	
 	@RequestMapping(value = "/getCheckWithOrders.json", method = RequestMethod.GET)
 	public @ResponseBody Check getCheckWithOrderJSON(HttpServletRequest request, HttpServletResponse response) {
 		String tableIdStr = request.getParameter("tableId");
@@ -330,18 +339,23 @@ public class OrderController {
 		String tableIdStr = request.getParameter("tableId");
 		String custIdStr = request.getParameter("custId");
 		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
-		Check check = getCheck(tableIdStr, custIdStr, restaurantId);
-		if (check != null) {
-			return new CheckResponse(check);
-		} else {
-			return null;
-		}
+		return getCheckResponse(tableIdStr, custIdStr, restaurantId);
 	}
 	
 	@RequestMapping(value = "/allOpenChecks.json", method = RequestMethod.GET)
 	public @ResponseBody List<Check> getAllOpenChecksJSON(HttpServletRequest request, HttpServletResponse response) {
 		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
 		return checkService.getAllOpenChecks(restaurantId);
+	}
+	
+	@RequestMapping(value = "/getReceipt", method = RequestMethod.GET)
+	public String getReceipt(Map<String, Object> map, HttpServletRequest request) {
+		String tableIdStr = request.getParameter("tableId");
+		String custIdStr = request.getParameter("custId");
+		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		CheckResponse checkResponse = getCheckResponse(tableIdStr, custIdStr, restaurantId);
+		map.put("checkResp", checkResponse);
+		return "receipt";
 	}
 	
 	@RequestMapping(value = "/setOrderStatus")

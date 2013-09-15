@@ -18,6 +18,8 @@ import javax.imageio.ImageIO;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
+import com.cookedspecially.utility.ImageUtility;
+
 import junit.framework.TestCase;
 
 /**
@@ -34,17 +36,11 @@ public class SecurityTest extends TestCase {
 	}
 //	
 //	
-//	public void testEncoding() throws IOException {
-//		//String finalStr = "Hello sample file.jpg".replaceAll("[^a-zA-Z0-9_.]", "_");
-//		//System.out.println(finalStr);
-//    	String fileUrl = "/home/shashank/Downloads/bhelpuri2.jpeg";
-//    	BufferedImage originalImage = ImageIO.read(new File(fileUrl));
-//    	int type = originalImage.getType() == 0? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-//    	 
-//		BufferedImage resizeImageJpg = resizeImage(originalImage, type);
-//		ImageIO.write(resizeImageJpg, "jpg", new File("/home/shashank/Downloads/bhelpuri3.jpg"));
-//		
-//	}
+	public void testEncoding() throws IOException {
+    	String fileUrl = "/home/shashank/Desktop/70_ballentiine_17.png";
+    	String targetPath = "/home/shashank/Desktop/70_ballentiine_17200x200.png";
+    	ImageUtility.resizeImage(fileUrl, targetPath, "png", 200, 200);
+	}
 	
 	public void testCalendar() {
 		Calendar cal = Calendar.getInstance();
