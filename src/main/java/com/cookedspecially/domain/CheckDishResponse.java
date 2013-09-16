@@ -16,7 +16,7 @@ public class CheckDishResponse {
 	public CheckDishResponse(OrderDish orderDish) {
 		this.dishId = orderDish.getDishId();
 		this.name = orderDish.getName();
-		this.price = orderDish.getPrice() / orderDish.getQuantity();
+		this.price = orderDish.getPrice();
 	}
 	public String getName() {
 		return name;
