@@ -51,7 +51,9 @@ public class CheckResponse {
 				List<OrderDish> orderDishes = order.getOrderDishes();
 				if (orderDishes != null) {
 					for (OrderDish orderDish : orderDishes) {
-						items.add(new CheckDishResponse(orderDish));
+						for ( int i = 0;  i < orderDish.getQuantity(); i++) {
+							items.add(new CheckDishResponse(orderDish));
+						}
 					}
 				}
  			}

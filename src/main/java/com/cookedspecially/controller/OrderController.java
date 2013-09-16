@@ -390,7 +390,7 @@ public class OrderController {
 			check = checkService.getCheck(order.getCheckId());
 		}
 		SeatingTable table = null;
-		if (order.getTableId() > 0) {
+		if (check == null && order.getTableId() > 0) {
 			table = seatingTableService.getSeatingTable(order.getTableId());
 			if (table != null) {
 				restaurantId = table.getRestaurantId();
@@ -440,6 +440,7 @@ public class OrderController {
 					OrderDish orderDish = new OrderDish();
 					orderDish.setDishId(jsonDish.getId());
 					orderDish.setQuantity(1);
+					orderDish.setName(jsonDish.getName());
 					orderDish.setPrice(jsonDish.getPrice());
 					orderDishMap.put(orderDish.getDishId(), orderDish);
 				}
