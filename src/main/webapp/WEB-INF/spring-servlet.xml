@@ -33,6 +33,7 @@
 			<mvc:exclude-mapping path="/menu/show/**"/>
 			<mvc:exclude-mapping path="/menu/getjson/**"/>
 			<mvc:exclude-mapping path="/menu/getallmenusjson/**"/>
+			<mvc:exclude-mapping path="/menu/manifest/**"/>
 			<mvc:exclude-mapping path="/menu/getmenusjsonbyuname/**"/>
 			<mvc:exclude-mapping path="/seatingTable/setStatus/**"/>
 			<mvc:exclude-mapping path="/seatingTable/gettablesjsonbyuname/**"/>

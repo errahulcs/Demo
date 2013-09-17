@@ -3,14 +3,21 @@
  */
 package com.cookedspecially.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -255,6 +263,7 @@ public class MenuController {
 		
 		return "redirect:/menu/";
 	}
+	
 	@RequestMapping("/delete/{menuId}")
 	public String deleteMenu(@PathVariable("menuId")
 	Integer menuId) {
@@ -330,6 +339,80 @@ public class MenuController {
 		}
 		menus.setMenus(menuWrappers);
 		return menus;
+	}
+	
+	@RequestMapping(value = "/manifest/{restaurantId}", method = RequestMethod.GET)
+	public void getManifestFile(HttpServletRequest request, HttpServletResponse response, @PathVariable("restaurantId") Integer restaurantId) throws IOException {
+		User user = userService.getUser(restaurantId);
+		if (user != null) {
+			String businessName = user.getBusinessName();
+			businessName = businessName.replaceAll("[^a-zA-Z0-9_]", "");
+			List<Menu> menus = menuService.allMenusByStatus(user.getUserId(), Status.ACTIVE);
+			HashSet<String> fileNames = new HashSet<String>();
+			for (Menu menu : menus) {
+				List<Section> sections = menu.getSections();
+				for (Section section: sections) {
+					List<Dish> dishes = section.getDishes();
+					for (Dish dish : dishes) {
+						String imageUrl = dish.getImageUrl();
+						if (!fileNames.contains(imageUrl)) {
+							fileNames.add(imageUrl);
+						}
+						String smallImageUrl = ImageUtility.getSmallImageUrl(imageUrl, 200, 200);
+						if (!fileNames.contains(smallImageUrl)) {
+							fileNames.add(smallImageUrl);
+						}
+					}
+				}
+			}
+			File fileDir = new File("webapps" + File.separator + "static" + File.separator + "clients" + File.separator + "com"  + File.separator + "cookedspecially" + File.separator + businessName);
+			fileDir.mkdirs();
+			File file = new File("webapps" + File.separator + "static" + File.separator + "clients" + File.separator + "com"  + File.separator + "cookedspecially" + File.separator + businessName + File.separator + businessName + ".manifest");
+			BufferedWriter bw = null;
+			BufferedReader br = null;
+			try {
+				// if file doesnt exists, then create it
+				if (!file.exists()) {
+					file.createNewFile();
+				}
+	 
+				FileWriter fw = new FileWriter(file.getAbsoluteFile());
+				bw = new BufferedWriter(fw);
+				File staticFile = new File("webapps" + File.separator + "static" + File.separator + "resources" + File.separator + "staticFile");
+				FileReader fr = new FileReader(staticFile);
+				br = new BufferedReader(fr);
+				String line;
+				while((line = br.readLine()) != null) {
+					bw.write(line + "\n");
+				}
+				
+				Iterator<String> iterFileName = fileNames.iterator();
+				while(iterFileName.hasNext()) {
+					bw.write(iterFileName.next() + "\n");
+				}
+				bw.write("\n");
+				bw.write("NETWORK:\n");
+				bw.write("/CookedSpecially/menu/getallmenusjson/" + user.getUserId() + "\n*\n\n");
+				bw.write("FALLBACK:\n");
+				
+				bw.flush();
+				
+			} catch(IOException excep) {
+				excep.printStackTrace();
+			} finally {
+				if (br != null) {
+					br.close();
+				}
+				if (bw != null) {
+					bw.close();
+				}
+			}
+			
+		    response.setContentType("text/plain");
+		    response.setCharacterEncoding("UTF-8");
+			response.setContentLength(new Long(file.length()).intValue());
+	        FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
+		}
 	}
 	
 	private String renameFileToHaveMenuId(String fileUrl, Integer menuId) {
