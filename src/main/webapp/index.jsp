@@ -36,8 +36,8 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/ed
 		//alert("match");
 		var matchArray = usernameMatch.exec(username).slice();
 		document.write('<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/' + matchArray[1] + '.apk">Download Android App for your business<\/a>');
-		document.write('&nbsp;|&nbsp;<a href="/static/orders/#menus">Manage orders from customers<\/a>');
-		document.write('&nbsp;|&nbsp;<a href="/static/checks/#menus">Manage table status and print checks<\/a>');
+		document.write('&nbsp;|&nbsp;<a href="orders.jsp#menus">Manage orders from customers<\/a>');
+		document.write('&nbsp;|&nbsp;<a href="checks.jsp#menus">Manage table status and print checks<\/a>');
 	}
 	else {
 		//alert("no match");
