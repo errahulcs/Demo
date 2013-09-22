@@ -1,3 +1,8 @@
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<c:set var="sessionUserId" value='<%=request.getSession().getAttribute("userId")%>'/>
+<c:choose>
+<c:when test='${!empty sessionUserId}'>
 <!doctype html>
 <html>
 	<head>
@@ -20,9 +25,12 @@
 		<script type="text/javascript" charset="utf-8" src="/static/checks/js/zepto.onpress.js">
 		</script>
 
+		<script type="text/javascript">
+			var restaurantId = "<c:out value='${sessionUserId}'/>";
+		</script>
 		<script type="text/javascript" charset="utf-8" src="/static/checks/js/checks.js">
 		</script>
-		
+
 		<link rel="stylesheet" type="text/css" href="/static/checks/css/mobile.css" />
 		<link rel="stylesheet" type="text/css" href="/static/checks/css/style.css" />
 		<link rel="stylesheet" type="text/css" href="/static/checks/css/admin.css" />
@@ -35,7 +43,7 @@
 	
 		<div id="app-loader">	
 				<div id="loading">
-				  <img src="/static/checks/css//static/checks/images/app-loader.gif"/>
+				  <img src="/static/checks/css/images/app-loader.gif"/>
 				  <p id="loadingMsg">Loading...</p>
 				</div>
 		</div>
@@ -80,8 +88,19 @@
 			
 		</div>		
 	</body>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44124437-1', 'bakedspecially.com');
+  ga('send', 'pageview');
+
+</script>
 </html>
-
-
-
-
+</c:when>
+<c:otherwise>
+<c:redirect url="index.jsp"/>
+</c:otherwise>
+</c:choose>
