@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cookedspecially.dao.CheckDAO;
 import com.cookedspecially.domain.Check;
+import com.cookedspecially.domain.CheckDishResponse;
 import com.cookedspecially.domain.CheckResponse;
 import com.cookedspecially.domain.Customer;
 import com.cookedspecially.domain.JsonDish;
@@ -44,6 +45,7 @@ import com.cookedspecially.service.OrderDishService;
 import com.cookedspecially.service.OrderService;
 import com.cookedspecially.service.SeatingTableService;
 import com.cookedspecially.service.UserService;
+import com.cookedspecially.utility.MailerUtility;
 import com.cookedspecially.utility.StringUtility;
 
 /**
@@ -340,6 +342,88 @@ public class OrderController {
 		String custIdStr = request.getParameter("custId");
 		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
 		return getCheckResponse(tableIdStr, custIdStr, restaurantId);
+	}
+	
+	@RequestMapping(value = "/emailCheck", method = RequestMethod.GET)
+	public @ResponseBody String emailCheck(HttpServletRequest request, HttpServletResponse response) {
+		String tableIdStr = request.getParameter("tableId");
+		String custIdStr = request.getParameter("custId");
+		String emailAddr = request.getParameter("email");
+		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		CheckResponse checkResponse = getCheckResponse(tableIdStr, custIdStr, restaurantId);
+		if (checkResponse != null) {
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("<html><body>");
+			strBuilder.append("Check Id : " + checkResponse.getId() + "<br />");
+			strBuilder.append("Table Id : " + checkResponse.getTableId() + "<br />");
+			strBuilder.append("Customer Id : " + checkResponse.getCustomerId() + "<br /><br /> ");
+			strBuilder.append("<b><i>Items</i></b> <br />");
+			strBuilder.append("<table><tr><th>Name</th><th>Price</th></tr>");
+			List<CheckDishResponse> dishes = checkResponse.getItems();
+			for (CheckDishResponse dish : dishes) {
+				strBuilder.append("<tr>");
+				strBuilder.append("<td>" + dish.getName() + "</td>");
+				strBuilder.append("<td>" + dish.getPrice() + "</td>");
+				strBuilder.append("</tr>");
+			}
+			strBuilder.append("</table>");
+			strBuilder.append("<br/>");
+			strBuilder.append("<table>");
+			
+			strBuilder.append("<tr>");
+			strBuilder.append("<td>");
+			strBuilder.append("Total: ");
+			strBuilder.append("</td>");
+			strBuilder.append("<td>");
+			strBuilder.append(checkResponse.getAmount());
+			strBuilder.append("</td>");
+			strBuilder.append("</tr>");
+			if (checkResponse.getAdditionalCharge1() > 0) {
+				strBuilder.append("<tr>");
+				strBuilder.append("<td>");
+				strBuilder.append(checkResponse.getAdditionalChargeName1());
+				strBuilder.append("</td>");
+				strBuilder.append("<td>");
+				strBuilder.append(checkResponse.getAdditionalCharge1());
+				strBuilder.append("</td>");
+				strBuilder.append("</tr>");
+			}
+			if (checkResponse.getAdditionalCharge2() > 0) {
+				strBuilder.append("<tr>");
+				strBuilder.append("<td>");
+				strBuilder.append(checkResponse.getAdditionalChargeName2());
+				strBuilder.append("</td>");
+				strBuilder.append("<td>");
+				strBuilder.append(checkResponse.getAdditionalCharge2());
+				strBuilder.append("</td>");
+				strBuilder.append("</tr>");
+			}
+			if (checkResponse.getAdditionalCharge3() > 0) {
+				strBuilder.append("<tr>");
+				strBuilder.append("<td>");
+				strBuilder.append(checkResponse.getAdditionalChargeName3());
+				strBuilder.append("</td>");
+				strBuilder.append("<td>");
+				strBuilder.append(checkResponse.getAdditionalCharge3());
+				strBuilder.append("</td>");
+				strBuilder.append("</tr>");
+			}
+			strBuilder.append("<tr>");
+			strBuilder.append("<td>");
+			strBuilder.append("Grand Total: ");
+			strBuilder.append("</td>");
+			strBuilder.append("<td>");
+			strBuilder.append(checkResponse.getTotal());
+			strBuilder.append("</td>");
+			strBuilder.append("</tr>");
+			strBuilder.append("</table>");
+			strBuilder.append("</body></html>");
+			MailerUtility.sendHTMLMail(emailAddr, "Order Reciept", strBuilder.toString());
+		} else {
+			return "Error: No check found";
+		}
+		
+		return "Email Sent Successfully";
 	}
 	
 	@RequestMapping(value = "/allOpenChecks.json", method = RequestMethod.GET)

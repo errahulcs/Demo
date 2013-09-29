@@ -57,4 +57,32 @@ public class MailerUtility {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public static void sendHTMLMail(String toAddress, String subject, String messageStr) {
+		 
+		 
+		Session session = Session.getInstance(props,
+		  new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		  });
+ 
+		try {
+ 
+			Message message = new MimeMessage(session);
+			
+			message.setFrom(new InternetAddress(username));
+			message.setRecipients(Message.RecipientType.TO,	InternetAddress.parse(toAddress));
+			message.setSubject(subject);
+			message.setContent(messageStr, "text/html");
+ 
+			Transport.send(message);
+ 
+			System.out.println("Email Sent to : " + toAddress);
+ 
+		} catch (MessagingException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }
