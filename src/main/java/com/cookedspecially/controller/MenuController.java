@@ -341,7 +341,7 @@ public class MenuController {
 		return menus;
 	}
 	
-	@RequestMapping(value = "/manifest/{restaurantId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/manifest/{restaurantId}.manifest", method = RequestMethod.GET)
 	public void getManifestFile(HttpServletRequest request, HttpServletResponse response, @PathVariable("restaurantId") Integer restaurantId) throws IOException {
 		User user = userService.getUser(restaurantId);
 		if (user != null) {
@@ -408,8 +408,11 @@ public class MenuController {
 				}
 			}
 			
-		    response.setContentType("text/plain");
+		    response.setContentType("text/cache-manifest");
 		    response.setCharacterEncoding("UTF-8");
+		    response.setHeader("Pragma","No-cache");     
+		    response.setHeader("Cache-Control","no-cache");     
+		    response.setDateHeader("Expires", 0);   
 			response.setContentLength(new Long(file.length()).intValue());
 	        FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
 		}
