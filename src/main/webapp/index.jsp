@@ -36,6 +36,8 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/ed
 		//alert("match");
 		var matchArray = usernameMatch.exec(username).slice();
 		document.write('<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/' + matchArray[1] + '.apk">Download Android App for your business<\/a>');
+		document.write('&nbsp;|&nbsp;<a href="orders.jsp#menus">Manage orders from customers<\/a>');
+		document.write('&nbsp;|&nbsp;<a href="checks.jsp#menus">Manage table status and print checks<\/a>');
 	}
 	else {
 		//alert("no match");
@@ -54,4 +56,14 @@ hello this is symbol
 <span class="WebRupee">Rs</span>
  -->
 </body>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44124437-1', 'bakedspecially.com');
+  ga('send', 'pageview');
+
+</script>
 </html>
