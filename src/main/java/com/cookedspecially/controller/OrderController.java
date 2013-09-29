@@ -328,6 +328,17 @@ public class OrderController {
 		}
 	}
 	
+	private CheckResponse getCheckResponseByCheckId(String checkIdStr) {
+		if (!StringUtility.isNullOrEmpty(checkIdStr)) {
+			Integer checkId = Integer.parseInt(checkIdStr);
+			Check check = checkService.getCheck(checkId);
+			if (check != null) {
+				return new CheckResponse(check);
+			}
+		}
+		return null;
+	}
+	
 	@RequestMapping(value = "/getCheckWithOrders.json", method = RequestMethod.GET)
 	public @ResponseBody Check getCheckWithOrderJSON(HttpServletRequest request, HttpServletResponse response) {
 		String tableIdStr = request.getParameter("tableId");
@@ -348,15 +359,31 @@ public class OrderController {
 	public @ResponseBody String emailCheck(HttpServletRequest request, HttpServletResponse response) {
 		String tableIdStr = request.getParameter("tableId");
 		String custIdStr = request.getParameter("custId");
+		String checkIdStr = request.getParameter("checkId");
 		String emailAddr = request.getParameter("email");
 		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
-		CheckResponse checkResponse = getCheckResponse(tableIdStr, custIdStr, restaurantId);
+		CheckResponse checkResponse = null;
+		
+		if (StringUtility.isNullOrEmpty(checkIdStr)){
+			checkResponse = getCheckResponse(tableIdStr, custIdStr, restaurantId);
+		} else {
+			checkResponse = getCheckResponseByCheckId(checkIdStr);
+		}
 		if (checkResponse != null) {
+			User user = userService.getUser(restaurantId);
+			
 			StringBuilder strBuilder = new StringBuilder();
 			strBuilder.append("<html><body>");
+			if (user != null) {
+				strBuilder.append("Restaurant Name : " + user.getBusinessName() + "<br />");
+			}
 			strBuilder.append("Check Id : " + checkResponse.getId() + "<br />");
-			strBuilder.append("Table Id : " + checkResponse.getTableId() + "<br />");
-			strBuilder.append("Customer Id : " + checkResponse.getCustomerId() + "<br /><br /> ");
+			if (checkResponse.getTableId() != null) {
+				strBuilder.append("Table Id : " + checkResponse.getTableId() + "<br />");
+			}
+			if (checkResponse.getCustomerId() != null) {
+				strBuilder.append("Customer Id : " + checkResponse.getCustomerId() + "<br /><br /> ");
+			}
 			strBuilder.append("<b><i>Items</i></b> <br />");
 			strBuilder.append("<table><tr><th>Name</th><th>Price</th></tr>");
 			List<CheckDishResponse> dishes = checkResponse.getItems();
