@@ -15,6 +15,8 @@ public class JsonDish {
 	public int id;
 	public String name;
 	public float price;
+	public int quantity;
+	
 	public int getId() {
 		return id;
 	}
@@ -32,6 +34,14 @@ public class JsonDish {
 	}
 	public void setPrice(float price) {
 		this.price = price;
+	}
+	public int getQuantity() {
+		if (quantity == 0)
+			return 1;
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 	

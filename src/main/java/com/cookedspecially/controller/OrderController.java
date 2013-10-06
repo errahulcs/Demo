@@ -546,16 +546,16 @@ public class OrderController {
 			HashMap<Integer, OrderDish> orderDishMap = new HashMap<Integer, OrderDish>();
 			for (JsonDish jsonDish  : jsonDishes) {
 				if (orderDishMap.get(jsonDish.getId()) != null) {
-					orderDishMap.get(jsonDish.getId()).addMore(1);
+					orderDishMap.get(jsonDish.getId()).addMore(jsonDish.getQuantity());
 				} else {
 					OrderDish orderDish = new OrderDish();
 					orderDish.setDishId(jsonDish.getId());
-					orderDish.setQuantity(1);
+					orderDish.setQuantity(jsonDish.getQuantity());
 					orderDish.setName(jsonDish.getName());
-					orderDish.setPrice(jsonDish.getPrice());
+					orderDish.setPrice(jsonDish.getPrice() * jsonDish.getQuantity());
 					orderDishMap.put(orderDish.getDishId(), orderDish);
 				}
-				bill += jsonDish.getPrice();
+				bill += (jsonDish.getPrice()*jsonDish.getQuantity());
 			}
 			targetOrder.setBill(bill);
 			if (orderDishMap.size() > 0) {
