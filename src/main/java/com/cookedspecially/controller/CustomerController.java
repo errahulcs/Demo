@@ -105,7 +105,7 @@ public class CustomerController {
 					exactMatch = true;
 				}
 				if (!StringUtility.isNullOrEmpty(email)) {
-					if (!phone.equals(customer.getPhone())) {
+					if (!email.equals(customer.getEmail())) {
 						continue;
 					}
 					exactMatch = true;
