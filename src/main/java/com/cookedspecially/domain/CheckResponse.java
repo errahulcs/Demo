@@ -6,6 +6,7 @@ package com.cookedspecially.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.cookedspecially.enums.check.CheckType;
 import com.cookedspecially.enums.check.Status;
 
 /**
@@ -19,6 +20,7 @@ public class CheckResponse {
 	private Integer customerId;
 	private Integer guests;
 	private Status status;
+	private CheckType checkType;
 	private float amount;
 	private String additionalChargeName1;
 	private String additionalChargeName2;
@@ -35,6 +37,7 @@ public class CheckResponse {
 		this.customerId = check.getCustomerId();
 		this.guests = check.getGuests();
 		this.status = check.getStatus();
+		this.checkType = check.getCheckType();
 		this.amount = check.getBill();
 		this.additionalChargeName1 = check.getAdditionalChargesName1();
 		this.additionalChargeName2 = check.getAdditionalChargesName2();
@@ -145,6 +148,14 @@ public class CheckResponse {
 
 	public void setCustomerId(Integer customerId) {
 		this.customerId = customerId;
+	}
+
+	public CheckType getCheckType() {
+		return checkType;
+	}
+
+	public void setCheckType(CheckType checkType) {
+		this.checkType = checkType;
 	}
 	
 }

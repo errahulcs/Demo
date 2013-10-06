@@ -25,6 +25,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import com.cookedspecially.enums.check.CheckType;
 import com.cookedspecially.enums.check.PaymentMode;
 import com.cookedspecially.enums.check.Status;
 import com.cookedspecially.enums.restaurant.ChargesType;
@@ -62,6 +63,9 @@ public class Check {
 	
 	@Column(name="STATUS")
 	private Status status;
+	
+	@Column(name="CHECKTYPE")
+	private CheckType checkType;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="OPENTIME")
@@ -254,6 +258,14 @@ public class Check {
 
 	public void setAdditionalChargesValue3(float additionalChargesValue3) {
 		this.additionalChargesValue3 = additionalChargesValue3;
+	}
+
+	public CheckType getCheckType() {
+		return checkType;
+	}
+
+	public void setCheckType(CheckType checkType) {
+		this.checkType = checkType;
 	}	
 	
 }

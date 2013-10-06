@@ -35,6 +35,7 @@ import com.cookedspecially.domain.OrderDish;
 import com.cookedspecially.domain.OrderResponse;
 import com.cookedspecially.domain.SeatingTable;
 import com.cookedspecially.domain.User;
+import com.cookedspecially.enums.check.CheckType;
 import com.cookedspecially.enums.order.DestinationType;
 import com.cookedspecially.enums.order.SourceType;
 import com.cookedspecially.enums.order.Status;
@@ -262,6 +263,14 @@ public class OrderController {
 		
 		if (check == null) {
 			check = new Check();
+			// Need to add logic to decide on what checktype to set.
+			if (tableId > 0) {
+				check.setCheckType(CheckType.Table);
+			} else /*if ( custId > 0 )*/ { 
+				// Marking all others as TakeAway for now.
+				check.setCheckType(CheckType.TakeAway);
+			}
+			
 			check.setRestaurantId(restaurantId);
 			check.setOpenTime(new Date());
 			// We use restaurant Id as userId currently. will have to fix this in future.
@@ -501,24 +510,45 @@ public class OrderController {
 			check = checkService.getCheck(order.getCheckId());
 		}
 		SeatingTable table = null;
-		if (check == null && order.getTableId() > 0) {
-			table = seatingTableService.getSeatingTable(order.getTableId());
-			if (table != null) {
-				restaurantId = table.getRestaurantId();
-				check = checkService.getCheckByTableId(table.getRestaurantId(), table.getId());
+		Customer customer = null;
+		if (check == null) {
+			if (order.getTableId() > 0) {
+				table = seatingTableService.getSeatingTable(order.getTableId());
+				if (table != null) {
+					restaurantId = table.getRestaurantId();
+					check = checkService.getCheckByTableId(table.getRestaurantId(), table.getId());
+				}
+			} else if (order.getCustId() > 0) {
+				customer = customerService.getCustomer(order.getCustId());
+				if (customer != null) {
+					restaurantId = customer.getRestaurantId();
+					check = checkService.getCheckByCustId(restaurantId, customer.getCustomerId());
+				}
 			}
 		}
 		if (check != null) {
 			restaurantId = check.getRestaurantId();
-		} else if (table == null) {
+		} /*else if (table == null) {
 			error = "No table found";
-		} else {
-			check = new Check();
-			check.setOpenTime(new Date());
-			check.setRestaurantId(restaurantId);
-			check.setStatus(com.cookedspecially.enums.check.Status.Unpaid);
-			check.setTableId(table.getId());
-			check.setUserId(restaurantId);
+		}*/ else {
+			if (order.getTableId() > 0 && table == null) {
+				error = "No table found";
+			} else if (order.getCustId() > 0 && customer == null) {
+				error = "No customer was found";
+			} else {
+				check = new Check();
+				check.setOpenTime(new Date());
+				check.setRestaurantId(restaurantId);
+				check.setStatus(com.cookedspecially.enums.check.Status.Unpaid);
+				if (table != null) {
+					check.setTableId(table.getId());
+					check.setCheckType(CheckType.Table);
+				} else if (customer != null) {
+					check.setCustomerId(customer.getCustomerId());
+					check.setCheckType(CheckType.TakeAway);
+				}
+				check.setUserId(restaurantId);
+			}
 		}
 		
 		OrderResponse orderResp = new OrderResponse();
@@ -552,7 +582,7 @@ public class OrderController {
 					orderDish.setDishId(jsonDish.getId());
 					orderDish.setQuantity(jsonDish.getQuantity());
 					orderDish.setName(jsonDish.getName());
-					orderDish.setPrice(jsonDish.getPrice() * jsonDish.getQuantity());
+					orderDish.setPrice(jsonDish.getPrice());
 					orderDishMap.put(orderDish.getDishId(), orderDish);
 				}
 				bill += (jsonDish.getPrice()*jsonDish.getQuantity());
