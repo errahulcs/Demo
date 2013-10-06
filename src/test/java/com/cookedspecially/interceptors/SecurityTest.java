@@ -38,8 +38,10 @@ public class SecurityTest extends TestCase {
 //	
 	public void testEncoding() throws IOException {
     	String fileUrl = "/home/shashank/Desktop/70_ballentiine_17.png";
-    	String targetPath = "/home/shashank/Desktop/70_ballentiine_17200x200.png";
-    	ImageUtility.resizeImage(fileUrl, targetPath, "png", 200, 200);
+    	String targetPath = ImageUtility.getSmallImageUrl(fileUrl, 200, 200);//"/home/shashank/Desktop/70_ballentiine_17200x200.png";
+    	System.out.println(targetPath);
+    	//ImageUtility.resizeImage(fileUrl, targetPath, ImageUtility.getFileFormat(fileUrl), 200, 200);
+    	System.out.println(ImageUtility.getFileFormat(fileUrl));
 	}
 	
 	public void testCalendar() {

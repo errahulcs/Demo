@@ -117,6 +117,7 @@ public class DishController {
 				//System.out.println(file.getContentType());
 				String fileDir = File.separator + "static" + File.separator + dish.getUserId() + File.separator ;
 				fileUrl = fileDir + dish.getDishId() + "_" + file.getOriginalFilename().replaceAll("[^a-zA-Z0-9_.]", "_");
+				
 				File dir = new File("webapps" + fileDir);
 				if (!dir.exists()) { 
 					dir.mkdirs();
@@ -141,7 +142,7 @@ public class DishController {
 				}
 			}
             if (!StringUtility.isNullOrEmpty(outFileUrl)) {
-            	ImageUtility.resizeImage(outFileUrl, ImageUtility.getSmallImageUrl(outFileUrl, 200, 200), "jpg", 200, 200);
+            	ImageUtility.resizeImage(outFileUrl, ImageUtility.getSmallImageUrl(outFileUrl, 200, 200), ImageUtility.getFileFormat(outFileUrl)/*"jpg"*/, 200, 200);
             }
 			
             // store the bytes somewhere
@@ -220,7 +221,7 @@ public class DishController {
 					String localUrl = "webapps" + dishImageUrl;
 					File dishImage = new File(localUrl);
 					if (dishImage.exists()) {
-						ImageUtility.resizeImage(localUrl, ImageUtility.getSmallImageUrl(localUrl, 200, 200), "jpg", 200, 200);
+						ImageUtility.resizeImage(localUrl, ImageUtility.getSmallImageUrl(localUrl, 200, 200), ImageUtility.getFileFormat(localUrl)/*"jpg"*/, 200, 200);
 					}
 				}
 			}

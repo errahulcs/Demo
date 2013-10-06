@@ -48,8 +48,26 @@ public class ImageUtility {
 	
 	public static String getSmallImageUrl(String imageUrl, int resolutionX, int resolutionY) {
 		if (imageUrl != null && imageUrl.lastIndexOf('.') >= 0) {
-			return imageUrl.substring(0, imageUrl.lastIndexOf('.')).concat(resolutionX + "x" + resolutionY + ".jpg");
+			String formatType = ImageUtility.getFileFormat(imageUrl);
+			return imageUrl.substring(0, imageUrl.lastIndexOf('.')).concat(resolutionX + "x" + resolutionY + "." + formatType);
 		}
 		return imageUrl;
+	}
+	
+	public static String getFileFormat(String imageUrl) {
+		String extension = "";
+
+		int i = imageUrl.lastIndexOf('.');
+		int p = Math.max(imageUrl.lastIndexOf('/'), imageUrl.lastIndexOf('\\'));
+
+		if (i > p) {
+		    extension = imageUrl.substring(i+1);
+		}
+		if (!StringUtility.isNullOrEmpty(extension)) {
+			return extension;
+		}
+		
+		return "jpg";
+		
 	}
 }
