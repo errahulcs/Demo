@@ -54,7 +54,26 @@
 		<td><form:input path="businessName" /></td>
 	</tr>
 	
-	
+	<tr>
+		<td><form:label path="address1">Address</form:label></td>
+		<td><form:input path="address1" /></td> 
+	</tr>
+	<tr>
+		<td><form:label path="address2">Address</form:label></td>
+		<td><form:input path="address2" /></td>
+	</tr>
+	<tr>
+		<td><form:label path="city">City</form:label></td>
+		<td><form:input path="city" /></td>
+	</tr>
+	<tr>
+		<td><form:label path="country">Country</form:label></td>
+		<td><form:input path="country" /></td>
+	</tr>
+	<tr>
+		<td><form:label path="zip">Zip/Pincode</form:label></td>
+		<td><form:input path="zip" /></td>
+	</tr>
 	<tr>
 		<td><form:label path="businessPortraitImageUrl">
 		Business Portrait Image

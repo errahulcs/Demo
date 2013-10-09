@@ -17,6 +17,11 @@ public class RestaurantInfo {
 	private String email;
 	private Integer restaurantId;
 	private String businessName;
+	private String address1;
+	private String address2;
+	private String city;
+	private String country;
+	private String zip;
 	private String businessPortraitImageUrl;
 	private String businessLandscapeImageUrl;
 	private String additionalChargesName1;
@@ -35,6 +40,11 @@ public class RestaurantInfo {
 			this.restaurantId = user.getUserId();
 			this.email = user.getUsername();
 			this.businessName = user.getBusinessName();
+			this.address1 = user.getAddress1();
+			this.address2 = user.getAddress2();
+			this.city = user.getCity();
+			this.country = user.getCountry();
+			this.zip = user.getZip();
 			this.businessPortraitImageUrl = user.getBusinessPortraitImageUrl();
 			this.businessLandscapeImageUrl = user.getBusinessLandscapeImageUrl();
 			this.additionalChargesName1 = user.getAdditionalChargesName1();
@@ -138,6 +148,46 @@ public class RestaurantInfo {
 	}
 	public void setAdditionalChargesValue3(float additionalChargesValue3) {
 		this.additionalChargesValue3 = additionalChargesValue3;
+	}
+
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
 	
