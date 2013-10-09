@@ -5,7 +5,15 @@
 <html>
 <head>
 	<title>Edit User</title>
+	<base href="${pageContext.request.contextPath}/"/>
+	<link rel="stylesheet" href="css/style.css" />
 	
+	<link rel="stylesheet" href="themes/base/jquery.ui.all.css" />	
+	<script type="text/javascript" src="js/jquery-1.9.0.js"></script>
+	<script type="text/javascript" src="js/ui/jquery-ui.js"></script>
+	<script src="js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
 	<style type="text/css">
 		body {
 			font-family: sans-serif;
@@ -23,7 +31,6 @@
 			color: white;
 		}
 	</style>
-	<base href="${pageContext.request.contextPath}/"/>
 	
 </head>
 <body>
@@ -56,23 +63,23 @@
 	
 	<tr>
 		<td><form:label path="address1">Address</form:label></td>
-		<td><form:input path="address1" /></td> 
+		<td><form:input path="address1" class="validate[maxSize[100]]"/></td> 
 	</tr>
 	<tr>
 		<td><form:label path="address2">Address</form:label></td>
-		<td><form:input path="address2" /></td>
+		<td><form:input path="address2" class="validate[maxSize[100]]"/></td>
 	</tr>
 	<tr>
-		<td><form:label path="city">City</form:label></td>
-		<td><form:input path="city" /></td>
+		<td><form:label path="city">City </form:label></td>
+		<td><form:input path="city" class="validate[maxSize[100]]"/></td>
 	</tr>
 	<tr>
 		<td><form:label path="country">Country</form:label></td>
-		<td><form:input path="country" /></td>
+		<td><form:input path="country" class="validate[maxSize[100]]"/></td>
 	</tr>
 	<tr>
 		<td><form:label path="zip">Zip/Pincode</form:label></td>
-		<td><form:input path="zip" /></td>
+		<td><form:input path="zip" class="validate[maxSize[10]]"/></td>
 	</tr>
 	<tr>
 		<td><form:label path="businessPortraitImageUrl">
@@ -97,7 +104,8 @@
 		<form:errors path="businessLandscapeImageUrl" style="color:red;"/> </td>
 	</tr>
 	
-	Additional Charges:
+	<tr><td></td></tr>
+	<tr> <td><h3>Additional Charges:</h3></td></tr>
 	
 	<table class="data">
 	<tr>
@@ -174,4 +182,10 @@
 
 
 </body>
+<script>
+	$(function() {
+		$("#user").validationEngine();
+	});
+</script>
+
 </html>
