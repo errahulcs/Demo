@@ -81,7 +81,7 @@
 			
 				<br clear="both"/>
 				<div class="footer">
-					<b>Axis Cafe and Restaurant Menu</b><br/>
+					<b><span id="restaurantName"></span></b><br/>
 					&copy; 2013 Cooked Specially. All rights reserved. 
 				</div>
 			</div>	
