@@ -35,7 +35,8 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/ed
 	if (usernameMatch.test(username)) {
 		//alert("match");
 		var matchArray = usernameMatch.exec(username).slice();
-		document.write('<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/' + matchArray[1] + '.apk">Download Android App for your business<\/a>');
+		document.write('<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/assets/www/index.html">Save your application using HTML5<\/a>');
+		document.write('&nbsp;|&nbsp;<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/' + matchArray[1] + '.apk">Download Android App for your business<\/a>');
 		document.write('&nbsp;|&nbsp;<a href="orders.jsp#menus">Manage orders from customers<\/a>');
 		document.write('&nbsp;|&nbsp;<a href="checks.jsp#menus">Manage table status and print checks<\/a>');
 	}
