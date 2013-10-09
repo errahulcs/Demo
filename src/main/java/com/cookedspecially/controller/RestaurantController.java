@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.Restaurant;
+import com.cookedspecially.domain.RestaurantInfo;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.service.RestaurantService;
 import com.cookedspecially.service.UserService;
@@ -99,12 +100,17 @@ public class RestaurantController {
 	}
 	
 	@RequestMapping(value="/getrestaurantinfo", method=RequestMethod.GET)
-	public @ResponseBody Map<String, String> getReataurantInfo(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody RestaurantInfo getReataurantInfo(HttpServletRequest request, HttpServletResponse response) {
 		String username = request.getParameter("username");
-		User user = userService.getUserByUsername(username);
-		Map<String, String> map = new HashMap<String, String>();
-		
-		map.put("restaurantId", user.getUserId().toString());
-		return map;
+		String restaurantIdStr = request.getParameter("restaurantId");
+		User user = null;
+		if (!StringUtility.isNullOrEmpty(username)) {
+			user = userService.getUserByUsername(username);
+		} else if (!StringUtility.isNullOrEmpty(restaurantIdStr)) {
+			user = userService.getUser(Integer.parseInt(restaurantIdStr));
+		}
+		return new RestaurantInfo(user);
 	}
+	
+	
 }
