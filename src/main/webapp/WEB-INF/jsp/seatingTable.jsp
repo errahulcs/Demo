@@ -5,6 +5,15 @@
 <html>
 <head>
 	<title>Seating Table Manager</title>
+	<base href="${pageContext.request.contextPath}/"/>
+	<link rel="stylesheet" href="css/style.css" />
+	
+	<link rel="stylesheet" href="themes/base/jquery.ui.all.css" />	
+	<script type="text/javascript" src="js/jquery-1.9.0.js"></script>
+	<script type="text/javascript" src="js/ui/jquery-ui.js"></script>
+	<script src="js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css"/>
 	
 	<style type="text/css">
 		body {
@@ -23,7 +32,7 @@
 			color: white;
 		}
 	</style>
-	<base href="${pageContext.request.contextPath}/"/>
+	
 	<script type="text/javascript">
 		function deleteSeatingTable(seatingTableId) {
 			if (confirm('Do you really want to delete this Table')) {
@@ -48,16 +57,16 @@
 	
 	<tr>
 		<td><form:label path="name"><spring:message code="label.name"/></form:label></td>
-		<td><form:input path="name" /></td> 
+		<td><form:input path="name" class="validate[maxSize[50]]"/></td> 
 	</tr>
 	
 	<tr>
-		<td><form:label path="seats">Number of seats</form:label></td>
-		<td><form:input path="seats" /></td>
+		<td><form:label path="seats">Number of seats*</form:label></td>
+		<td><form:input path="seats" class="validate[required,custom[integer],min[1]]"/></td>
 	</tr>
 	<tr>
 		<td><form:label path="description">Description</form:label></td>
-		<td><form:input path="description" /></td>
+		<td><form:input path="description" class="validate[maxSize[300]]"/></td>
 	</tr>
 	<tr>
 		<td><form:label path="status">Status</form:label></td>
@@ -115,4 +124,10 @@
 
 
 </body>
+<script>
+	$(function() {
+		$("#seatingTable").validationEngine();
+	});
+</script>
+
 </html>
