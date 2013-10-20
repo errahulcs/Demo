@@ -390,6 +390,9 @@ function list(index) {
     // return;
     //}
     //con.innerHTML=currHexCode[index];
+    if (index == -1) {
+    	index = 108;
+    }
     $("#currency").val(currCode[index]);
 }
 
