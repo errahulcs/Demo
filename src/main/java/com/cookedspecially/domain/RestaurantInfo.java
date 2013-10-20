@@ -26,6 +26,7 @@ public class RestaurantInfo {
 	private String businessLandscapeImageUrl;
 	private String appCacheIconUrl;
 	private String buttonIconUrl;
+	private String currency;
 	private String additionalChargesName1;
 	private ChargesType additionalChargesType1;
 	private String additionalChargesName2;
@@ -51,6 +52,7 @@ public class RestaurantInfo {
 			this.businessLandscapeImageUrl = user.getBusinessLandscapeImageUrl();
 			this.appCacheIconUrl = user.getAppCacheIconUrl();
 			this.buttonIconUrl = user.getButtonIconUrl();
+			this.currency = user.getCurrency();
 			this.additionalChargesName1 = user.getAdditionalChargesName1();
 			this.additionalChargesName2 = user.getAdditionalChargesName2();
 			this.additionalChargesName3 = user.getAdditionalChargesName3();
@@ -208,6 +210,14 @@ public class RestaurantInfo {
 
 	public void setButtonIconUrl(String buttonIconUrl) {
 		this.buttonIconUrl = buttonIconUrl;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 
 	

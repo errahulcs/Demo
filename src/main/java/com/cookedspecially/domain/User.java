@@ -78,6 +78,8 @@ public class User {
 	@Column(name="BUTTONICONURL")
 	private String buttonIconUrl;
 	
+	@Column(name="CURRENCY")
+	private String currency;
 	
 	@Column(name="additionalChargesName1")
 	private String additionalChargesName1;
@@ -321,5 +323,13 @@ public class User {
 
 	public void setButtonIconUrl(String buttonIconUrl) {
 		this.buttonIconUrl = buttonIconUrl;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 }

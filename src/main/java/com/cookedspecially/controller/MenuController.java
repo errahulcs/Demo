@@ -307,6 +307,7 @@ public class MenuController {
 			menus.setLandscapeImageUrl(user.getBusinessLandscapeImageUrl());
 			menus.setAppCacheIconUrl(user.getAppCacheIconUrl());
 			menus.setButtonIconUrl(user.getButtonIconUrl());
+			menus.setCurrency(user.getCurrency());
 		}
 		List<Menu> menuList = menuService.allMenusByStatus(restaurantId, Status.ACTIVE);
 		List<MenuWrapper> menuWrappers = new ArrayList<MenuWrapper>();
@@ -336,6 +337,7 @@ public class MenuController {
 		menus.setLandscapeImageUrl(user.getBusinessLandscapeImageUrl());
 		menus.setAppCacheIconUrl(user.getAppCacheIconUrl());
 		menus.setButtonIconUrl(user.getButtonIconUrl());
+		menus.setCurrency(user.getCurrency());
 		List<Menu> menuList = menuService.allMenusByStatus(user.getUserId(), Status.ACTIVE);
 		List<MenuWrapper> menuWrappers = new ArrayList<MenuWrapper>();
 		for (Menu menu : menuList) {

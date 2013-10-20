@@ -21,7 +21,7 @@ public class Menus {
 	String landscapeImageUrl;
 	String appCacheIconUrl;
 	String buttonIconUrl;
-	
+	String currency;
 	public List<MenuWrapper> getMenus() {
 		return menus;
 	}
@@ -63,5 +63,11 @@ public class Menus {
 	}
 	public void setButtonIconUrl(String buttonIconUrl) {
 		this.buttonIconUrl = buttonIconUrl;
+	}
+	public String getCurrency() {
+		return currency;
+	}
+	public void setCurrency(String currency) {
+		this.currency = currency;
 	}
 }
