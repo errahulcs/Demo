@@ -72,6 +72,13 @@ public class User {
 	@Column(name="BUSINESSLANDSCAPEIMAGEURL")
 	private String businessLandscapeImageUrl;
 	
+	@Column(name="APPCACHEICONURL")
+	private String appCacheIconUrl;
+	
+	@Column(name="BUTTONICONURL")
+	private String buttonIconUrl;
+	
+	
 	@Column(name="additionalChargesName1")
 	private String additionalChargesName1;
 	
@@ -298,5 +305,21 @@ public class User {
 
 	public void setZip(String zip) {
 		this.zip = zip;
+	}
+
+	public String getAppCacheIconUrl() {
+		return appCacheIconUrl;
+	}
+
+	public void setAppCacheIconUrl(String appCacheIconUrl) {
+		this.appCacheIconUrl = appCacheIconUrl;
+	}
+
+	public String getButtonIconUrl() {
+		return buttonIconUrl;
+	}
+
+	public void setButtonIconUrl(String buttonIconUrl) {
+		this.buttonIconUrl = buttonIconUrl;
 	}
 }

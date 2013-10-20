@@ -88,19 +88,43 @@ public class UserController {
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String updateUser(Map<String, Object> map, @ModelAttribute("user")
-	User user, BindingResult result, @RequestParam("files[0]") MultipartFile portraitImage, @RequestParam("files[1]") MultipartFile landscapeImage) {
+	User user, BindingResult result, @RequestParam("files[0]") MultipartFile portraitImage, @RequestParam("files[1]") MultipartFile landscapeImage, 
+	@RequestParam("files[2]") MultipartFile appCacheIcon, @RequestParam("files[3]") MultipartFile buttonIcon) {
 		FileOutputStream fos = null;
 		ArrayList<MultipartFile> files = new ArrayList<MultipartFile>();
 		files.add(portraitImage);
 		files.add(landscapeImage);
-		if (files != null && files.size() == 2) {
-			String[] fileUrls = new String[2];
+		files.add(appCacheIcon);
+		files.add(buttonIcon);
+		if (files != null && files.size() == 4) {
+			String[] fileUrls = new String[4];
 			int iter = 0;
 			for (MultipartFile file : files) {
-				String fileUrl = (iter==0)?user.getBusinessPortraitImageUrl():user.getBusinessLandscapeImageUrl();
+				String fileUrl = null;
+				if (iter==0) {
+					fileUrl = user.getBusinessPortraitImageUrl();
+				} else if (iter==1) {
+					fileUrl = user.getBusinessLandscapeImageUrl();
+				} else if (iter == 2) {
+					fileUrl = user.getAppCacheIconUrl();
+				} else {
+					fileUrl = user.getButtonIconUrl();
+				}
+				
 				if (!file.isEmpty()) {
 					if (file.getSize() > MAXFILESIZE*1000*1000) {
-						result.rejectValue(((iter == 0)?"businessPortraitImageUrl":"businessLandscapeImageUrl"), "error.upload.sizeExceeded", "You cannot upload the file of more than " + MAXFILESIZE + " MB");
+						String rejectValueName = null;
+						if (iter == 0) {
+							rejectValueName = "businessPortraitImageUrl";
+						} else if (iter == 1) {
+							rejectValueName = "businessLandscapeImageUrl";
+						} else if (iter == 2) {
+							rejectValueName = "appCacheIconUrl";
+						} else {
+							rejectValueName = "buttonIconUrl";
+						}
+						
+						result.rejectValue(rejectValueName, "error.upload.sizeExceeded", "You cannot upload the file of more than " + MAXFILESIZE + " MB");
 						map.put("user", user);
 						return "editUser";
 					}
@@ -110,7 +134,18 @@ public class UserController {
 						//System.out.println(file.getOriginalFilename());
 						//System.out.println(file.getContentType());
 						String fileDir = File.separator + "static" + File.separator + user.getUserId() + File.separator ;
-						fileUrl = fileDir + ((iter==0)?"portrait":"landscape") + "_" + file.getOriginalFilename().replaceAll("[^a-zA-Z0-9_.]", "_");
+						String filePrefix = null;
+						if (iter == 0) {
+							filePrefix = "portrait";
+						} else if (iter == 1) {
+							filePrefix = "landscape";
+						} else if (iter == 2) {
+							filePrefix = "appCache";
+						} else {
+							filePrefix = "button";
+						}
+						
+						fileUrl = fileDir + filePrefix + "_" + file.getOriginalFilename().replaceAll("[^a-zA-Z0-9_.]", "_");
 						fileUrls[iter] = fileUrl;
 						File dir = new File("webapps" + fileDir);
 						if (!dir.exists()) { 
@@ -138,11 +173,21 @@ public class UserController {
 				iter++;
 			}
 			
-			for (iter = 0; iter < 2; iter++) {
-				String existingImageUrl = (iter==0)?user.getBusinessPortraitImageUrl():user.getBusinessLandscapeImageUrl();
+			for (iter = 0; iter < 4; iter++) {
+				String existingImageUrl = null;
+				if (iter==0) {
+					existingImageUrl = user.getBusinessPortraitImageUrl();
+				} else if (iter == 1) {
+					existingImageUrl = user.getBusinessLandscapeImageUrl();
+				} else if (iter == 2) {
+					existingImageUrl = user.getAppCacheIconUrl();
+				} else {
+					existingImageUrl = user.getButtonIconUrl();
+				}
+				
 				String fileUrl = fileUrls[iter];
 				if(!StringUtility.isNullOrEmpty(fileUrl)) {
-					if (!fileUrl.equals(existingImageUrl) && existingImageUrl.startsWith("/")) {
+					if (!fileUrl.equals(existingImageUrl) && !StringUtility.isNullOrEmpty(existingImageUrl) && existingImageUrl.startsWith("/")) {
 						File oldFile = new File("webapps" + existingImageUrl);
 						if (oldFile.exists()) {
 							oldFile.delete();
@@ -150,8 +195,12 @@ public class UserController {
 					}
 					if (iter == 0) {
 						user.setBusinessPortraitImageUrl(fileUrl);
-					} else {
+					} else if (iter == 1) {
 						user.setBusinessLandscapeImageUrl(fileUrl);
+					} else if (iter == 2) {
+						user.setAppCacheIconUrl(fileUrl);
+					} else {
+						user.setButtonIconUrl(fileUrl);
 					}
 				}
 			}

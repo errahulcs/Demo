@@ -305,6 +305,8 @@ public class MenuController {
 		if (user != null) {
 			menus.setPortraitImageUrl(user.getBusinessPortraitImageUrl());
 			menus.setLandscapeImageUrl(user.getBusinessLandscapeImageUrl());
+			menus.setAppCacheIconUrl(user.getAppCacheIconUrl());
+			menus.setButtonIconUrl(user.getButtonIconUrl());
 		}
 		List<Menu> menuList = menuService.allMenusByStatus(restaurantId, Status.ACTIVE);
 		List<MenuWrapper> menuWrappers = new ArrayList<MenuWrapper>();
@@ -332,6 +334,8 @@ public class MenuController {
 		menus.setRestaurantId(user.getUserId());
 		menus.setPortraitImageUrl(user.getBusinessPortraitImageUrl());
 		menus.setLandscapeImageUrl(user.getBusinessLandscapeImageUrl());
+		menus.setAppCacheIconUrl(user.getAppCacheIconUrl());
+		menus.setButtonIconUrl(user.getButtonIconUrl());
 		List<Menu> menuList = menuService.allMenusByStatus(user.getUserId(), Status.ACTIVE);
 		List<MenuWrapper> menuWrappers = new ArrayList<MenuWrapper>();
 		for (Menu menu : menuList) {
@@ -349,6 +353,19 @@ public class MenuController {
 			businessName = businessName.replaceAll("[^a-zA-Z0-9_]", "");
 			List<Menu> menus = menuService.allMenusByStatus(user.getUserId(), Status.ACTIVE);
 			HashSet<String> fileNames = new HashSet<String>();
+			if (!StringUtility.isNullOrEmpty(user.getBusinessLandscapeImageUrl())) {
+				fileNames.add(user.getBusinessLandscapeImageUrl());
+			}
+			if (!StringUtility.isNullOrEmpty(user.getBusinessPortraitImageUrl())) {
+				fileNames.add(user.getBusinessPortraitImageUrl());
+			}
+			if (!StringUtility.isNullOrEmpty(user.getAppCacheIconUrl())) {
+				fileNames.add(user.getAppCacheIconUrl());
+			}
+			if (!StringUtility.isNullOrEmpty(user.getButtonIconUrl())) {
+				fileNames.add(user.getButtonIconUrl());
+			}
+			
 			for (Menu menu : menus) {
 				List<Section> sections = menu.getSections();
 				for (Section section: sections) {

@@ -19,6 +19,8 @@ public class Menus {
 	Status status;
 	String portraitImageUrl;
 	String landscapeImageUrl;
+	String appCacheIconUrl;
+	String buttonIconUrl;
 	
 	public List<MenuWrapper> getMenus() {
 		return menus;
@@ -49,5 +51,17 @@ public class Menus {
 	}
 	public void setLandscapeImageUrl(String landscapeImageUrl) {
 		this.landscapeImageUrl = landscapeImageUrl;
+	}
+	public String getAppCacheIconUrl() {
+		return appCacheIconUrl;
+	}
+	public void setAppCacheIconUrl(String appCacheIconUrl) {
+		this.appCacheIconUrl = appCacheIconUrl;
+	}
+	public String getButtonIconUrl() {
+		return buttonIconUrl;
+	}
+	public void setButtonIconUrl(String buttonIconUrl) {
+		this.buttonIconUrl = buttonIconUrl;
 	}
 }

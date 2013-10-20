@@ -103,6 +103,28 @@
 		<td><input type="file" name="files[1]"/>
 		<form:errors path="businessLandscapeImageUrl" style="color:red;"/> </td>
 	</tr>
+	<tr>
+		<td><form:label path="appCacheIconUrl">
+		Application Cache Icon
+		<c:choose>
+			<c:when test="${fn:startsWith(user.appCacheIconUrl, 'http://')}">(${user.appCacheIconUrl})</c:when>
+			<c:when test="${fn:startsWith(user.appCacheIconUrl, '/')}">(${user.appCacheIconUrl})</c:when>
+		</c:choose> 
+		</form:label></td>
+		<td><input type="file" name="files[2]"/>
+		<form:errors path="appCacheIconUrl" style="color:red;"/> </td>
+	</tr>
+	<tr>
+		<td><form:label path="buttonIconUrl">
+		Button Icon
+		<c:choose>
+			<c:when test="${fn:startsWith(user.buttonIconUrl, 'http://')}">(${user.buttonIconUrl})</c:when>
+			<c:when test="${fn:startsWith(user.buttonIconUrl, '/')}">(${user.buttonIconUrl})</c:when>
+		</c:choose> 
+		</form:label></td>
+		<td><input type="file" name="files[3]"/>
+		<form:errors path="buttonIconUrl" style="color:red;"/> </td>
+	</tr>
 	
 	<tr><td></td></tr>
 	<tr> <td><h3>Additional Charges:</h3></td></tr>
