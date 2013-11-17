@@ -51,11 +51,14 @@ public class CheckResponse {
 		List<Order> orders = check.getOrders();
 		if (orders != null) {
 			for(Order order : orders) {
+				if (order.getStatus() == com.cookedspecially.enums.order.Status.CANCELLED) {
+					continue;
+				}
 				List<OrderDish> orderDishes = order.getOrderDishes();
 				if (orderDishes != null) {
 					for (OrderDish orderDish : orderDishes) {
 						for ( int i = 0;  i < orderDish.getQuantity(); i++) {
-							items.add(new CheckDishResponse(orderDish));
+							this.items.add(new CheckDishResponse(orderDish));
 						}
 					}
 				}

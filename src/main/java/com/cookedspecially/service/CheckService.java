@@ -19,4 +19,5 @@ public interface CheckService {
 	public Check getCheckByTableId(Integer restaurantId, Integer tableId);
 	public Check getCheckByCustId(Integer restaurantId, Integer custId);
 	public List<Check> getAllOpenChecks(Integer restaurantId);
+	public List<Integer> getAllCheckIds();
 }

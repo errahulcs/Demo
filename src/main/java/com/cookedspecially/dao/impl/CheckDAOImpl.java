@@ -5,8 +5,10 @@ package com.cookedspecially.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -67,5 +69,14 @@ public class CheckDAOImpl implements CheckDAO {
 	@Override
 	public List<Check> getAllOpenChecks(Integer restaurantId) {
 		return sessionFactory.getCurrentSession().createCriteria(Check.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.ne("status", Status.Paid), Restrictions.ne("status", Status.Cancel))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+	}
+	
+	@Override
+	public List<Integer> getAllCheckIds() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Check.class);
+		criteria.setProjection( Projections.projectionList().add( Projections.property("checkId")));
+
+		List<Integer> ids=criteria.list();
+		return ids;
 	}
 }

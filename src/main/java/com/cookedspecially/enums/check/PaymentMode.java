@@ -9,5 +9,5 @@ package com.cookedspecially.enums.check;
  */
 public enum PaymentMode {
 
-	CREDIT, CASH, ROOM;
+	CREDIT, CASH, ROOM, EMC;
 }

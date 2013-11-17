@@ -44,6 +44,9 @@ public class Order {
 	@Column(name="USERID")
 	private Integer userId;
 
+	@Column(name="CHECKID")
+	private Integer checkId;
+	
 	@Column(name="SOURCETYPE")
 	private SourceType sourceType;
 	
@@ -71,6 +74,10 @@ public class Order {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="CREATEDTIME")
 	private Date createdTime;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="MODIFIEDTIME")
+	private Date modifiedTime;
 	
 	@Column(name="BILL")
 	private Float bill;
@@ -183,6 +190,22 @@ public class Order {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public Date getModifiedTime() {
+		return modifiedTime;
+	}
+
+	public void setModifiedTime(Date modifiedTime) {
+		this.modifiedTime = modifiedTime;
+	}
+
+	public Integer getCheckId() {
+		return checkId;
+	}
+
+	public void setCheckId(Integer checkId) {
+		this.checkId = checkId;
 	}
 	
 	

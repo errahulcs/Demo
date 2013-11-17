@@ -36,6 +36,7 @@ import com.cookedspecially.domain.OrderResponse;
 import com.cookedspecially.domain.SeatingTable;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.enums.check.CheckType;
+import com.cookedspecially.enums.check.PaymentMode;
 import com.cookedspecially.enums.order.DestinationType;
 import com.cookedspecially.enums.order.SourceType;
 import com.cookedspecially.enums.order.Status;
@@ -314,7 +315,9 @@ public class OrderController {
 					check.setAdditionalChargesName3(user.getAdditionalChargesName3());
 					float checkBill = 0;
 					for (Order order : orders) {
-						checkBill += order.getBill();
+						if (order.getStatus() != Status.CANCELLED) {
+							checkBill += order.getBill();
+						}
 					}
 					check.setBill(checkBill);
 					check.setAdditionalChargesValue1(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType1(), user.getAdditionalChargesValue1()));
@@ -485,9 +488,40 @@ public class OrderController {
 		statusStr = statusStr.toUpperCase();
 		Status status = Status.valueOf(Status.class, statusStr);
 		Order order = orderService.getOrder(orderId);
+		if (status == Status.CANCELLED) {
+			updateCheckForCancelOrder(order);
+		}
 		order.setStatus(status);
+		order.setModifiedTime(new Date());
 		orderService.addOrder(order);
 		return order;
+	}
+	
+	//Admin Function
+	@RequestMapping(value = "/syncChecksAndOrders")
+	public @ResponseBody String syncChecksAndOrders(HttpServletRequest request, HttpServletResponse response) {
+		List<Integer> checkIds = checkService.getAllCheckIds();
+		for (Integer checkId: checkIds) {
+			Check check = checkService.getCheck(checkId);
+			for (Order order : check.getOrders()) {
+				order.setCheckId(checkId);
+				orderService.addOrder(order);
+			}
+		}
+		return "Succesfully updated all orders with checkId";
+	}
+	
+	private void updateCheckForCancelOrder(Order order) {
+		// Fetch the check from order
+		// Update check with calculations of removal of bill values etc.
+		User user = userService.getUser(order.getRestaurantId());
+		Check check = checkService.getCheck(order.getCheckId());
+		float checkBill = check.getBill() - order.getBill();
+		check.setBill(checkBill);
+		check.setAdditionalChargesValue1(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType1(), user.getAdditionalChargesValue1()));
+		check.setAdditionalChargesValue2(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType2(), user.getAdditionalChargesValue2()));
+		check.setAdditionalChargesValue3(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType3(), user.getAdditionalChargesValue3()));
+		checkService.addCheck(check);
 	}
 	
 	@RequestMapping(value = "/setCheckStatus")
@@ -497,10 +531,22 @@ public class OrderController {
 		com.cookedspecially.enums.check.Status status = com.cookedspecially.enums.check.Status.valueOf(com.cookedspecially.enums.check.Status.class, statusStr);
 		Check check = checkService.getCheck(checkId);
 		check.setStatus(status);
+		check.setModifiedTime(new Date());
 		checkService.addCheck(check);
 		return check;
 	}
-	
+
+	@RequestMapping(value = "/setCheckPaymentType")
+	public @ResponseBody Check setCheckPaymentType(HttpServletRequest request, HttpServletResponse response) {
+		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
+		String paymentModeStr = request.getParameter("type");
+		PaymentMode payment = PaymentMode.valueOf(PaymentMode.class, paymentModeStr);
+		Check check = checkService.getCheck(checkId);
+		check.setPayment(payment);
+		check.setModifiedTime(new Date());
+		checkService.addCheck(check);
+		return check;
+	}
 	@RequestMapping(value = "/addToCheck.json", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody OrderResponse addToCheckJSON(@RequestBody JsonOrder order, Model model, HttpServletRequest request) {
 		Check check = null;
@@ -557,6 +603,7 @@ public class OrderController {
 			Order targetOrder = new Order();
 			targetOrder.setUserId(check.getUserId());
 			targetOrder.setRestaurantId(restaurantId);
+			targetOrder.setCheckId(check.getCheckId());
 			targetOrder.setCreatedTime(new Date());
 			if (check.getTableId() > 0) {
 				targetOrder.setSourceType(SourceType.TABLE);

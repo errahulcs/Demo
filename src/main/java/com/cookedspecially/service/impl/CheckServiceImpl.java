@@ -58,4 +58,10 @@ public class CheckServiceImpl implements CheckService {
 	public List<Check> getAllOpenChecks(Integer restaurantId) {
 		return checkDAO.getAllOpenChecks(restaurantId);
 	}
+	
+	@Override
+	@Transactional
+	public List<Integer> getAllCheckIds() {
+		return checkDAO.getAllCheckIds();
+	}
 }
