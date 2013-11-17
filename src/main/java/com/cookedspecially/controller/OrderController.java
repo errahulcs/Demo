@@ -250,6 +250,16 @@ public class OrderController {
 		return listOrders(map, request);
 	}
 
+	@RequestMapping("/deleteCheck/{checkId}")
+	public @ResponseBody String deleteCheck(Map<String, Object> map, HttpServletRequest request, @PathVariable("checkId") Integer checkId) {
+		try {
+			checkService.removeCheck(checkId);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "Success: Deleted the Check with id:" +checkId;
+	}
+
 	private Check getCheck(String tableIdStr, String custIdStr, Integer restaurantId) {
 		Check check = null;
 		Integer tableId = -1;
