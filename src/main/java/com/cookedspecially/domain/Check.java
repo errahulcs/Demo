@@ -133,7 +133,7 @@ public class Check {
 	}
 
 	public Integer getTableId() {
-		return tableId;
+		return tableId == null ? -1 : tableId;
 	}
 
 	public void setTableId(Integer tableId) {
@@ -141,7 +141,7 @@ public class Check {
 	}
 
 	public Integer getCustomerId() {
-		return customerId;
+		return customerId == null ? -1: customerId;
 	}
 
 	public void setCustomerId(Integer customerId) {
