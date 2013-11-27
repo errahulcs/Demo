@@ -6,6 +6,7 @@
 	<meta charset="utf-8">
 	<title>Cooked specially</title>
 	<base href="${pageContext.request.contextPath}/"/>
+	<link rel="stylesheet" href="css/style.css" />
 	<link rel="stylesheet" href="themes/base/jquery.ui.all.css">
 	<link rel="stylesheet" type="text/css" href="themes/base/jquery.multiselect.css" />
 	<link rel="stylesheet" type="text/css" href="themes/base/jquery.multiselect.filter.css" />

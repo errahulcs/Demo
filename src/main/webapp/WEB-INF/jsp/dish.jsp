@@ -24,6 +24,7 @@
 		}
 	</style>
 	<base href="${pageContext.request.contextPath}/"/>
+	<link rel="stylesheet" href="css/style.css" />
 	<script type="text/javascript" src="js/nicEdit.js"></script>
 	<script type="text/javascript" src="js/jquery-1.9.0.js"></script>
 	<script src="js/jquery.validationEngine-en.js" type="text/javascript" charset="utf-8"></script>
