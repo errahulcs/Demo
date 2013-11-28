@@ -16,6 +16,8 @@
 			border: 1px solid #aaa;
 			margin: 2px;
 			padding: 2px;
+			text-align:center;
+			vertical-align:middle;
 		}
 		.data th {
 			font-weight: bold;
