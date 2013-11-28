@@ -5,6 +5,7 @@
 <head>
 	<title>Login Manager</title>
 	<base href="${pageContext.request.contextPath}/"/>
+	<link rel="stylesheet" href="css/style.css" />
 	<style type="text/css">
 		body {
 			font-family: sans-serif;

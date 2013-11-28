@@ -276,8 +276,8 @@
 </tr>
 <c:forEach items="${dishList}" var="dish">
 	<tr>
-		<td>${dish.name}</td>
-		<td>${dish.description}</td>
+		<td style="width:30%;">${dish.name}</td>
+		<td style="width:50%;">${dish.description}</td>
 		<td><img height="200" width="200" src="${dish.imageUrl}" /></td>
 		<td>${dish.price}</td>
 		<td><button type="button" onclick="deleteDish(${dish.dishId});">delete</button></td>
