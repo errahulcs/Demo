@@ -30,6 +30,7 @@
 			<!-- <mvc:mapping path="/customer/**"/> -->
 			<!--  <mvc:mapping path="/order/**"/>  -->
 			<mvc:mapping path="/seatingTable/**"/>
+			<mvc:exclude-mapping path="/reports/**"/>
 			<mvc:exclude-mapping path="/menu/show/**"/>
 			<mvc:exclude-mapping path="/menu/getjson/**"/>
 			<mvc:exclude-mapping path="/menu/getallmenusjson/**"/>
@@ -134,7 +135,10 @@
 	    <!-- one of the properties available; the maximum file size in bytes -->
 	    <!-- <property name="maxUploadSize" value="1000000"/> -->
 	</bean>
-	
+	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="location" value="classpath:jasper-views.xml"/>
+		<property name="order" value="0"/>
+	</bean>
 	<mvc:resources mapping="/js/**" location="/WEB-INF/js/" />
 	<mvc:resources mapping="/images/**" location="/WEB-INF/images/" />
 	<mvc:resources mapping="/css/**" location="/WEB-INF/css/" /> 
