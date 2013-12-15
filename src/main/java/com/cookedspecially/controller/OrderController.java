@@ -546,6 +546,17 @@ public class OrderController {
 		return check;
 	}
 
+	@RequestMapping(value = "/setCheckType")
+	public @ResponseBody Check setCheckType(HttpServletRequest request, HttpServletResponse response) {
+		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
+		String typeStr = request.getParameter("type");
+		CheckType checkType = CheckType.valueOf(CheckType.class, typeStr);
+		Check check = checkService.getCheck(checkId);
+		check.setCheckType(checkType);
+		check.setModifiedTime(new Date());
+		checkService.addCheck(check);
+		return check;
+	}
 	@RequestMapping(value = "/setCheckPaymentType")
 	public @ResponseBody Check setCheckPaymentType(HttpServletRequest request, HttpServletResponse response) {
 		Integer checkId = Integer.parseInt(request.getParameter("checkId"));

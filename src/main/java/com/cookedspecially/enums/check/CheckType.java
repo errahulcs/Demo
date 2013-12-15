@@ -8,5 +8,5 @@ package com.cookedspecially.enums.check;
  *
  */
 public enum CheckType {
-	Table, TakeAway, Web;
+	Table, TakeAway, Delivery;
 }
