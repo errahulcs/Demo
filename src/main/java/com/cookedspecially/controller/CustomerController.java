@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cookedspecially.domain.Check;
 import com.cookedspecially.domain.Customer;
 import com.cookedspecially.domain.Customers;
+import com.cookedspecially.domain.JsonOrder;
 import com.cookedspecially.service.CustomerService;
 import com.cookedspecially.utility.StringUtility;
 
@@ -42,6 +45,11 @@ public class CustomerController {
 		return "customer";
 	}
 
+	@RequestMapping("/addCustomer")
+	public String addCustomerJSONPage(Map<String, Object> map, HttpServletRequest request) {
+		return "addCustomer";
+	}
+
 	@RequestMapping("/edit/{customerId}")
 	public String editCustomer(Map<String, Object> map, HttpServletRequest request, @PathVariable("customerId") Integer customerId) {
 
@@ -56,6 +64,17 @@ public class CustomerController {
 		return "redirect:/customer/";
 	}
 
+	@RequestMapping(value = "/setCustomerInfo.json", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public @ResponseBody String setCustomerInfoJSON(@RequestBody Customer customer, Model model, HttpServletRequest request) {
+		if (customer != null && customer.getRestaurantId() != null) {
+			customer.setUserId(customer.getRestaurantId());
+			customerService.addCustomer(customer);
+			
+			return "Successfully set customer";
+		}
+		return "Improper customer info supplied";
+	}
+	
 	@RequestMapping("/delete/{customerId}")
 	public String deleteCustomer(Map<String, Object> map, HttpServletRequest request, @PathVariable("customerId") Integer customerId) {
 
