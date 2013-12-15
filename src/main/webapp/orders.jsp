@@ -12,16 +12,20 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 		<title> Orders </title>
-		<link rel="stylesheet" type="text/css" href="/static/checks/css/jquery.mobile-1.3.0.css" />
-		</script>
 		<script type="text/javascript" charset="utf-8" src="/static/checks/js/json2.js">
 		</script>
-		<script type="text/javascript" charset="utf-8" src="/static/checks/js/jquery-1.9.1.js">
+
+		<link rel="stylesheet" href="//code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile-1.4.0-rc.1.min.css">
+		<script src="//code.jquery.com/jquery-1.10.2.min.js">
 		</script>
-		<script type="text/javascript" charset="utf-8" src="/static/checks/js/jquery-migrate-1.1.1.js">
+		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js">
 		</script>
-		<script type="text/javascript" charset="utf-8" src="/static/checks/js/jquery.mobile-1.3.0.js">
+		<script src="//code.jquery.com/ui/1.10.3/jquery-ui.js">
 		</script>
+		<script src="//code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile-1.4.0-rc.1.min.js">
+		</script>
+
+
 		<script type="text/javascript" charset="utf-8" src="/static/checks/js/zepto.onpress.js">
 		</script>
 
