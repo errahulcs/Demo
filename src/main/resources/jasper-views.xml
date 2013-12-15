@@ -21,5 +21,15 @@ http://www.springframework.org/schema/util/spring-util.xsd">
           class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
           p:url="classpath:sample2.jrxml"
           p:reportDataKey="datasource" />
+     
+     <bean id="xlsReport"
+          class="org.springframework.web.servlet.view.jasperreports.JasperReportsXlsView"
+          p:url="classpath:sample2.jrxml"
+          p:reportDataKey="datasource" />
+     
+     <bean id="csvReport"
+          class="org.springframework.web.servlet.view.jasperreports.JasperReportsCsvView"
+          p:url="classpath:sample2.jrxml"
+          p:reportDataKey="datasource"/>
  
 </beans>

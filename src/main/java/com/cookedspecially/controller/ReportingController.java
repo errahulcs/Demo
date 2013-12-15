@@ -34,8 +34,8 @@ public class ReportingController {
 	@Autowired
 	private CheckService checkService;
 	
-	@RequestMapping(value = "jrreport", method=RequestMethod.GET)
-	public ModelAndView showReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
+	@RequestMapping(value = "html", method=RequestMethod.GET)
+	public ModelAndView generateHTMLReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
 		JRDataSource jrds = new JRBeanCollectionDataSource(checkService.getAllOpenChecks(restaurantId));
 		Map<String,Object> parameterMap = new HashMap<String,Object>();
 		//model.addAttribute("datasource", jrds);
@@ -65,4 +65,28 @@ public class ReportingController {
  
     }//generatePdfReport
  
+	@RequestMapping(method = RequestMethod.GET , value = "xls.xlsx")
+    public ModelAndView generateXlsReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView modelAndView){ 
+        Map<String,Object> parameterMap = new HashMap<String,Object>();
+        JRDataSource jrds = new JRBeanCollectionDataSource(checkService.getAllOpenChecks(restaurantId));       
+        parameterMap.put("datasource", jrds);
+ 
+        //xlsReport bean has ben declared in the jasper-views.xml file
+        modelAndView = new ModelAndView("xlsReport", parameterMap);
+ 
+        return modelAndView;
+ 
+    }//generatePdfReport
+ 
+	 @RequestMapping(method = RequestMethod.GET , value = "csv")
+	    public ModelAndView generateCsvReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView modelAndView){
+	 
+	        Map<String,Object> parameterMap = new HashMap<String,Object>();
+	        JRDataSource jrds = new JRBeanCollectionDataSource(checkService.getAllOpenChecks(restaurantId));       
+	        parameterMap.put("datasource", jrds);
+	 
+	        //xlsReport bean has ben declared in the jasper-views.xml file
+	        modelAndView = new ModelAndView("csvReport", parameterMap);
+	        return modelAndView;
+	    }//generatePdfReport
 }

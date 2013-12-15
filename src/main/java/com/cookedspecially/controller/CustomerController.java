@@ -66,8 +66,8 @@ public class CustomerController {
 
 	@RequestMapping(value = "/setCustomerInfo.json", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody String setCustomerInfoJSON(@RequestBody Customer customer, Model model, HttpServletRequest request) {
-		if (customer != null && customer.getRestaurantId() != null) {
-			customer.setUserId(customer.getRestaurantId());
+		if (customer != null) {
+			//customer.setUserId(customer.getRestaurantId());
 			customerService.addCustomer(customer);
 			
 			return "Successfully set customer";
