@@ -9,17 +9,17 @@ http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<bean id="multiViewReport" 
 	class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView">
-		<property name="url" value="classpath:samplereport.jrxml"/>
+		<property name="url" value="classpath:sample2.jrxml"/>
 	</bean>
 	
 	<bean id="htmlReport"
           class="org.springframework.web.servlet.view.jasperreports.JasperReportsHtmlView"
-          p:url="classpath:samplereport.jrxml"
+          p:url="classpath:sample2.jrxml"
           p:reportDataKey="datasource" />
           
      <bean id="pdfReport"
           class="org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView"
-          p:url="classpath:samplereport.jrxml"
+          p:url="classpath:sample2.jrxml"
           p:reportDataKey="datasource" />
  
 </beans>
