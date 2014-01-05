@@ -1,5 +1,6 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.regex.*"%>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -36,11 +37,36 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/ed
 	if (usernameMatch.test(username)) {
 		//alert("match");
 		var matchArray = usernameMatch.exec(username).slice();
-		document.write('<a href="/static/mobile/index.html?{%22restaurants%22:[' + restaurantId + ']}">Visit your mobile website<\/a>');
-		document.write('&nbsp;|&nbsp;<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/assets/www/index.html">Save your application using HTML5<\/a>');
-		document.write('&nbsp;|&nbsp;<a href="/static/clients/' + matchArray[3] + '/' + matchArray[2] + '/' + matchArray[1] + '/' + matchArray[1] + '.apk">Download Android App for your business<\/a>');
-		document.write('&nbsp;|&nbsp;<a href="orders.jsp#menus">Manage orders from customers<\/a>');
-		document.write('&nbsp;|&nbsp;<a href="checks.jsp#menus">Manage table status and print checks<\/a>');
+		document.write('<a target="csmobile" href="/static/mobile/index.html?{%22restaurants%22:[' + restaurantId + ']}">Visit your mobile website<\/a>');
+		document.write('&nbsp;|&nbsp;<a target="cstable" href="/static/table/index.html?{%22restaurants%22:[' + restaurantId + ']}">Save your application using HTML5<\/a>');
+<%-- http://stackoverflow.com/questions/2291085/how-to-check-if-external-url-content-loads-correctly-into-an-iframe-in-jsp-pag --%>
+<c:set var="androidAppUrl" value=""/>
+<%
+	String androidAppUrl = "";
+	Pattern pattern = 
+	Pattern.compile("(.+)\\@(.+)\\.(.+)");
+
+	Matcher matcher = 
+	pattern.matcher(request.getSession().getAttribute("username").toString());
+
+	while (matcher.find()) {
+		pageContext.setAttribute("androidAppUrl", "/static/clients/" + matcher.group(3) + "/" + matcher.group(2) + "/" + matcher.group(1) + ".apk");
+	}
+%>
+<c:catch var="e">
+    <c:import url="${androidAppUrl}" context="/" varReader="ignore"/>
+    <c:out value="// Android App URL: ${androidAppUrl}" />
+</c:catch>
+<c:choose>
+<c:when test="${empty e}">
+	document.write('&nbsp;|&nbsp;<a href="<c:out value="${androidAppUrl}" />">Download your Android App<\/a>');
+</c:when>
+<c:otherwise>
+	document.write('&nbsp;|&nbsp;<a href="mailto:akshay@cookedspecially.com">Ask about custom Android App development<\/a>');
+</c:otherwise>
+</c:choose>
+		document.write('&nbsp;|&nbsp;<a target="csorders" href="orders.jsp#menus">Manage orders from customers<\/a>');
+		document.write('&nbsp;|&nbsp;<a target="cschecks" href="checks.jsp#menus">Manage table status and print checks<\/a>');
 	}
 	else {
 		//alert("no match");
