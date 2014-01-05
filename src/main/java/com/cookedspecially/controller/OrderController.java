@@ -201,6 +201,7 @@ public class OrderController {
 				orderDish.setDishId(jsonDish.getId());
 				orderDish.setQuantity(1);
 				orderDish.setPrice(jsonDish.getPrice());
+				orderDish.setDishType(StringUtility.isNullOrEmpty(jsonDish.getDishType())?"OTHERS":jsonDish.getDishType());
 				orderDishMap.put(orderDish.getDishId(), orderDish);
 			}
 			bill += jsonDish.getPrice();
@@ -651,6 +652,7 @@ public class OrderController {
 					orderDish.setQuantity(jsonDish.getQuantity());
 					orderDish.setName(jsonDish.getName());
 					orderDish.setPrice(jsonDish.getPrice());
+					orderDish.setDishType(StringUtility.isNullOrEmpty(jsonDish.getDishType())?"OTHERS":jsonDish.getDishType());
 					orderDishMap.put(orderDish.getDishId(), orderDish);
 				}
 				bill += (jsonDish.getPrice()*jsonDish.getQuantity());

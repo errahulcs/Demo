@@ -92,6 +92,7 @@ SubmitOrderJSON = function() {
         <tr><td> Name: </td><td><input type="text" name="name" id="name"/>  </td></tr>
         <tr><td> Price: </td><td><input type="text" name="price" id="price"/>  </td></tr>
         <tr><td> Quantity: </td><td><input type="text" name="quantity" id="quantity"/>  </td></tr>
+        <tr><td> DIshType: </td><td><input type="text" name="dishType" id="dishType"/>  </td></tr>
         <tr><td>  </td><td>  <input type="button" id="addItem" value="Add Item to Order" onclick="addItemToOrder()" /></td></tr>
 
     </table>

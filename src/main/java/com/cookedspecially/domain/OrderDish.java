@@ -34,6 +34,9 @@ public class OrderDish {
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="dishType")
+	private String dishType;
+	
 	public Integer getOrderDishId() {
 		return orderDishId;
 	}
@@ -78,6 +81,14 @@ public class OrderDish {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getDishType() {
+		return dishType;
+	}
+
+	public void setDishType(String dishType) {
+		this.dishType = dishType;
 	}
 	
 }
