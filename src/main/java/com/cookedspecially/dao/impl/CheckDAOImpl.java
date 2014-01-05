@@ -3,9 +3,12 @@
  */
 package com.cookedspecially.dao.impl;
 
+
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Projections;
@@ -15,7 +18,6 @@ import org.springframework.stereotype.Repository;
 
 import com.cookedspecially.dao.CheckDAO;
 import com.cookedspecially.domain.Check;
-import com.cookedspecially.domain.Menu;
 import com.cookedspecially.enums.check.Status;
 
 /**
@@ -66,6 +68,7 @@ public class CheckDAOImpl implements CheckDAO {
 		}
 	}
 
+	
 	@Override
 	public List<Check> getAllOpenChecks(Integer restaurantId) {
 		return sessionFactory.getCurrentSession().createCriteria(Check.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.ne("status", Status.Paid), Restrictions.ne("status", Status.Cancel))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
@@ -78,5 +81,14 @@ public class CheckDAOImpl implements CheckDAO {
 
 		List<Integer> ids=criteria.list();
 		return ids;
+	}
+	
+	@Override
+	public List getClosedChecksByDate(Integer restaurantId, Date startDate, Date endDate) {
+		//return sessionFactory.getCurrentSession().createCriteria(Check.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.ne("status", Status.Unpaid), Restrictions.ne("status", Status.Cancel), Restrictions.between("closeTime", startDate, endDate))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+		String sqlQuery = "SELECT sum(bill), checkType FROM Check WHERE restaurantId = :restaurantId AND closeTime > :startDate AND closeTime < :endDate group by checkType)";
+		Query query = sessionFactory.getCurrentSession().createQuery(sqlQuery).setParameter("restaurantId", restaurantId).setParameter("startDate", startDate).setParameter("endDate", endDate);
+		return query.list();
+
 	}
 }

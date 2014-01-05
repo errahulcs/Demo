@@ -3,6 +3,7 @@
  */
 package com.cookedspecially.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.cookedspecially.domain.Check;
@@ -20,4 +21,5 @@ public interface CheckDAO {
 	public Check getCheckByCustId(Integer restaurantId, Integer custId);
 	public List<Check> getAllOpenChecks(Integer restaurantId);
 	public List<Integer> getAllCheckIds();
+	public List getClosedChecksByDate(Integer restaurantId, Date startDate, Date endDate);
 }

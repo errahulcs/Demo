@@ -3,7 +3,9 @@
  */
 package com.cookedspecially.service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.cookedspecially.domain.Check;
 
@@ -20,4 +22,5 @@ public interface CheckService {
 	public Check getCheckByCustId(Integer restaurantId, Integer custId);
 	public List<Check> getAllOpenChecks(Integer restaurantId);
 	public List<Integer> getAllCheckIds();
+	public List getClosedChecksByDate(Integer restaurantId, Date startDate, Date endDate);
 }

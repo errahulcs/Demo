@@ -3,6 +3,8 @@
  */
 package com.cookedspecially.service.impl;
 
+
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +65,11 @@ public class CheckServiceImpl implements CheckService {
 	@Transactional
 	public List<Integer> getAllCheckIds() {
 		return checkDAO.getAllCheckIds();
+	}
+	
+	@Override
+	@Transactional
+	public List getClosedChecksByDate(Integer restaurantId, Date startDate, Date endDate) {
+		return checkDAO.getClosedChecksByDate(restaurantId, startDate, endDate);
 	}
 }

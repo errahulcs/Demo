@@ -117,11 +117,6 @@
     	<artifactId>junit</artifactId>
     	<version>4.11</version>
     </dependency>
-    <dependency>
-    	<groupId>org.codehaus.jackson</groupId>
-    	<artifactId>jackson-mapper-asl</artifactId>
-    	<version>1.9.12</version>
-    </dependency>
 	<dependency>
 		<groupId>commons-fileupload</groupId>
 		<artifactId>commons-fileupload</artifactId>
@@ -148,18 +143,30 @@
         <artifactId>spring-context-support</artifactId>
         <version>${org.springframework.version}</version>
     </dependency>
-<!-- 	
+	<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-core-asl</artifactId>
+		<version>1.9.13</version>
+	</dependency>
+	<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-asl</artifactId>
+		<version>1.9.13</version>
+	</dependency>
+	  <!-- 
 	<dependency>
 		<groupId>net.sf.jasperreports</groupId>
 		<artifactId>jasperreports</artifactId>
-		<version>5.2.0</version>
+		<version>5.0.1</version>
 	</dependency>
+	-->
 	<dependency>
 		<groupId>org.apache.poi</groupId>
 		<artifactId>poi</artifactId>
 		<version>3.9</version>
 	</dependency>
--->
+	
+
   </dependencies>
   <properties>
     <org.springframework.version>3.2.0.RELEASE</org.springframework.version>
