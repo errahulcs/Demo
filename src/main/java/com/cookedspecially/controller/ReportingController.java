@@ -44,6 +44,7 @@ public class ReportingController {
 		Map<String, Object> reportDataMap = new HashMap<String, Object>();
 		reportDataMap.put("checks", checks);
 		reportDataMap.put("reportName", "checkReport");
+		reportDataMap.put("restaurantName", "Axis Restaurant");
 		reportDataMap.put("Headers", Arrays.asList("Id", "price"));
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
@@ -66,6 +67,7 @@ public class ReportingController {
 		reportDataMap.put("reportName", "dailySalesSummary");
 		reportDataMap.put("Headers", Arrays.asList("", "Food", "Beverages"));
 		reportDataMap.put("Cat", Arrays.asList("DINE IN", "ROOM SERVICE", "TAKEAWAY", "DELIVERY", "GROSS SALES"));
+		reportDataMap.put("restaurantName", "Axis Restaurant");
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
 	

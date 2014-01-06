@@ -59,9 +59,11 @@ public class ExcelReportView extends AbstractExcelView {
 
 	    
 	    style=workbook.createCellStyle();
-	    style.setFillBackgroundColor(HSSFColor.GREY_25_PERCENT.index);
+	    //style.setFillBackgroundColor(HSSFColor.AUTOMATIC.index);
+	    style.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 	    style.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-	    style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	    style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+	    //style.setWrapText(true);
 	    style.setFont(defaultFont);
 		
 		
@@ -70,32 +72,52 @@ public class ExcelReportView extends AbstractExcelView {
 		String restaurantName = (String)reportDataMap.get("restaurantName");
 		if (!StringUtility.isNullOrEmpty(restaurantName)) {
 			HSSFRow row = sheet.createRow(rowNum++);
+			row.setRowStyle(style);
+			row.setHeight((short)0);
 			HSSFCell cell = row.createCell(0);
 			cell.setCellValue(restaurantName);
 			cell.setCellStyle(style);
 			rowNum++;
-			row.setHeightInPoints(20);
+			//row.setHeightInPoints(20);
+
 		}
 		
 		// Create Report Name entry
 		HSSFRow row = sheet.createRow(rowNum++);
+		row.setRowStyle(style);
+		row.setHeight((short)0);
 		HSSFCell cell = row.createCell(0);
 		cell.setCellValue(reportName);
 		cell.setCellStyle(style);
-		row.setHeightInPoints(20);
+		//row.setHeightInPoints(-1);
 		rowNum++;
 		
+		HSSFCellStyle headerStyle=workbook.createCellStyle();
+	    //style.setFillBackgroundColor(HSSFColor.AUTOMATIC.index);
+		headerStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+		headerStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+		headerStyle.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+	    //style.setWrapText(true);
+		headerStyle.setFont(defaultFont);
+		headerStyle.setBorderBottom((short)1);
+		//headerStyle.setBorderLeft((short)1);
+		headerStyle.setBorderTop((short)1);
+		headerStyle.setBorderRight((short)1);
+		headerStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		headerStyle.setLeftBorderColor(HSSFColor.BLACK.index);
+		headerStyle.setTopBorderColor(HSSFColor.BLACK.index);
+		headerStyle.setRightBorderColor(HSSFColor.BLACK.index);
 		// Create actual headers
 		HSSFRow header = sheet.createRow(rowNum++);
 	    int headerNum = 0;
 		for (String headerValue : headers) {
 			HSSFCell headerCell = header.createCell(headerNum++);	
 			headerCell.setCellValue(headerValue);
-			headerCell.setCellStyle(style);
+			headerCell.setCellStyle(headerStyle);
 		}
-		header.setHeightInPoints(20);
+		//header.setHeightInPoints(20);
 		//header.setRowStyle(style);
-		
+		header.setHeight((short)0);
 		if (reportName.equals("checkReport")) {
 			createCheckReport(sheet, reportDataMap, rowNum);
 		} else {
