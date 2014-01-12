@@ -72,4 +72,22 @@ public class CheckServiceImpl implements CheckService {
 	public List getClosedChecksByDate(Integer restaurantId, Date startDate, Date endDate) {
 		return checkDAO.getClosedChecksByDate(restaurantId, startDate, endDate);
 	}
+	
+	@Override
+	@Transactional
+	public List<Check> getDailyInvoice(Integer restaurantId, Date startDate) {
+		return checkDAO.getDailyInvoice(restaurantId, startDate);
+	}
+	
+	@Override
+	@Transactional
+	public List<String> getUniqueDishTypes(Integer restaurantId) {
+		return checkDAO.getUniqueDishTypes(restaurantId);
+	}
+	
+	@Override
+	@Transactional
+	public List getDailySalesRecords(Integer restaurantId, Date startDate) {
+		return checkDAO.getDailySalesRecords(restaurantId, startDate);
+	}
 }

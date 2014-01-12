@@ -4,6 +4,7 @@
 package com.cookedspecially.controller;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -49,24 +50,50 @@ public class ReportingController {
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
 	
-	@RequestMapping(value = "dailySalesSummary.xlsx", method=RequestMethod.GET)
-	public ModelAndView dailySalesSummaryExcel(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
-		Calendar today = Calendar.getInstance();
-		//today.add(Calendar.DAY_OF_YEAR, -100);
-		today.set(Calendar.HOUR_OF_DAY, 0);
-		today.set(Calendar.MINUTE, 0);
-		today.set(Calendar.SECOND, 0);
-		today.set(Calendar.MILLISECOND, 0);
-		Calendar nextDay = Calendar.getInstance();
-		nextDay.setTime(today.getTime());
-		nextDay.add(Calendar.DAY_OF_MONTH, 1);
-		List data = checkService.getClosedChecksByDate(restaurantId, today.getTime(), nextDay.getTime());
+	@RequestMapping(value = "dailyInvoice.xlsx", method=RequestMethod.GET)
+	public ModelAndView dailyInvoiceExcel(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
+		Calendar yesterday = Calendar.getInstance();
+		yesterday.add(Calendar.DAY_OF_YEAR, -1);
+		yesterday.set(Calendar.HOUR_OF_DAY, 0);
+		yesterday.set(Calendar.MINUTE, 0);
+		yesterday.set(Calendar.SECOND, 0);
+		yesterday.set(Calendar.MILLISECOND, 0);
+		List<Check> data = checkService.getDailyInvoice(restaurantId, yesterday.getTime());
 				
 		Map<String, Object> reportDataMap = new HashMap<String, Object>();
 		reportDataMap.put("data", data);
-		reportDataMap.put("reportName", "dailySalesSummary");
-		reportDataMap.put("Headers", Arrays.asList("", "Food", "Beverages"));
-		reportDataMap.put("Cat", Arrays.asList("DINE IN", "ROOM SERVICE", "TAKEAWAY", "DELIVERY", "GROSS SALES"));
+		reportDataMap.put("reportName", "Daily Invoice");
+		List<String> headers = new ArrayList<String>(Arrays.asList("No.", "Invoice#", "Opening Time", "Closing Time", "Source", "Total")); 
+		List<String> dishTypes = checkService.getUniqueDishTypes(restaurantId);
+		headers.addAll(dishTypes);
+		reportDataMap.put("dishTypes", dishTypes);
+		reportDataMap.put("Headers", headers);
+		reportDataMap.put("restaurantName", "Axis Restaurant");
+		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
+	}
+	
+	@RequestMapping(value = "dailySalesSummary.xlsx", method=RequestMethod.GET)
+	public ModelAndView dailySalesSummaryExcel(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {		
+		Calendar yesterday = Calendar.getInstance();
+		yesterday.add(Calendar.DAY_OF_YEAR, -1);
+		yesterday.set(Calendar.HOUR_OF_DAY, 0);
+		yesterday.set(Calendar.MINUTE, 0);
+		yesterday.set(Calendar.SECOND, 0);
+		yesterday.set(Calendar.MILLISECOND, 0);
+
+		List<Check> data = checkService.getDailyInvoice(restaurantId, yesterday.getTime());
+		
+		Map<String, Object> reportDataMap = new HashMap<String, Object>();
+		reportDataMap.put("data", data);
+		reportDataMap.put("reportName", "Daily Sales Summary");
+		List<String> headers = new ArrayList<String>(Arrays.asList("Gross Sales By Source")); 
+		List<String> dishTypes = checkService.getUniqueDishTypes(restaurantId);
+		headers.addAll(dishTypes);
+		headers.add("Total");
+		headers.add("No. of Checks");
+		headers.add("Cost/Check");
+		reportDataMap.put("dishTypes", dishTypes);
+		reportDataMap.put("Headers", headers);
 		reportDataMap.put("restaurantName", "Axis Restaurant");
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}

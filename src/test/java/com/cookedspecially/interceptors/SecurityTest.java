@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Locale;
@@ -15,6 +16,8 @@ import java.util.Locale;
 import javax.imageio.ImageIO;
 
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.hamcrest.core.StringEndsWith;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
@@ -28,9 +31,14 @@ import junit.framework.TestCase;
  */
 public class SecurityTest extends TestCase {
 
-	public void testPassword() {
+	public void testPassword() throws UnsupportedEncodingException {
 		PasswordEncoder encoder = new ShaPasswordEncoder();
-		String hash = encoder.encodePassword("hello", "BITE MY SHINY METAL ASS!");
+		//String hash = encoder.encodePassword("hello", "BITE MY SHINY METAL ASS!");
+		String string = "&#2309;&#2344;&#2369;&#2330;&#2381;&#2331;&#2375;&#2342;";
+		String strEscap = StringEscapeUtils.unescapeHtml4(string);
+		System.out.println(strEscap);
+		System.out.println(URLDecoder.decode(strEscap, "utf-8"));
+		System.out.println(StringEscapeUtils.escapeHtml4(strEscap));
 		//System.out.println(hash);
 		//System.out.println(encoder.isPasswordValid(hash, "hello", "BITE MY SHINY METAL ASS!"));
 	}

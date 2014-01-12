@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.cookedspecially.dao.CheckDAO;
 import com.cookedspecially.domain.Check;
+import com.cookedspecially.domain.OrderDish;
 import com.cookedspecially.enums.check.Status;
 
 /**
@@ -90,5 +91,27 @@ public class CheckDAOImpl implements CheckDAO {
 		Query query = sessionFactory.getCurrentSession().createQuery(sqlQuery).setParameter("restaurantId", restaurantId).setParameter("startDate", startDate).setParameter("endDate", endDate);
 		return query.list();
 
+	}
+	
+	@Override
+	public List<Check> getDailyInvoice(Integer restaurantId, Date startDate) {
+		return sessionFactory.getCurrentSession().createCriteria(Check.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.gt("openTime", startDate), Restrictions.ne("status", Status.Cancel))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+	}
+	
+	@Override
+	public List<String> getUniqueDishTypes(Integer restaurantId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(OrderDish.class);
+		criteria.setProjection( Projections.distinct(Projections.property("dishType")));
+
+		List<String> ids=criteria.list();
+		return ids;
+		
+	}
+	
+	@Override
+	public List getDailySalesRecords(Integer restaurantId, Date startDate) {
+		String sqlQuery = "select sum(c.bill), c.checkType, i.dishType, sum(i.price) FROM (SELECT bill, checkType FROM Check WHERE restaurantId = :restaurantId AND openTime > :startDate) c JOIN Check.orders o JOIN o.orderDishes i group by c.checkType, i.dishType)";
+		Query query = sessionFactory.getCurrentSession().createQuery(sqlQuery).setParameter("restaurantId", restaurantId).setParameter("startDate", startDate);
+		return query.list();
 	}
 }
