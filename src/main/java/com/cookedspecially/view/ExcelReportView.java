@@ -165,9 +165,9 @@ public class ExcelReportView extends AbstractExcelView {
 		for(CheckType checkTypeEnum : CheckType.values()) {
 			Map<String, Double> dishTypeBillMap = new HashMap<String, Double>();
 			for (String dishType : dishTypes) {
-				dishTypeTotalBillMap.put(dishType, 0.0);
+				dishTypeBillMap.put(dishType, 0.0);
 			}
-			checkTypevsDishTypeBillMap.put(checkTypeEnum.toString(), dishTypeTotalBillMap);
+			checkTypevsDishTypeBillMap.put(checkTypeEnum.toString(), dishTypeBillMap);
 			checkTypeCountMap.put(checkTypeEnum.toString(), 0);
 		}
 		
