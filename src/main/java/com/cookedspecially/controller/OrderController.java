@@ -3,6 +3,7 @@
  */
 package com.cookedspecially.controller;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -568,6 +570,20 @@ public class OrderController {
 		check.setModifiedTime(new Date());
 		checkService.addCheck(check);
 		return check;
+	}
+	
+	@RequestMapping(value = "/setDeliveryTime")
+	public @ResponseBody String setCheckDeliveryTime(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+		Integer checkId  = Integer.parseInt(request.getParameter("checkId"));
+		String deliveryTimeStr = request.getParameter("deliveryTime");
+		Check check = checkService.getCheck(checkId);
+		System.out.println(deliveryTimeStr);
+		System.out.println(checkId);
+		if (check != null) {
+			Date deliveryTime = DateUtils.parseDate(deliveryTimeStr, "yyyy-MM-dd HH:mm");
+			check.setDeliveryTime(deliveryTime);
+		}
+		return "recieved";
 	}
 	@RequestMapping(value = "/addToCheck.json", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody OrderResponse addToCheckJSON(@RequestBody JsonOrder order, Model model, HttpServletRequest request) {

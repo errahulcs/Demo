@@ -1,9 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3
+.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <title>My jQuery JSON Web Page</title>
 <head>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/jquery-ui.min.js"></script>
+<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/base/jquery-ui.css" />
+
 <base href="${pageContext.request.contextPath}/"/>
+
+<!-- <script type="text/javascript" src="js/jquery.js"></script> -->
+<script type="text/javascript" src="js/jquery.simple-dtpicker.js"></script>
+<link rel="stylesheet" type="text/css" href="css/jquery.simple-dtpicker.css" />
+
 <script type="text/javascript">
 var order = {number:20, checkId:2, tableId:1, time:'',price:'20.3',items:[]};
 var itemsCount = 0;
@@ -78,7 +88,7 @@ SubmitOrderJSON = function() {
 <form id="createOrderForm" action="#" method="post">
     <table>
         <tr><td> CheckId: </td><td><input type="text" name="checkId" id="checkId"/>  </td></tr>
-        <tr><td> TableId </td><td><input type="text" name="tableId" id="tableId"/>  </td></tr>
+        <tr><td> TableId </td><t</div>d><input type="text" name="tableId" id="tableId"/>  </td></tr>
         <tr><td> CustId </td><td><input type="text" name="custId" id="custId"/>  </td></tr>
         <tr><td> RestaurantId: </td><td><input type="text" name="restaurantId" id="restaurantId"/>  </td></tr>
         <tr><td>  </td><td>  <input type="button" id="createOrder" value="Initialize Order" onclick="initializeOrder()" /></td></tr>
@@ -102,5 +112,20 @@ SubmitOrderJSON = function() {
 
 <button type="button" onclick="SubmitOrderJSON()">Submit Order JSON</button>
 
+<form id="deliveryTimeForm" action="order/setDeliveryTime" method="post">
+    <label> CheckId:</label>
+    <input type="text" name="checkId" />
+    <label>Delivery Time : </label>
+	
+    <input type="text" name="deliveryTime" class="date-picker" />
+    
+    <input type="submit" value="Add DeliveryTime" />
+</form>
+
+<script>
+$(function() {
+    $('.date-picker').appendDtpicker({"minuteInterval": 15});
+});
+</script>
 </body>
 </html> 

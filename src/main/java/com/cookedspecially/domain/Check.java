@@ -100,6 +100,10 @@ public class Check {
 	@Column(name="additionalChargesValue3")
 	private float additionalChargesValue3 = 0.0f;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="deliveryTime")
+	private Date deliveryTime;
+	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(orphanRemoval=true)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.REMOVE})
@@ -266,6 +270,14 @@ public class Check {
 
 	public void setCheckType(CheckType checkType) {
 		this.checkType = checkType;
+	}
+
+	public Date getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(Date deliveryTime) {
+		this.deliveryTime = deliveryTime;
 	}	
 	
 }
