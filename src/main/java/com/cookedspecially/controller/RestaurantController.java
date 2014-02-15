@@ -10,7 +10,9 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
@@ -32,10 +34,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.cookedspecially.domain.Category;
+import com.cookedspecially.domain.DeliveryArea;
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.Restaurant;
 import com.cookedspecially.domain.RestaurantInfo;
 import com.cookedspecially.domain.User;
+import com.cookedspecially.service.DeliveryAreaService;
 import com.cookedspecially.service.RestaurantService;
 import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.StringUtility;
@@ -53,6 +58,9 @@ public class RestaurantController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private DeliveryAreaService deliveryAreaService;
 	
 	@RequestMapping("/")
 	public String listRestaurants(Map<String, Object> map, HttpServletRequest request) {
@@ -110,6 +118,58 @@ public class RestaurantController {
 			user = userService.getUser(Integer.parseInt(restaurantIdStr));
 		}
 		return new RestaurantInfo(user);
+	}
+	
+	@RequestMapping(value="/getDeliveryAreas", method=RequestMethod.GET)
+	public @ResponseBody ArrayList<String> getDeliveryAreas(HttpServletRequest request, HttpServletResponse response) {
+		String username = request.getParameter("username");
+		String restaurantIdStr = request.getParameter("restaurantId");
+		User user = null;
+		if (!StringUtility.isNullOrEmpty(username)) {
+			user = userService.getUserByUsername(username);
+		} else if (!StringUtility.isNullOrEmpty(restaurantIdStr)) {
+			user = userService.getUser(Integer.parseInt(restaurantIdStr));
+		}
+		ArrayList<String> deliveryAreasList = new ArrayList<String>();
+		if (user != null) {
+			List<DeliveryArea> deliveryAreas = deliveryAreaService.listDeliveryAreasByUser(user.getUserId());
+			for (DeliveryArea deliveryArea : deliveryAreas) {
+				deliveryAreasList.add(deliveryArea.getName());
+			}
+		}
+		deliveryAreasList.add(DeliveryAreaService.defaultDeliveryArea);
+		return deliveryAreasList;
+	}
+	
+	@RequestMapping("/deliveryAreas")
+	public String listDeliveryAreas(Map<String, Object> map, HttpServletRequest request) {
+
+		map.put("deliveryArea", new DeliveryArea());
+		map.put("deliveryAreaList", deliveryAreaService.listDeliveryAreasByUser((Integer) request.getSession().getAttribute("userId")));
+		return "deliveryArea";
+	}
+
+	@RequestMapping("/editDeliveryArea/{deliveryAreaId}")
+	public String editDeliveryArea(Map<String, Object> map, HttpServletRequest request, @PathVariable("deliveryAreaId")
+	Integer deliveryAreaId) {
+
+		map.put("deliveryArea", deliveryAreaService.getDeliveryArea(deliveryAreaId));
+		map.put("deliveryAreaList", deliveryAreaService.listDeliveryAreasByUser((Integer) request.getSession().getAttribute("userId")));
+		return "deliveryArea";
+	}
+	
+	@RequestMapping(value = "/addDeliveryArea", method = RequestMethod.POST)
+	public String addDeliveryArea(@ModelAttribute("deliveryArea")
+	DeliveryArea deliveryArea, BindingResult result) {
+		deliveryAreaService.addDeliveryArea(deliveryArea);
+		return "redirect:/restaurant/deliveryAreas";
+	}
+
+	@RequestMapping("/deleteDeliveryArea/{deliveryAreaId}")
+	public String deleteDeliveryArea(@PathVariable("deliveryAreaId")
+	Integer deliveryAreaId) {
+		deliveryAreaService.removeDeliveryArea(deliveryAreaId);
+		return "redirect:/restaurant/deliveryAreas/";
 	}
 	
 	

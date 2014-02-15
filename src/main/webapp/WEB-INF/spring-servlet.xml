@@ -41,6 +41,7 @@
 			<mvc:exclude-mapping path="/seatingTable/getRestaurantTables.json/**"/>
 			<mvc:exclude-mapping path="/restaurant/resources/**"/>
 			<mvc:exclude-mapping path="/restaurant/getrestaurantinfo/**"/>
+			<mvc:exclude-mapping path="/restaurant/getDeliveryAreas/**"/>
 			<bean class="com.cookedspecially.interceptors.AdminInterceptors" />
 		</mvc:interceptor>	
 	</mvc:interceptors>
