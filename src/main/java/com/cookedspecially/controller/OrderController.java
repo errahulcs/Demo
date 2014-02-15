@@ -543,6 +543,13 @@ public class OrderController {
 		String statusStr = request.getParameter("status");
 		com.cookedspecially.enums.check.Status status = com.cookedspecially.enums.check.Status.valueOf(com.cookedspecially.enums.check.Status.class, statusStr);
 		Check check = checkService.getCheck(checkId);
+		if (status == com.cookedspecially.enums.check.Status.Cancel) {
+			// cancel all orders within
+			List<Order> orders = check.getOrders();
+			for (Order order: orders) {
+				order.setStatus(Status.CANCELLED);
+			}
+		} 
 		check.setStatus(status);
 		check.setModifiedTime(new Date());
 		checkService.addCheck(check);
@@ -642,6 +649,7 @@ public class OrderController {
 		Check check = null;
 		String error = "";
 		Integer restaurantId = null;
+		boolean bFirstOrder = false;
 		if (order.getCheckId() > 0) {
 			check = checkService.getCheck(order.getCheckId());
 		}
@@ -673,6 +681,7 @@ public class OrderController {
 				error = "No customer was found";
 			} else {
 				check = new Check();
+				bFirstOrder = true;
 				check.setOpenTime(new Date());
 				check.setRestaurantId(restaurantId);
 				check.setStatus(com.cookedspecially.enums.check.Status.Unpaid);
@@ -752,6 +761,11 @@ public class OrderController {
 				check.setModifiedTime(new Date());
 				
 				checkService.addCheck(check);
+				if (bFirstOrder) {
+					Order orderToUpdate = check.getOrders().get(0);
+					orderToUpdate.setCheckId(check.getCheckId());
+					orderService.addOrder(orderToUpdate);
+				}
 			}
 			
 			orderResp.setOrderId(targetOrder.getOrderId());
