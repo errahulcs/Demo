@@ -104,6 +104,12 @@ public class Check {
 	@Column(name="deliveryTime")
 	private Date deliveryTime;
 	
+	@Column(name="deliveryArea")
+	private String deliveryArea;
+	
+	@Column(name="deliveryAddress")
+	private String deliveryAddress;
+	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(orphanRemoval=true)
 	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.REMOVE})
@@ -278,6 +284,22 @@ public class Check {
 
 	public void setDeliveryTime(Date deliveryTime) {
 		this.deliveryTime = deliveryTime;
+	}
+
+	public String getDeliveryArea() {
+		return deliveryArea;
+	}
+
+	public void setDeliveryArea(String deliveryArea) {
+		this.deliveryArea = deliveryArea;
+	}
+
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
+
+	public void setDeliveryAddress(String deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
 	}	
 	
 }

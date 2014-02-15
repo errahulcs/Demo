@@ -20,6 +20,9 @@ public class JsonOrder implements Serializable {
 	public int tableId;
 	public int custId;
 	public float price;
+	// Added just for delivery orders. as there is only one order per check
+	public String deliveryArea;
+	public String deliveryAddress;
 	
 	public List<JsonDish> items;
 	
@@ -58,6 +61,18 @@ public class JsonOrder implements Serializable {
 	}
 	public void setCustId(int custId) {
 		this.custId = custId;
+	}
+	public String getDeliveryArea() {
+		return deliveryArea;
+	}
+	public void setDeliveryArea(String deliveryArea) {
+		this.deliveryArea = deliveryArea;
+	}
+	public String getDeliveryAddress() {
+		return deliveryAddress;
+	}
+	public void setDeliveryAddress(String deliveryAddress) {
+		this.deliveryAddress = deliveryAddress;
 	}
 	
 }

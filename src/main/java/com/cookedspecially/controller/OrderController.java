@@ -577,15 +577,60 @@ public class OrderController {
 		Integer checkId  = Integer.parseInt(request.getParameter("checkId"));
 		String deliveryTimeStr = request.getParameter("deliveryTime");
 		Check check = checkService.getCheck(checkId);
-		System.out.println(deliveryTimeStr);
-		System.out.println(checkId);
 		if (check != null) {
 			Date deliveryTime = DateUtils.parseDate(deliveryTimeStr, "yyyy-MM-dd HH:mm");
 			check.setDeliveryTime(deliveryTime);
 			checkService.addCheck(check);
+			return "recieved";
 		}
-		return "recieved";
+		return "check not found";
 	}
+
+	@RequestMapping(value = "/setDeliveryArea")
+	public @ResponseBody String setCheckDeliveryArea(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+		Integer checkId  = Integer.parseInt(request.getParameter("checkId"));
+		String deliveryArea = request.getParameter("deliveryArea");
+		Check check = checkService.getCheck(checkId);
+		if (check != null) {
+			check.setDeliveryArea(deliveryArea);
+			checkService.addCheck(check);
+			return "recieved";
+		}
+		return "check not found";
+	}
+	
+	@RequestMapping(value = "/setDeliveryAddress")
+	public @ResponseBody String setCheckDeliveryAddress(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+		Integer checkId  = Integer.parseInt(request.getParameter("checkId"));
+		String deliveryAddress = request.getParameter("deliveryAddress");
+		Check check = checkService.getCheck(checkId);
+		if (check != null) {
+			check.setDeliveryAddress(deliveryAddress);
+			checkService.addCheck(check);
+			return "recieved";
+		}
+		return "check not found";
+	}
+	
+	@RequestMapping(value = "/setDeliveryDetails")
+	public @ResponseBody String setCheckDeliveryDetails(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+		Integer checkId  = Integer.parseInt(request.getParameter("checkId"));
+		String deliveryAddress = request.getParameter("deliveryAddress");
+		String deliveryArea = request.getParameter("deliveryArea");
+		String deliveryTimeStr = request.getParameter("deliveryTime");
+		
+		Check check = checkService.getCheck(checkId);
+		if (check != null) {
+			check.setDeliveryAddress(deliveryAddress);
+			check.setDeliveryArea(deliveryArea);
+			Date deliveryTime = DateUtils.parseDate(deliveryTimeStr, "yyyy-MM-dd HH:mm");
+			check.setDeliveryTime(deliveryTime);
+			checkService.addCheck(check);
+			return "recieved";
+		}
+		return "check not found";
+	}
+	
 	@RequestMapping(value = "/addToCheck.json", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public @ResponseBody OrderResponse addToCheckJSON(@RequestBody JsonOrder order, Model model, HttpServletRequest request) {
 		Check check = null;
@@ -633,6 +678,10 @@ public class OrderController {
 					check.setCheckType(CheckType.TakeAway);
 				}
 				check.setUserId(restaurantId);
+				// check's delivery area will be set only when first order is being placed and is for non-table orders
+				// as non table orders can either be delivery.
+				check.setDeliveryArea((order.getDeliveryArea()!= null && table == null)?order.getDeliveryArea():"");
+				check.setDeliveryAddress((order.getDeliveryAddress()!= null && table == null)?order.getDeliveryAddress():"");
 			}
 		}
 		

@@ -88,9 +88,11 @@ SubmitOrderJSON = function() {
 <form id="createOrderForm" action="#" method="post">
     <table>
         <tr><td> CheckId: </td><td><input type="text" name="checkId" id="checkId"/>  </td></tr>
-        <tr><td> TableId </td><t</div>d><input type="text" name="tableId" id="tableId"/>  </td></tr>
+        <tr><td> TableId </td><td><input type="text" name="tableId" id="tableId"/>  </td></tr>
         <tr><td> CustId </td><td><input type="text" name="custId" id="custId"/>  </td></tr>
         <tr><td> RestaurantId: </td><td><input type="text" name="restaurantId" id="restaurantId"/>  </td></tr>
+        <tr><td> DeliveryArea: </td><td><input type="text" name="deliveryArea" id="deliveryArea"/>  </td></tr>
+        <tr><td> DeliveryAddress: </td><td><input type="text" name="deliveryAddress" id="deliveryAddress"/>  </td></tr>
         <tr><td>  </td><td>  <input type="button" id="createOrder" value="Initialize Order" onclick="initializeOrder()" /></td></tr>
 
     </table>
@@ -102,7 +104,7 @@ SubmitOrderJSON = function() {
         <tr><td> Name: </td><td><input type="text" name="name" id="name"/>  </td></tr>
         <tr><td> Price: </td><td><input type="text" name="price" id="price"/>  </td></tr>
         <tr><td> Quantity: </td><td><input type="text" name="quantity" id="quantity"/>  </td></tr>
-        <tr><td> DIshType: </td><td><input type="text" name="dishType" id="dishType"/>  </td></tr>
+        <tr><td> DishType: </td><td><input type="text" name="dishType" id="dishType"/>  </td></tr>
         <tr><td>  </td><td>  <input type="button" id="addItem" value="Add Item to Order" onclick="addItemToOrder()" /></td></tr>
 
     </table>
@@ -120,6 +122,40 @@ SubmitOrderJSON = function() {
     <input type="text" name="deliveryTime" class="date-picker" />
     
     <input type="submit" value="Add DeliveryTime" />
+</form>
+
+<form id="deliveryAreaForm" action="order/setDeliveryArea" method="post">
+    <label> CheckId:</label>
+    <input type="text" name="checkId" />
+    <label>Delivery Area : </label>
+	
+    <input type="text" name="deliveryArea" />
+    
+    <input type="submit" value="Add Delivery Area" />
+</form>
+
+<form id="deliveryAddressForm" action="order/setDeliveryAddress" method="post">
+    <label> CheckId:</label>
+    <input type="text" name="checkId" />
+    <label>Delivery Address : </label>
+	
+    <input type="text" name="deliveryAddress"/>
+    
+    <input type="submit" value="Add Delivery Address" />
+</form>
+
+<form id="deliveryAddressForm" action="order/setDeliveryDetails" method="post">
+    <label> CheckId:</label>
+    <input type="text" name="checkId" />
+    <label>Delivery Address : </label>
+	
+    <input type="text" name="deliveryAddress"/>
+    <label>Delivery Area : </label>
+    <input type="text" name="deliveryArea" />
+    <label>Delivery Time : </label>
+	
+    <input type="text" name="deliveryTime" class="date-picker" />
+    <input type="submit" value="Add Delivery Address" />
 </form>
 
 <script>

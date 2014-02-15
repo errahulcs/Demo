@@ -31,6 +31,8 @@ public class CheckResponse {
 	private float additionalCharge3;
 	private float total;
 	private Date deliveryTime;
+	private String deliveryArea;
+	private String deliverAddress;
 	private List<CheckDishResponse> items;
 	
 	public CheckResponse(Check check) {
@@ -42,6 +44,8 @@ public class CheckResponse {
 		this.checkType = check.getCheckType();
 		this.amount = check.getBill();
 		this.deliveryTime = check.getDeliveryTime();
+		this.deliveryArea = check.getDeliveryArea();
+		this.deliverAddress = check.getDeliveryAddress();
 		this.additionalChargeName1 = check.getAdditionalChargesName1();
 		this.additionalChargeName2 = check.getAdditionalChargesName2();
 		this.additionalChargeName3 = check.getAdditionalChargesName3();
@@ -170,6 +174,22 @@ public class CheckResponse {
 
 	public void setDeliveryTime(Date deliveryTime) {
 		this.deliveryTime = deliveryTime;
+	}
+
+	public String getDeliveryArea() {
+		return deliveryArea;
+	}
+
+	public void setDeliveryArea(String deliveryArea) {
+		this.deliveryArea = deliveryArea;
+	}
+
+	public String getDeliverAddress() {
+		return deliverAddress;
+	}
+
+	public void setDeliverAddress(String deliverAddress) {
+		this.deliverAddress = deliverAddress;
 	}
 	
 }
