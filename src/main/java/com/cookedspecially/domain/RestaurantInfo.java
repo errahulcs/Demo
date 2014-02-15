@@ -36,6 +36,9 @@ public class RestaurantInfo {
 	private float additionalChargesValue1 = 0.0f;
 	private float additionalChargesValue2 = 0.0f;
 	private float additionalChargesValue3 = 0.0f;
+	private float deliveryCharges = 0.0f;
+	private float minInCircleDeliveyThreshold = 0.0f;
+	private float minOutCircleDeliveyThreshold = 0.0f;
 	
 	public RestaurantInfo(User user) {
 		if (user != null) {
@@ -62,6 +65,9 @@ public class RestaurantInfo {
 			this.additionalChargesValue1 = user.getAdditionalChargesValue1();
 			this.additionalChargesValue2 = user.getAdditionalChargesValue2();
 			this.additionalChargesValue3 = user.getAdditionalChargesValue3();
+			this.deliveryCharges = user.getDeliveryCharges();
+			this.minInCircleDeliveyThreshold = user.getMinInCircleDeliveyThreshold();
+			this.minOutCircleDeliveyThreshold = user.getMinOutCircleDeliveyThreshold();
 		}
 	}
 	
@@ -218,6 +224,30 @@ public class RestaurantInfo {
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+
+	public float getDeliveryCharges() {
+		return deliveryCharges;
+	}
+
+	public void setDeliveryCharges(float deliveryCharges) {
+		this.deliveryCharges = deliveryCharges;
+	}
+
+	public float getMinInCircleDeliveyThreshold() {
+		return minInCircleDeliveyThreshold;
+	}
+
+	public void setMinInCircleDeliveyThreshold(float minInCircleDeliveyThreshold) {
+		this.minInCircleDeliveyThreshold = minInCircleDeliveyThreshold;
+	}
+
+	public float getMinOutCircleDeliveyThreshold() {
+		return minOutCircleDeliveyThreshold;
+	}
+
+	public void setMinOutCircleDeliveyThreshold(float minOutCircleDeliveyThreshold) {
+		this.minOutCircleDeliveyThreshold = minOutCircleDeliveyThreshold;
 	}
 
 	

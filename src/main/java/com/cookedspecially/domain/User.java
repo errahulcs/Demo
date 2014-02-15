@@ -108,6 +108,14 @@ public class User {
 	@Column(name="additionalChargesValue3")
 	private float additionalChargesValue3 = 0.0f;
 	
+	
+	@Column(name="deliveryCharges")
+	private float deliveryCharges = 0.0f;
+	@Column(name="minInCircleDeliveyThreshold")
+	private float minInCircleDeliveyThreshold = 0.0f;
+	@Column(name="minOutCircleDeliveyThreshold")
+	private float minOutCircleDeliveyThreshold = 0.0f;
+	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(name="USER_RESTAURANT", 
                 joinColumns={@JoinColumn(name="USERID")}, 
@@ -331,5 +339,29 @@ public class User {
 
 	public void setCurrency(String currency) {
 		this.currency = currency;
+	}
+
+	public float getDeliveryCharges() {
+		return deliveryCharges;
+	}
+
+	public void setDeliveryCharges(float deliveryCharges) {
+		this.deliveryCharges = deliveryCharges;
+	}
+
+	public float getMinInCircleDeliveyThreshold() {
+		return minInCircleDeliveyThreshold;
+	}
+
+	public void setMinInCircleDeliveyThreshold(float minInCircleDeliveyThreshold) {
+		this.minInCircleDeliveyThreshold = minInCircleDeliveyThreshold;
+	}
+
+	public float getMinOutCircleDeliveyThreshold() {
+		return minOutCircleDeliveyThreshold;
+	}
+
+	public void setMinOutCircleDeliveyThreshold(float minOutCircleDeliveyThreshold) {
+		this.minOutCircleDeliveyThreshold = minOutCircleDeliveyThreshold;
 	}
 }

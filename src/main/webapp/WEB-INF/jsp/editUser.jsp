@@ -450,6 +450,20 @@ function list(index) {
 		<td><form:label path="zip">Zip/Pincode</form:label></td>
 		<td><form:input path="zip" class="validate[maxSize[10]]"/></td>
 	</tr>
+	
+	<tr>
+		<td><form:label path="deliveryCharges">Delivery Charges</form:label></td>
+		<td><form:input path="deliveryCharges" class="validate[maxSize[10]]"/></td>
+	</tr>
+	<tr>
+		<td><form:label path="minInCircleDeliveyThreshold">Minimum In Circle Delivery Threshold</form:label></td>
+		<td><form:input path="minInCircleDeliveyThreshold" class="validate[maxSize[10]]"/></td>
+	</tr>
+	<tr>
+		<td><form:label path="minOutCircleDeliveyThreshold">Minimum Out Circle DeliveryThreshold</form:label></td>
+		<td><form:input path="minOutCircleDeliveyThreshold" class="validate[maxSize[10]]"/></td>
+	</tr>
+	
 	<tr>
 	<td>Currency : </td>
 	<td>
