@@ -578,6 +578,10 @@ public class OrderController {
 		String deliveryTimeStr = request.getParameter("deliveryTime");
 		Check check = checkService.getCheck(checkId);
 		if (check != null) {
+			if (StringUtility.isNullOrEmpty(deliveryTimeStr)) {
+				return "wrong delivery time";
+			}
+			
 			Date deliveryTime = DateUtils.parseDate(deliveryTimeStr, "yyyy-MM-dd HH:mm");
 			check.setDeliveryTime(deliveryTime);
 			checkService.addCheck(check);
