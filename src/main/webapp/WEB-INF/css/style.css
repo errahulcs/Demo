@@ -141,8 +141,8 @@ a:active code {
 
 a img { border: none; }
 
-em { font-style: italic; }
-strong { font-weight: bold; }
+i, em { font-style: italic; }
+b, strong { font-weight: bold; }
 
 blockquote {
   padding-left: 1.0em;
@@ -557,7 +557,7 @@ h3#options {
 .option-def dl dt,
 .option-def dl dd {
   float: left;
-  padding: 0 1.2em;;
+  padding: 0 1.2em;
   background: #161616;
   line-height: 36px;
   height: 36px;
