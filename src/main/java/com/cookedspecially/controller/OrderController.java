@@ -623,8 +623,10 @@ public class OrderController {
 		if (check != null) {
 			check.setDeliveryAddress(deliveryAddress);
 			check.setDeliveryArea(deliveryArea);
-			Date deliveryTime = DateUtils.parseDate(deliveryTimeStr, "yyyy-MM-dd HH:mm");
-			check.setDeliveryTime(deliveryTime);
+			if (!StringUtility.isNullOrEmpty(deliveryTimeStr)) {
+				Date deliveryTime = DateUtils.parseDate(deliveryTimeStr, "yyyy-MM-dd HH:mm");
+				check.setDeliveryTime(deliveryTime);
+			}
 			checkService.addCheck(check);
 			return "recieved";
 		}
