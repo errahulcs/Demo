@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -378,6 +379,41 @@ public class OrderController {
 		String custIdStr = request.getParameter("custId");
 		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
 		return getCheckResponse(tableIdStr, custIdStr, restaurantId);
+	}
+	
+	@RequestMapping(value = "/generateCheckForPrint", method = RequestMethod.GET)
+	public String generateCheckForPrint(Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) {
+		String billTemplateName = request.getParameter("templateName");
+		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
+		Check check = checkService.getCheck(checkId);
+		if (check != null) {
+			CheckResponse checkResponse = new CheckResponse(check);
+			map.put("checkRespone", checkResponse);
+			if (check.getCustomerId() > 0) {
+				Customer customer = customerService.getCustomer(check.getCustomerId());
+				map.put("customer", customer);
+			} else if (check.getTableId() > 0) {
+				map.put("tableId", check.getTableId());
+			}
+			Map<String, JsonDish> itemsMap = new TreeMap<String, JsonDish>();
+			List<CheckDishResponse> items = checkResponse.getItems();
+			for (CheckDishResponse item : items) {
+				if (itemsMap.containsKey(item.getName())) {
+					JsonDish jsonDish = itemsMap.get(item.getName());
+					jsonDish.setPrice(jsonDish.getPrice() + item.getPrice());
+					jsonDish.setQuantity(jsonDish.getQuantity() + 1);
+				} else {
+					JsonDish jsonDish = new JsonDish();
+					jsonDish.setQuantity(1);
+					jsonDish.setName(item.getName());
+					jsonDish.setPrice(item.getPrice());
+					itemsMap.put(item.getName(), jsonDish);
+				}
+			}
+			map.put("itemsMap", itemsMap);
+		}
+		
+		return "custom/" + billTemplateName;
 	}
 	
 	@RequestMapping(value = "/emailCheck", method = RequestMethod.GET)
