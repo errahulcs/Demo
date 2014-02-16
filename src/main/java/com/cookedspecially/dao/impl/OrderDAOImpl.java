@@ -5,19 +5,18 @@ package com.cookedspecially.dao.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.cookedspecially.dao.OrderDAO;
-import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.Order;
+import com.cookedspecially.enums.order.Status;
 
 /**
  * @author shashank
@@ -67,6 +66,15 @@ public class OrderDAOImpl implements OrderDAO {
 	@Override
 	public Order getOrder(Integer id) {
 		return (Order) sessionFactory.getCurrentSession().get(Order.class, id);
+	}
+
+	@Override
+	public List<Integer> getAllOpenOrderCheckIds(Integer restaurantId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Order.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.ne("status", Status.PAID), Restrictions.ne("status", Status.CANCELLED)));
+		criteria.setProjection( Projections.projectionList().add( Projections.property("checkId")));
+
+		List<Integer> ids=criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+		return ids;
 	}
 
 }

@@ -90,4 +90,10 @@ public class CheckServiceImpl implements CheckService {
 	public List getDailySalesRecords(Integer restaurantId, Date startDate) {
 		return checkDAO.getDailySalesRecords(restaurantId, startDate);
 	}
+	
+	@Override
+	@Transactional
+	public List<Check> getAllChecks(List<Integer> ids) {
+		return checkDAO.getAllChecks(ids);
+	}
 }

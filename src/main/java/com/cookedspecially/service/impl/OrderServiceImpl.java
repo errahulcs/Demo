@@ -49,4 +49,9 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.getOrder(id);
 	}
 
+	@Override
+	@Transactional
+	public List<Integer> getAllOpenOrderCheckIds(Integer restaurantId) {
+		return orderDAO.getAllOpenOrderCheckIds(restaurantId);
+	}
 }

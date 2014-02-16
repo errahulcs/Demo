@@ -114,4 +114,12 @@ public class CheckDAOImpl implements CheckDAO {
 		Query query = sessionFactory.getCurrentSession().createQuery(sqlQuery).setParameter("restaurantId", restaurantId).setParameter("startDate", startDate);
 		return query.list();
 	}
+	
+	@Override
+	public List<Check> getAllChecks(List<Integer> ids) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Check.class);
+		criteria.add(Restrictions.in("id", ids));
+		return criteria.list();
+	}
+	
 }

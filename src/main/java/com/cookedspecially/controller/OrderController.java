@@ -484,6 +484,13 @@ public class OrderController {
 		return checkService.getAllOpenChecks(restaurantId);
 	}
 	
+	@RequestMapping(value = "/allChecksWithOpenOrders.json", method = RequestMethod.GET)
+	public @ResponseBody List<Check> getAllChecksWithOpenOrdersJSON(HttpServletRequest request, HttpServletResponse response) {
+		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		List<Integer> checkIds = orderService.getAllOpenOrderCheckIds(restaurantId);
+		return checkService.getAllChecks(checkIds);
+	}
+	
 	@RequestMapping(value = "/getReceipt", method = RequestMethod.GET)
 	public String getReceipt(Map<String, Object> map, HttpServletRequest request) {
 		String tableIdStr = request.getParameter("tableId");
