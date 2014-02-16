@@ -563,6 +563,21 @@ public class OrderController {
 		return check;
 	}
 
+	@RequestMapping(value = "/markAllOrdersAsPaid")
+	public @ResponseBody Check markAllOrdersAsPaid(HttpServletRequest request, HttpServletResponse response) {
+		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
+		Check check = checkService.getCheck(checkId);
+		if (check != null) {
+			// cancel all orders within
+			List<Order> orders = check.getOrders();
+			for (Order order: orders) {
+				order.setStatus(Status.PAID);
+			}
+			checkService.addCheck(check);
+		} 
+		return check;
+	}
+	
 	@RequestMapping(value = "/setCheckType")
 	public @ResponseBody Check setCheckType(HttpServletRequest request, HttpServletResponse response) {
 		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
