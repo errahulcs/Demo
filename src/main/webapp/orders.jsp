@@ -6,7 +6,7 @@
 <!doctype html>
 <html>
 	<head>
-		<meta http-equiv="refresh" content="60;URL='#menus'" />
+		<!-- meta http-equiv="refresh" content="60;URL='#menus'" /-->
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -40,6 +40,11 @@
 		<link rel="stylesheet" type="text/css" href="/static/checks/css/admin.css" />
 
 		<link rel="stylesheet" type="text/css" href="/static/checks/css/jqm-survival-kit.css" />
+		<style>
+			p#links a {
+				margin-left: 1em;
+			}
+		</style>
 		<script type="text/javascript" src="/static/checks/js/jquery.print.js"></script>
 	</head>
 	<body>		
@@ -75,7 +80,7 @@
 					<img id="homeBtn" style="height:50px" data-role="button" onclick='location.href="#home"' src="/static/checks/images/axis-logo.png" />
 		
 					<div id="update" style="display:; float:right">
-					   <a href="javascript:showAppVersion()">AppVersion: Beta <script>document.write(appVersion)</script></a><br />
+					   &nbsp;
 					</div>
 					<div id="nav">
 					</div>
