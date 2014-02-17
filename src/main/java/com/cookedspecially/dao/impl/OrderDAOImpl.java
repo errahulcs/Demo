@@ -70,7 +70,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 	@Override
 	public List<Integer> getAllOpenOrderCheckIds(Integer restaurantId) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Order.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.ne("status", Status.PAID), Restrictions.ne("status", Status.CANCELLED)));
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Order.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.ne("status", Status.PAID), Restrictions.ne("status", Status.CANCELLED), Restrictions.ne("status", Status.DELIVERED)));
 		criteria.setProjection( Projections.projectionList().add( Projections.property("checkId")));
 
 		List<Integer> ids=criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
