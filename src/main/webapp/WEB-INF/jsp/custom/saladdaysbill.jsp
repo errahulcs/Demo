@@ -58,10 +58,10 @@ Table ID: ${tableId} <br/>
 <c:if test = "${!empty checkRespone.additionalChargeName1}">
 <div style="float:left">${checkRespone.additionalChargeName1}</div> <div style="float:right">${checkRespone.additionalCharge1}</div><br/>
 </c:if>
-<c:if test = "${!empty checkResp.additionalChargeName2}">
+<c:if test = "${!empty checkRespone.additionalChargeName2}">
 <div style="float:left">${checkRespone.additionalChargeName2}</div> <div style="float:right">${checkRespone.additionalCharge2}</div><br/>
 </c:if>
-<c:if test = "${!empty checkResp.additionalChargeName3}">
+<c:if test = "${!empty checkRespone.additionalChargeName3}">
 <div style="float:left">${checkRespone.additionalChargeName3}</div> <div style="float:right">${checkRespone.additionalCharge3}</div><br/>
 </c:if>
 
