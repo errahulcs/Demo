@@ -5,6 +5,7 @@ package com.cookedspecially.controller;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -264,6 +265,22 @@ public class OrderController {
 		return "Success: Deleted the Check with id:" +checkId;
 	}
 
+	@RequestMapping(value = "/searchChecks")
+	public String searchChecks(Map<String, Object> map, HttpServletRequest request) {
+		String checkIdString = request.getParameter("checkId");
+		if (!StringUtility.isNullOrEmpty(checkIdString)) {
+			Integer checkId  = Integer.parseInt(checkIdString);
+			try {
+				Check check = checkService.getCheck(checkId);
+				map.put("checkList", Arrays.asList(new CheckResponse(check)));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}	
+		}
+		
+		return "searchChecks";
+	}
+
 	private Check getCheck(String tableIdStr, String custIdStr, Integer restaurantId) {
 		Check check = null;
 		Integer tableId = -1;
@@ -438,13 +455,13 @@ public class OrderController {
 			if (user != null) {
 				strBuilder.append("Restaurant Name : " + user.getBusinessName() + "<br />");
 			}
-			strBuilder.append("Check Id : " + checkResponse.getId() + "<br />");
-			if (checkResponse.getTableId() != null) {
-				strBuilder.append("Table Id : " + checkResponse.getTableId() + "<br />");
-			}
-			if (checkResponse.getCustomerId() != null) {
-				strBuilder.append("Customer Id : " + checkResponse.getCustomerId() + "<br /><br /> ");
-			}
+			//strBuilder.append("Check Id : " + checkResponse.getId() + "<br />");
+//			if (checkResponse.getTableId() != null && checkResponse.getTableId() > 0) {
+//				strBuilder.append("Table Id : " + checkResponse.getTableId() + "<br />");
+//			}
+//			if (checkResponse.getCustomerId() != null) {
+//				strBuilder.append("Customer Id : " + checkResponse.getCustomerId() + "<br /><br /> ");
+//			}
 			strBuilder.append("<b><i>Items</i></b> <br />");
 			strBuilder.append("<table><tr><th>Name</th><th>Price</th></tr>");
 			List<CheckDishResponse> dishes = checkResponse.getItems();
