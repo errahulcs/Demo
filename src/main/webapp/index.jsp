@@ -73,6 +73,12 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/ed
 		//alert("no match");
 	}
 </script>
+<br/>
+<hr/>
+<div><b>Download Reports</b> </div>
+<div><a href="reports/dailySalesSummary.xlsx?restaurantId=${sessionUserId}">Daily Sales Summary</a> | <a href="reports/dailyInvoice.xlsx?restaurantId=${sessionUserId}">Daily Invoice</a></div>
+<hr/>
+
 </c:if>
 <c:if test='${empty sessionUserId}'>
 <!--a href="restaurant/resources/APK?restaurantName=axis">Download Android App for Axis</a-->
