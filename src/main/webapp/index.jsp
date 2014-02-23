@@ -74,6 +74,7 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/ed
 	}
 </script>
 <br/>
+<div><a href="order/searchChecks">Search Check</a></div>
 <hr/>
 <div><b>Download Reports</b> </div>
 <div><a href="reports/dailySalesSummary.xlsx?restaurantId=${sessionUserId}">Daily Sales Summary</a> | <a href="reports/dailyInvoice.xlsx?restaurantId=${sessionUserId}">Daily Invoice</a></div>
