@@ -30,6 +30,7 @@ public class CheckResponse {
 	private float additionalCharge2;
 	private float additionalCharge3;
 	private float total;
+	private long roundedOffTotal;
 	private Date deliveryTime;
 	private String deliveryArea;
 	private String deliverAddress;
@@ -53,6 +54,7 @@ public class CheckResponse {
 		this.additionalCharge2 = check.getAdditionalChargesValue2();
 		this.additionalCharge3 = check.getAdditionalChargesValue3();
 		this.total = this.amount + this.additionalCharge1 + this.additionalCharge2 + this.additionalCharge3;
+		this.roundedOffTotal = Math.round(this.total);
 		this.items = new ArrayList<CheckDishResponse>();
 		
 		List<Order> orders = check.getOrders();
@@ -190,6 +192,14 @@ public class CheckResponse {
 
 	public void setDeliverAddress(String deliverAddress) {
 		this.deliverAddress = deliverAddress;
+	}
+
+	public long getRoundedOffTotal() {
+		return roundedOffTotal;
+	}
+
+	public void setRoundedOffTotal(long roundedOffTotal) {
+		this.roundedOffTotal = roundedOffTotal;
 	}
 	
 }

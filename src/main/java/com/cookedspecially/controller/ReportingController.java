@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cookedspecially.domain.Check;
+import com.cookedspecially.domain.User;
 import com.cookedspecially.service.CheckService;
+import com.cookedspecially.service.UserService;
 
 
 /**
@@ -39,13 +41,20 @@ public class ReportingController {
 	@Autowired
 	private CheckService checkService;
 	
+	@Autowired
+	private UserService userService;
+	
 	@RequestMapping(value = "checkReport.xlsx", method=RequestMethod.GET)
 	public ModelAndView generateCheckReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
 		List<Check> checks = checkService.getAllOpenChecks(restaurantId);
 		Map<String, Object> reportDataMap = new HashMap<String, Object>();
 		reportDataMap.put("checks", checks);
 		reportDataMap.put("reportName", "checkReport");
-		reportDataMap.put("restaurantName", "Axis Restaurant");
+		User user = userService.getUser(restaurantId);
+		if (user != null)
+		{
+			reportDataMap.put("restaurantName", user.getBusinessName());
+		}
 		reportDataMap.put("Headers", Arrays.asList("Id", "price"));
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
@@ -68,7 +77,12 @@ public class ReportingController {
 		headers.addAll(dishTypes);
 		reportDataMap.put("dishTypes", dishTypes);
 		reportDataMap.put("Headers", headers);
-		reportDataMap.put("restaurantName", "Axis Restaurant");
+		User user = userService.getUser(restaurantId);
+		if (user != null)
+		{
+			reportDataMap.put("restaurantName", user.getBusinessName());
+		}
+		
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
 	
@@ -94,10 +108,40 @@ public class ReportingController {
 		headers.add("Cost/Check");
 		reportDataMap.put("dishTypes", dishTypes);
 		reportDataMap.put("Headers", headers);
-		reportDataMap.put("restaurantName", "Axis Restaurant");
+		User user = userService.getUser(restaurantId);
+		if (user != null)
+		{
+			reportDataMap.put("restaurantName", user.getBusinessName());
+		}
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
-	
+
+//	@RequestMapping(value = "dailyClosing.xlsx", method=RequestMethod.GET)
+//	public ModelAndView dailyClosingExcel(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {		
+//		Calendar today = Calendar.getInstance();
+//		today.add(Calendar.DAY_OF_YEAR, -300);
+//		today.set(Calendar.HOUR_OF_DAY, 0);
+//		today.set(Calendar.MINUTE, 0);
+//		today.set(Calendar.SECOND, 0);
+//		today.set(Calendar.MILLISECOND, 0);
+//
+//		List<Check> data = checkService.getDailyInvoice(restaurantId, today.getTime());
+//		
+//		Map<String, Object> reportDataMap = new HashMap<String, Object>();
+//		reportDataMap.put("data", data);
+//		reportDataMap.put("reportName", "Daily Closing Register Report");
+//		List<String> headers = new ArrayList<String>(); 
+//		List<String> dishTypes = checkService.getUniqueDishTypes(restaurantId);
+//		reportDataMap.put("dishTypes", dishTypes);
+//		reportDataMap.put("Headers", headers);
+//		User user = userService.getUser(restaurantId);
+//		if (user != null)
+//		{
+//			reportDataMap.put("restaurantName", user.getBusinessName());
+//		}
+//		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
+//	}
+
 //	@RequestMapping(value = "html", method=RequestMethod.GET)
 //	public ModelAndView generateHTMLReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
 //		JRDataSource jrds = new JRBeanCollectionDataSource(checkService.getAllOpenChecks(restaurantId));

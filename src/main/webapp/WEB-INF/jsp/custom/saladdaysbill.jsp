@@ -15,7 +15,7 @@ function zeroFill( number, width )
   return number + ""; // always return a string
 }
 
-if (document.getElementById) onload = function () {
+window.onload = function () {
 	
 	var now = new Date();
 	document.getElementById ('date-time').innerHTML = zeroFill(now.getDate(), 2) + '/' + zeroFill((now.getMonth()+1),2) + '/' + now.getFullYear() + ' ' + zeroFill(now.getHours(),2) + ':' + zeroFill(now.getMinutes(),2);
@@ -66,13 +66,14 @@ Table ID: ${tableId} <br/>
 </c:if>
 
 <div style="float:left">Grand Total</div> <div style="float:right">${checkRespone.total}</div><br/>
+<div style="float:left">Rounded-off Total</div> <div style="float:right">${checkRespone.roundedOffTotal}</div><br/>
 <hr/>
 
 <div align="center">TIN No.: 06551835911</div>
 <div align="center">Invoice No.: SD2014000001</div>
 <br/>
 <br/>
-<div align="center">You're awesome!</div>
+<div align="center">You're Awesome!</div>
 <div align="center">-------</div>
 </body>
 </html>

@@ -44,7 +44,7 @@ public class ExcelReportView extends AbstractExcelView {
 		Map<String,Object> reportDataMap = (Map<String,Object>) model.get("reportData");
 		List<String> headers = (List<String>)reportDataMap.get("Headers");
 		String reportName = (String)reportDataMap.get("reportName");
-		//create a wordsheet
+		//create a worksheet
 		HSSFSheet sheet = workbook.createSheet("Report");
 				
 		if (StringUtility.isNullOrEmpty(reportName)) {
@@ -127,6 +127,8 @@ public class ExcelReportView extends AbstractExcelView {
 			createDailyInvoiceReport(sheet, reportDataMap, rowNum);
 		} else if (reportName.equals("Daily Sales Summary")) {
 			createDailySalesSummaryReport(sheet, reportDataMap, rowNum);
+//		} else if(reportName.equals("Weekly Sales Summary Report")) {
+//			createWeeklySalesSummaryReport(sheet, reportDataMap, rowNum);
 		}
 
 	}
@@ -214,6 +216,75 @@ public class ExcelReportView extends AbstractExcelView {
 		row.createCell(cellNo++).setCellValue(totalCustomer);
 		row.createCell(cellNo++).setCellValue(totalCustomer>0?total/totalCustomer:0);
 	}
+
+//	private void createWeeklySalesSummaryReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
+//		int rowNum = startRowNum;
+//		List<String> dishTypes = (List<String>)reportDataMap.get("dishTypes");
+//		List<Check> checks = (List<Check>)reportDataMap.get("data");
+//
+//		
+//		//Map<String, Double> dishTypeTotalBillMap = new HashMap<String, Double>();
+//		Map<String, Map<String, Double>> checkTypevsDishTypeBillMap = new HashMap<String, Map<String,Double>>();
+//		Map<String, Integer> checkTypeCountMap = new HashMap<String, Integer>();
+//		Map<String, Double> dishTypeTotalBillMap = new HashMap<String, Double>();
+//		
+//		// Initialize
+//		for (String dishType: dishTypes) {
+//			dishTypeTotalBillMap.put(dishType, 0.0);
+//		}
+//		for(CheckType checkTypeEnum : CheckType.values()) {
+//			Map<String, Double> dishTypeBillMap = new HashMap<String, Double>();
+//			for (String dishType : dishTypes) {
+//				dishTypeBillMap.put(dishType, 0.0);
+//			}
+//			checkTypevsDishTypeBillMap.put(checkTypeEnum.toString(), dishTypeBillMap);
+//			checkTypeCountMap.put(checkTypeEnum.toString(), 0);
+//		}
+//		
+//		for(Check check : checks) {
+//			Map<String, Double> dishTypeBillMap = getDishTypeBillMap(check);
+//			for (String dishType : dishTypes) {
+//				Double dishTypeBill = dishTypeBillMap.containsKey(dishType)?dishTypeBillMap.get(dishType):0;
+//				Map<String, Double> dishTypePriceMap = checkTypevsDishTypeBillMap.get(check.getCheckType().toString());
+//				dishTypePriceMap.put(dishType, dishTypePriceMap.get(dishType) + dishTypeBill);
+//				dishTypeTotalBillMap.put(dishType, dishTypeTotalBillMap.get(dishType) + dishTypeBill);
+//			}
+//			checkTypeCountMap.put(check.getCheckType().toString(), checkTypeCountMap.get(check.getCheckType().toString()) + 1);
+//		}
+//		
+//		int cellNo = 0;
+//		Integer totalCustomer = 0;
+//		for (CheckType checkTypeEnum : CheckType.values()) {
+//			HSSFRow row = sheet.createRow(rowNum++);
+//			cellNo = 0;
+//			row.createCell(cellNo++).setCellValue(checkTypeEnum.toString());
+//			Double total = 0.0;
+//			Map<String, Double> dishTypeBillMap = checkTypevsDishTypeBillMap.get(checkTypeEnum.toString());
+//			for (String dishType : dishTypes) {
+//				row.createCell(cellNo++).setCellValue(dishTypeBillMap.get(dishType));
+//				total += dishTypeBillMap.get(dishType);
+//			}	
+//			row.createCell(cellNo++).setCellValue(total);
+//			Integer customers = checkTypeCountMap.get(checkTypeEnum.toString());
+//			row.createCell(cellNo++).setCellValue(customers);
+//			totalCustomer += customers;
+//			row.createCell(cellNo++).setCellValue(customers>0?total/customers:0);
+//		}
+//		
+//		// final row
+//		HSSFRow row = sheet.createRow(rowNum++);
+//		cellNo = 0;
+//		row.createCell(cellNo++).setCellValue("Gross Sales");
+//		Double total = 0.0;
+//		for (String dishType : dishTypes) {
+//			row.createCell(cellNo++).setCellValue(dishTypeTotalBillMap.get(dishType));
+//			total += dishTypeTotalBillMap.get(dishType);
+//		}	
+//		row.createCell(cellNo++).setCellValue(total);
+//		row.createCell(cellNo++).setCellValue(totalCustomer);
+//		row.createCell(cellNo++).setCellValue(totalCustomer>0?total/totalCustomer:0);
+//	}
+	
 	private void createDailyInvoiceReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
 		int rowNum = startRowNum;
 		List<String> dishTypes = (List<String>)reportDataMap.get("dishTypes");
