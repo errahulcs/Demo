@@ -15,14 +15,14 @@
 		<script type="text/javascript" charset="utf-8" src="/static/checks/js/json2.js">
 		</script>
 
-		<link rel="stylesheet" href="//code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile-1.4.0-rc.1.min.css">
-		<script src="//code.jquery.com/jquery-1.10.2.min.js">
+		<link rel="stylesheet" href="//code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.css">
+		<script type="text/javascript" charset="utf-8" src="//code.jquery.com/jquery-1.10.2.min.js">
 		</script>
-		<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js">
+		<script type="text/javascript" charset="utf-8" src="//code.jquery.com/jquery-migrate-1.2.1.min.js">
 		</script>
-		<script src="//code.jquery.com/ui/1.10.3/jquery-ui.js">
+		<script type="text/javascript" charset="utf-8" src="//code.jquery.com/ui/1.10.3/jquery-ui.js">
 		</script>
-		<script src="//code.jquery.com/mobile/1.4.0-rc.1/jquery.mobile-1.4.0-rc.1.min.js">
+		<script type="text/javascript" charset="utf-8" src="//code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js">
 		</script>
 
 
@@ -61,7 +61,7 @@
 		<div id="allPages" style="visibility:hidden;">
 			
 			<!-- Home -->
-			<div data-role="page" id="home">
+			<div data-role="page" data-theme="d" id="home">
 				<a href="#menus" data-transition="slideup">
 				<h1 style="color:#a00">Welcome</h1>
 				<p>Please touch the screen to start</p>
@@ -70,11 +70,9 @@
 				<a href="#admin" id="appSettings"><img src="/static/checks/images/settings-black.png"/></a>
 				
 			</div>
-			
-			
-			
+						
 			<!-- Menus -->
-			<div data-role="page" id="menus">
+			<div data-role="page" data-theme="d" id="menus">
 				<div data-theme="a" data-role="header" data-position="fixed">
 					
 					<img id="homeBtn" style="height:50px" data-role="button" onclick='location.href="#home"' src="/static/checks/images/axis-logo.png" />
@@ -95,6 +93,30 @@
 				</div>
 			</div>	
 			
+			<!-- No data -->
+			<div data-role="page" data-theme="d" id="closed">
+				<div data-theme="a" data-role="header" data-position="fixed">
+					
+					<img id="homeBtn" style="height:50px" data-role="button" onclick='location.href="#home"' src="/static/checks/images/axis-logo.png" />
+		
+					<div id="update" style="display:; float:right">
+					   &nbsp;
+					</div>
+					<div id="nav">
+					</div>
+				</div>
+				<div id="closed-content" data-role="content">
+					<p>
+						There are no open orders at this time.
+					</p>
+				</div>
+				<br clear="both"/>
+				<div class="footer">
+					<b><span id="restaurantName"></span></b><br/>
+					&copy; 2013 Cooked Specially. All rights reserved. 
+				</div>
+			</div>
+	
 		</div>		
 	</body>
 <script>
