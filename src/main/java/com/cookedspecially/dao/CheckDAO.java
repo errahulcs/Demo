@@ -17,6 +17,7 @@ public interface CheckDAO {
 	public void addCheck(Check check);
 	public void removeCheck(Integer id);
 	public Check getCheck(Integer id);
+	public List<Check> getCheckByInvoiceId(String invoiceId);
 	public Check getCheckByTableId(Integer restaurantId, Integer tableId);
 	public Check getCheckByCustId(Integer restaurantId, Integer custId);
 	public List<Check> getAllOpenChecks(Integer restaurantId);

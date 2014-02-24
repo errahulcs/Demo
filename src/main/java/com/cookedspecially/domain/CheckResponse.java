@@ -34,6 +34,7 @@ public class CheckResponse {
 	private Date deliveryTime;
 	private String deliveryArea;
 	private String deliverAddress;
+	private String invoiceId;
 	private List<CheckDishResponse> items;
 	
 	public CheckResponse(Check check) {
@@ -55,6 +56,7 @@ public class CheckResponse {
 		this.additionalCharge3 = check.getAdditionalChargesValue3();
 		this.total = this.amount + this.additionalCharge1 + this.additionalCharge2 + this.additionalCharge3;
 		this.roundedOffTotal = Math.round(this.total);
+		this.invoiceId = check.getInvoiceId();
 		this.items = new ArrayList<CheckDishResponse>();
 		
 		List<Order> orders = check.getOrders();
@@ -200,6 +202,14 @@ public class CheckResponse {
 
 	public void setRoundedOffTotal(long roundedOffTotal) {
 		this.roundedOffTotal = roundedOffTotal;
+	}
+
+	public String getInvoiceId() {
+		return invoiceId;
+	}
+
+	public void setInvoiceId(String invoiceId) {
+		this.invoiceId = invoiceId;
 	}
 	
 }

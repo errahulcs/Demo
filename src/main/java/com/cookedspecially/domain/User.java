@@ -115,6 +115,12 @@ public class User {
 	private float minInCircleDeliveyThreshold = 0.0f;
 	@Column(name="minOutCircleDeliveyThreshold")
 	private float minOutCircleDeliveyThreshold = 0.0f;
+
+	@Column(name="invoicePrefix")
+	private String invoicePrefix;
+	
+	@Column(name="invoiceStartCounter")
+	private long invoiceStartCounter;
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(name="USER_RESTAURANT", 
@@ -363,5 +369,21 @@ public class User {
 
 	public void setMinOutCircleDeliveyThreshold(float minOutCircleDeliveyThreshold) {
 		this.minOutCircleDeliveyThreshold = minOutCircleDeliveyThreshold;
+	}
+
+	public String getInvoicePrefix() {
+		return invoicePrefix;
+	}
+
+	public void setInvoicePrefix(String invoicePrefix) {
+		this.invoicePrefix = invoicePrefix;
+	}
+
+	public long getInvoiceStartCounter() {
+		return invoiceStartCounter;
+	}
+
+	public void setInvoiceStartCounter(long invoiceStartCounter) {
+		this.invoiceStartCounter = invoiceStartCounter;
 	}
 }

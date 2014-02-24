@@ -268,6 +268,7 @@ public class OrderController {
 	@RequestMapping(value = "/searchChecks")
 	public String searchChecks(Map<String, Object> map, HttpServletRequest request) {
 		String checkIdString = request.getParameter("checkId");
+		String invoiceId = request.getParameter("invoiceId");
 		if (!StringUtility.isNullOrEmpty(checkIdString)) {
 			Integer checkId  = Integer.parseInt(checkIdString);
 			try {
@@ -276,6 +277,17 @@ public class OrderController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}	
+		} else if (!StringUtility.isNullOrEmpty(invoiceId)) {
+			try {
+				List<Check> checks = checkService.getCheckByInvoiceId(invoiceId);
+				List<CheckResponse> checkResponses = new ArrayList<CheckResponse>();
+				for (Check check : checks) {
+					checkResponses.add(new CheckResponse(check));
+				}
+				map.put("checkList", checkResponses);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return "searchChecks";

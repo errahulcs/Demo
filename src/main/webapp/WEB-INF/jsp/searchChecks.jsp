@@ -112,7 +112,8 @@
 <form id="checkQueryForm" action="order/searchChecks" method="post">
     <label> CheckId:</label>
     <input type="text" name="checkId" />
-    
+    <label>Or InvoiceId:</label>
+    <input type="text" name="invoiceId" />
     <input type="submit" value="Search Checks" />
 </form>
 <hr/>

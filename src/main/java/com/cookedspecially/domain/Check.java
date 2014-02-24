@@ -109,6 +109,9 @@ public class Check {
 	
 	@Column(name="deliveryAddress")
 	private String deliveryAddress;
+
+	@Column(name="invoiceId")
+	private String invoiceId;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(orphanRemoval=true)
@@ -300,6 +303,14 @@ public class Check {
 
 	public void setDeliveryAddress(String deliveryAddress) {
 		this.deliveryAddress = deliveryAddress;
+	}
+
+	public String getInvoiceId() {
+		return invoiceId;
+	}
+
+	public void setInvoiceId(String invoiceId) {
+		this.invoiceId = invoiceId;
 	}	
 	
 }

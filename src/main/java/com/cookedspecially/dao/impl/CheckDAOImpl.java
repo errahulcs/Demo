@@ -50,6 +50,11 @@ public class CheckDAOImpl implements CheckDAO {
 	}
 
 	@Override
+	public List<Check> getCheckByInvoiceId(String invoiceId) {
+		return sessionFactory.getCurrentSession().createCriteria(Check.class).add(Restrictions.eq("invoiceId", invoiceId)).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+	}
+	
+	@Override
 	public Check getCheckByTableId(Integer restaurantId, Integer tableId) {
 		List<Check> checksForTable = sessionFactory.getCurrentSession().createCriteria(Check.class).add(Restrictions.and(Restrictions.eq("tableId", tableId), Restrictions.eq("restaurantId", restaurantId), Restrictions.ne("status", Status.Paid), Restrictions.ne("status", Status.Cancel))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
 		if (checksForTable != null && checksForTable.size() > 0) {

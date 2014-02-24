@@ -12,8 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cookedspecially.dao.CheckDAO;
+import com.cookedspecially.dao.UserDAO;
 import com.cookedspecially.domain.Check;
+import com.cookedspecially.domain.User;
 import com.cookedspecially.service.CheckService;
+import com.cookedspecially.utility.StringUtility;
 
 /**
  * @author shashank
@@ -25,9 +28,19 @@ public class CheckServiceImpl implements CheckService {
 	@Autowired
 	private CheckDAO checkDAO;
 	
+	@Autowired
+	private UserDAO userDAO;
+	
 	@Override
 	@Transactional
 	public void addCheck(Check check) {
+		if (StringUtility.isNullOrEmpty(check.getInvoiceId())) {
+			User user = userDAO.getUser(check.getRestaurantId());
+			user.setInvoiceStartCounter(user.getInvoiceStartCounter() + 1);
+			userDAO.saveUser(user);
+			check.setInvoiceId(user.getInvoicePrefix() + String.format("%08d", user.getInvoiceStartCounter()));
+		}
+		
 		checkDAO.addCheck(check);
 	}
 
@@ -42,7 +55,12 @@ public class CheckServiceImpl implements CheckService {
 	public Check getCheck(Integer id) {
 		return checkDAO.getCheck(id);
 	}
-
+	@Override
+	@Transactional
+	public List<Check> getCheckByInvoiceId(String invoiceId) {
+		return checkDAO.getCheckByInvoiceId(invoiceId);
+	}
+	
 	@Override
 	@Transactional
 	public Check getCheckByTableId(Integer restaurantId, Integer tableId) {
