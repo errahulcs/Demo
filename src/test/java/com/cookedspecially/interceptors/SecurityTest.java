@@ -10,8 +10,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.imageio.ImageIO;
 
@@ -53,8 +56,26 @@ public class SecurityTest extends TestCase {
 	}
 	
 	public void testCalendar() {
-		Calendar cal = Calendar.getInstance();
-		System.out.println(cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US));
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("PST"));
+		//System.out.println(cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US));
+		//cal.setTimeZone(TimeZone.getTimeZone("GMT+5:30"));
+		System.out.println(cal.getTimeZone().getDisplayName());
+		DateFormat formatter1;
+		formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		formatter1.setTimeZone(cal.getTimeZone());
+		System.out.println(formatter1.format(cal.getTime()));
+//		System.out.println(cal.get(Calendar.HOUR));
+//		System.out.println(cal.get(Calendar.MINUTE));
+//		System.out.println(cal.get(Calendar.DATE));
+		
+		cal.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+		
+		System.out.println(cal.getTimeZone().getDisplayName());
+		formatter1.setTimeZone(cal.getTimeZone());
+		System.out.println(formatter1.format(cal.getTime()));
+//		System.out.println(cal.get(Calendar.HOUR));
+//		System.out.println(cal.get(Calendar.MINUTE));
+//		System.out.println(cal.get(Calendar.DATE));
 	}
 //	private static BufferedImage resizeImage(BufferedImage originalImage, int type){
 //		BufferedImage resizedImage = new BufferedImage(100, 100, type);

@@ -3,20 +3,29 @@
  */
 package com.cookedspecially.controller;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.TreeMap;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,6 +34,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring3.SpringTemplateEngine;
 
 import com.cookedspecially.dao.CheckDAO;
 import com.cookedspecially.domain.Check;
@@ -82,6 +93,12 @@ public class OrderController {
 	
 	@Autowired
 	private CustomerService customerService;
+
+	@Autowired
+	private JavaMailSenderImpl mailSender;
+	
+	@Autowired
+	private SpringTemplateEngine templateEngine;
 	
 	@RequestMapping("/")
 	public String listOrders(Map<String, Object> map, HttpServletRequest request) {
@@ -445,6 +462,105 @@ public class OrderController {
 		return "custom/" + billTemplateName;
 	}
 	
+	@RequestMapping(value = "/emailNewCheck", method = RequestMethod.GET)
+	public @ResponseBody String emailNewCheck(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
+		String emailAddr = request.getParameter("email");
+	    // Prepare the evaluation context
+	    final Context ctx = new Context(request.getLocale());
+	    ctx.setVariable("name", "Shashank");
+	    ctx.setVariable("subscriptionDate", new Date());
+	    ctx.setVariable("hobbies", Arrays.asList("Cinema", "Sports", "Music"));
+	    //ctx.setVariable("imageResourceName", imageResourceName); // so that we can reference it from HTML
+	 
+	    // Prepare message using a Spring helper
+	    final MimeMessage mimeMessage = mailSender.createMimeMessage();
+	    final MimeMessageHelper message =
+	        new MimeMessageHelper(mimeMessage, false, "UTF-8"); // true = multipart
+
+	    message.setSubject("Example HTML email with inline image");
+	    message.setFrom("thymeleaf@example.com");
+	    message.setTo(emailAddr);
+	 
+	    // Create the HTML body using Thymeleaf
+	    final String htmlContent = templateEngine.process("email-inlineimage", ctx);
+	    message.setText(htmlContent, true); // true = isHtml
+	 
+	    // Add the inline image, referenced from the HTML code as "cid:${imageResourceName}"
+	    //final InputStreamSource imageSource = new ByteArrayResource(imageBytes);
+	    //message.addInline(imageResourceName, imageSource, imageContentType);
+	 
+	    // Send mail
+	    mailSender.send(mimeMessage);
+
+		return "sucess";
+	}
+
+	@RequestMapping(value = "/emailTemplatedCheck", method = RequestMethod.GET)
+	public @ResponseBody String emailTemplatedCheck(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
+		String emailAddr = request.getParameter("email");
+		String templateName =request.getParameter("templateName");
+		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
+		
+		// Prepare the evaluation context
+	    final Context ctx = new Context(request.getLocale());
+	    
+		Check check = checkService.getCheck(checkId);
+		if (check != null) {
+			CheckResponse checkResponse = new CheckResponse(check);
+			ctx.setVariable("checkRespone", checkResponse);
+			if (check.getCustomerId() > 0) {
+				Customer customer = customerService.getCustomer(check.getCustomerId());
+				ctx.setVariable("customer", customer);
+			} else if (check.getTableId() > 0) {
+				ctx.setVariable("tableId", check.getTableId());
+			}
+			
+			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));
+			cal.setTime(check.getOpenTime());
+			DateFormat formatter1;
+			formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			formatter1.setTimeZone(cal.getTimeZone());
+			ctx.setVariable("checkDate", formatter1.format(cal.getTime()));
+			Map<String, JsonDish> itemsMap = new TreeMap<String, JsonDish>();
+			List<CheckDishResponse> items = checkResponse.getItems();
+			for (CheckDishResponse item : items) {
+				if (itemsMap.containsKey(item.getName())) {
+					JsonDish jsonDish = itemsMap.get(item.getName());
+					jsonDish.setPrice(jsonDish.getPrice() + item.getPrice());
+					jsonDish.setQuantity(jsonDish.getQuantity() + 1);
+				} else {
+					JsonDish jsonDish = new JsonDish();
+					jsonDish.setQuantity(1);
+					jsonDish.setName(item.getName());
+					jsonDish.setPrice(item.getPrice());
+					itemsMap.put(item.getName(), jsonDish);
+				}
+			}
+			
+			ctx.setVariable("itemsMap", itemsMap);
+		} else {
+			return "No check found";
+		}
+		
+	    // Prepare message using a Spring helper
+	    final MimeMessage mimeMessage = mailSender.createMimeMessage();
+	    final MimeMessageHelper message =
+	        new MimeMessageHelper(mimeMessage, false, "UTF-8"); // true = multipart
+
+	    message.setSubject("Your Receipt");
+	    message.setFrom("thymeleaf@example.com");
+	    message.setTo(emailAddr);
+	 
+	    // Create the HTML body using Thymeleaf
+	    final String htmlContent = templateEngine.process(templateName, ctx);
+	    message.setText(htmlContent, true); // true = isHtml
+	 	 
+	    // Send mail
+	    mailSender.send(mimeMessage);
+
+	    return "Email Sent Successfully";
+	}
+
 	@RequestMapping(value = "/emailCheck", method = RequestMethod.GET)
 	public @ResponseBody String emailCheck(HttpServletRequest request, HttpServletResponse response) {
 		String tableIdStr = request.getParameter("tableId");

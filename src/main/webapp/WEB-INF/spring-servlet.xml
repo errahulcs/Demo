@@ -98,9 +98,48 @@
 			value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
-		
+		<property name="order" value="0" />
 	</bean>
 
+<!-- THYMELEAF: Template Resolver for email templates -->
+<bean id="emailTemplateResolver" class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+    <property name="prefix" value="com/cookedspecially/view/" />
+    <!-- <property name="templateMode" value="HTML5" /> -->
+    <!-- <property name="characterEncoding" value="UTF-8" /> -->
+    <property name="suffix" value=".html" />
+    <property name="order" value="1" />
+</bean>
+	
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	    <property name="host" value="${mail.server.host}" />
+	    <property name="port" value="${mail.server.port}" />
+	    <property name="protocol" value="${mail.server.protocol}" />
+	    <property name="username" value="${mail.server.username}" />
+	    <property name="password" value="${mail.server.password}" />
+	    <property name="javaMailProperties">
+	        <props>
+	            <prop key="mail.smtp.starttls.enable">true</prop>
+	            <prop key="mail.smtp.auth">true</prop>
+	            <!-- <prop key="mail.smtp.timeout">25000</prop> -->
+	        </props>
+    	</property>
+	    <!-- 
+	    <property name="javaMailProperties">
+	        <util:properties location="classpath:javamail.properties" />
+	    </property>
+	    -->
+	</bean>
+	
+	  <bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
+	    <property name="templateResolver" ref="emailTemplateResolver" />
+	  </bean>
+
+  <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
+    <property name="templateEngine" ref="templateEngine" />
+    <property name="characterEncoding" value="UTF-8" />
+    <property name="order" value="2" />
+    <!-- <property name="viewNames" value="template/*" /> -->
+  </bean>
 
 <!-- 
 	<bean id="urlMapping"
