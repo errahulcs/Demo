@@ -13,6 +13,7 @@ import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -20,10 +21,12 @@ import javax.imageio.ImageIO;
 
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.hamcrest.core.StringEndsWith;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
+import com.cookedspecially.domain.Check;
 import com.cookedspecially.utility.ImageUtility;
 
 import junit.framework.TestCase;
@@ -76,6 +79,44 @@ public class SecurityTest extends TestCase {
 //		System.out.println(cal.get(Calendar.HOUR));
 //		System.out.println(cal.get(Calendar.MINUTE));
 //		System.out.println(cal.get(Calendar.DATE));
+	}
+	
+	public void testTimeZoneComparison() {
+		Calendar calPST = Calendar.getInstance(TimeZone.getTimeZone("PST"));
+		Calendar calIST = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));
+
+		//System.out.println(cal.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.US));
+		//cal.setTimeZone(TimeZone.getTimeZone("GMT+5:30"));
+		
+		DateFormat formatterPST;
+		formatterPST = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		formatterPST.setTimeZone(calPST.getTimeZone());
+		System.out.println(formatterPST.format(calPST.getTime()));
+
+				
+		DateFormat formatterIST;
+		formatterIST = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		formatterIST.setTimeZone(calIST.getTimeZone());
+		System.out.println(formatterIST.format(calIST.getTime()));
+
+		if(DateUtils.isSameInstant(calPST.getTime(), calIST.getTime()))
+		{
+			System.out.println("same instance");
+		} else {
+			System.out.println(calPST.getTimeInMillis());
+			System.out.println(calIST.getTimeInMillis());
+			System.out.println(calPST.getTime());
+			System.out.println(calIST.getTime());
+		}
+		
+		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone("PST"));
+		yesterday.add(Calendar.DAY_OF_YEAR, -1);
+		yesterday.set(Calendar.HOUR_OF_DAY, 0);
+		yesterday.set(Calendar.MINUTE, 0);
+		yesterday.set(Calendar.SECOND, 0);
+		yesterday.set(Calendar.MILLISECOND, 0);
+		System.out.println(formatterPST.format(yesterday.getTime()));
+		System.out.println(yesterday.getTime());
 	}
 //	private static BufferedImage resizeImage(BufferedImage originalImage, int type){
 //		BufferedImage resizedImage = new BufferedImage(100, 100, type);

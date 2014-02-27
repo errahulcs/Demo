@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,6 +29,7 @@ import com.cookedspecially.domain.Check;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.service.CheckService;
 import com.cookedspecially.service.UserService;
+import com.cookedspecially.utility.StringUtility;
 
 
 /**
@@ -60,9 +62,15 @@ public class ReportingController {
 	}
 	
 	@RequestMapping(value = "dailyInvoice.xlsx", method=RequestMethod.GET)
-	public ModelAndView dailyInvoiceExcel(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
-		Calendar yesterday = Calendar.getInstance();
-		yesterday.add(Calendar.DAY_OF_YEAR, -1);
+	public ModelAndView dailyInvoiceExcel(HttpServletRequest req, ModelAndView mav) {
+		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
+		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));
+		String backDaysString = req.getParameter("backDays");
+		int minusDays = 0;
+		if (!StringUtility.isNullOrEmpty(backDaysString)) {
+			minusDays = -1 * Integer.parseInt(backDaysString);
+		}
+		yesterday.add(Calendar.DAY_OF_YEAR, minusDays);
 		yesterday.set(Calendar.HOUR_OF_DAY, 0);
 		yesterday.set(Calendar.MINUTE, 0);
 		yesterday.set(Calendar.SECOND, 0);
@@ -87,9 +95,15 @@ public class ReportingController {
 	}
 	
 	@RequestMapping(value = "dailySalesSummary.xlsx", method=RequestMethod.GET)
-	public ModelAndView dailySalesSummaryExcel(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {		
-		Calendar yesterday = Calendar.getInstance();
-		yesterday.add(Calendar.DAY_OF_YEAR, -1);
+	public ModelAndView dailySalesSummaryExcel(HttpServletRequest req, ModelAndView mav) {
+		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
+		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));
+		String backDaysString = req.getParameter("backDays");
+		int minusDays = 0;
+		if (!StringUtility.isNullOrEmpty(backDaysString)) {
+			minusDays = -1 * Integer.parseInt(backDaysString);
+		}
+		yesterday.add(Calendar.DAY_OF_YEAR, minusDays);
 		yesterday.set(Calendar.HOUR_OF_DAY, 0);
 		yesterday.set(Calendar.MINUTE, 0);
 		yesterday.set(Calendar.SECOND, 0);

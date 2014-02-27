@@ -98,7 +98,7 @@
 			value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
-		<property name="order" value="0" />
+		<property name="order" value="1" />
 	</bean>
 
 <!-- THYMELEAF: Template Resolver for email templates -->
@@ -107,7 +107,7 @@
     <!-- <property name="templateMode" value="HTML5" /> -->
     <!-- <property name="characterEncoding" value="UTF-8" /> -->
     <property name="suffix" value=".html" />
-    <property name="order" value="1" />
+    <property name="order" value="2" />
 </bean>
 	
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
@@ -137,7 +137,7 @@
   <bean class="org.thymeleaf.spring3.view.ThymeleafViewResolver">
     <property name="templateEngine" ref="templateEngine" />
     <property name="characterEncoding" value="UTF-8" />
-    <property name="order" value="2" />
+    <property name="order" value="3" />
     <!-- <property name="viewNames" value="template/*" /> -->
   </bean>
 
