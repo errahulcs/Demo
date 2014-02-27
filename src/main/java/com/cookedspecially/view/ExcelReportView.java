@@ -3,9 +3,12 @@
  */
 package com.cookedspecially.view;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -297,6 +300,11 @@ public class ExcelReportView extends AbstractExcelView {
 		for (String dishType : dishTypes) {
 			dishTypeTotalBillMap.put(dishType, 0.0);
 		}
+		
+		DateFormat formatterIST;
+		formatterIST = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		formatterIST.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+		
 		int cellNo = 0;
 		for(Check check : checks) {
 			//create the row data
@@ -304,8 +312,9 @@ public class ExcelReportView extends AbstractExcelView {
 			cellNo = 0;
 			row.createCell(cellNo++).setCellValue(sno++);
 			row.createCell(cellNo++).setCellValue(check.getCheckId());
-			row.createCell(cellNo++).setCellValue(check.getOpenTime().toString());
-			row.createCell(cellNo++).setCellValue(check.getCloseTime().toString());
+			
+			row.createCell(cellNo++).setCellValue(formatterIST.format(check.getOpenTime()));
+			row.createCell(cellNo++).setCellValue(formatterIST.format(check.getCloseTime()));
 			row.createCell(cellNo++).setCellValue(check.getCheckType().toString());
 			totalBill += (double)check.getBill();
 			row.createCell(cellNo++).setCellValue(check.getBill());
