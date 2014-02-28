@@ -128,6 +128,7 @@
 	<th width="20%">Delivery Time</th>
 	<th width="10%">&nbsp;</th>
 	<th width="10%">&nbsp;</th>
+	<th width="10%">&nbsp;</th>
 </tr>
 <c:forEach items="${checkList}" var="check">
 	<tr>
@@ -135,6 +136,7 @@
 		<td width="30%">${check.deliverAddress}</td>
 		<td width="20%">${check.roundedOffTotal}</td>
 		<td width="20%">${check.deliveryTime}</td>
+		<td width="10%"><button type="button" onclick="window.location.href='orders/editCheck/${check.id}';">edit</button></td>
 		<td width="10%" id="cancelChecktd${check.id}">
 		<c:choose>
 			<c:when test="${check.status != 'Cancel'}">

@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
+import javassist.expr.NewArray;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
@@ -118,6 +120,111 @@ public class OrderController {
 		return "redirect:/orders/";
 	}
 
+	@RequestMapping("/editCheck/{checkId}")
+	public String editCheck(Map<String, Object> map, @PathVariable("checkId") Integer checkId) {
+		Check check = checkService.getCheck(checkId);
+		if (check != null) {
+			CheckResponse checkResponse = new CheckResponse(check);
+
+			Map<String, JsonDish> itemsMap = new TreeMap<String, JsonDish>();
+			List<CheckDishResponse> items = checkResponse.getItems();
+			float checkBill = 0;
+			for (CheckDishResponse item : items) {
+				if (itemsMap.containsKey(item.getName())) {
+					JsonDish jsonDish = itemsMap.get(item.getName());
+					jsonDish.setPrice(jsonDish.getPrice() + item.getPrice());
+					jsonDish.setQuantity(jsonDish.getQuantity() + 1);
+				} else {
+					JsonDish jsonDish = new JsonDish();
+					jsonDish.setQuantity(1);
+					jsonDish.setName(item.getName());
+					jsonDish.setPrice(item.getPrice());
+					itemsMap.put(item.getName(), jsonDish);
+				}
+				checkBill += item.getPrice();
+			}
+			checkResponse.setAmount(checkBill);
+			if (check.getDiscountPercent() > 0) {
+				checkResponse.setDiscountAmount(checkBill * check.getDiscountPercent() / 100);
+			}
+			checkResponse.setAmountAfterDiscount(checkBill - checkResponse.getDiscountAmount());
+			User user = userService.getUser(check.getRestaurantId());
+			if (user != null) {
+				checkResponse.setAdditionalChargeName1(user.getAdditionalChargesName1());
+				checkResponse.setAdditionalChargeName2(user.getAdditionalChargesName2());
+				checkResponse.setAdditionalChargeName3(user.getAdditionalChargesName3());
+				checkResponse.setAdditionalCharge1(user.getAdditionalCharge((checkBill - checkResponse.getDiscountAmount()), user.getAdditionalChargesType1(), user.getAdditionalChargesValue1()));
+				checkResponse.setAdditionalCharge2(user.getAdditionalCharge((checkBill - checkResponse.getDiscountAmount()), user.getAdditionalChargesType2(), user.getAdditionalChargesValue2()));
+				checkResponse.setAdditionalCharge3(user.getAdditionalCharge((checkBill - checkResponse.getDiscountAmount()), user.getAdditionalChargesType3(), user.getAdditionalChargesValue3()));
+			}
+			checkResponse.setTotal(checkResponse.getAmountAfterDiscount() + checkResponse.getAdditionalCharge1() + checkResponse.getAdditionalCharge2() + checkResponse.getAdditionalCharge3());
+			map.put("checkResponse", checkResponse);
+			map.put("itemsMap", itemsMap);
+		}
+		map.put("statusTypes", com.cookedspecially.enums.check.Status.values());
+		return "editCheck";
+	}
+
+	@RequestMapping(value="/updateCheck")
+	public String updateCheck(HttpServletRequest request, HttpServletResponse response) {
+		Integer checkId  = Integer.parseInt(request.getParameter("checkId"));
+		Check check = checkService.getCheck(checkId);
+		if (check != null) {
+			String discountPercentStr = request.getParameter("discountPercent");
+			if (!StringUtility.isNullOrEmpty(discountPercentStr)) {
+				check.setDiscountPercent(Float.parseFloat(discountPercentStr));
+			}
+			String discountAmountString = request.getParameter("discountAmount");
+			if (!StringUtility.isNullOrEmpty(discountAmountString)) {
+				check.setDiscountAmount(Float.parseFloat(discountAmountString));
+			}
+			String statusStr = request.getParameter("status");
+			com.cookedspecially.enums.check.Status status = com.cookedspecially.enums.check.Status.valueOf(com.cookedspecially.enums.check.Status.class, statusStr);
+			check.setStatus(status);
+			if (status == com.cookedspecially.enums.check.Status.Cancel) {
+				// cancel all orders within
+				List<Order> orders = check.getOrders();
+				for (Order order: orders) {
+					order.setStatus(Status.CANCELLED);
+				}
+			}
+			
+			float checkBill = 0;
+			List<Order> orders = check.getOrders();
+			if (orders != null) {
+				for(Order order : orders) {
+					if (order.getStatus() == com.cookedspecially.enums.order.Status.CANCELLED) {
+						continue;
+					}
+					List<OrderDish> orderDishes = order.getOrderDishes();
+					if (orderDishes != null) {
+						for (OrderDish orderDish : orderDishes) {
+							checkBill += (orderDish.getQuantity() * orderDish.getPrice());
+						}
+					}
+	 			}
+			}
+			check.setBill(checkBill);
+			if (check.getDiscountPercent() > 0) {
+				check.setDiscountAmount(checkBill * check.getDiscountPercent() / 100);
+			}
+			
+			User user = userService.getUser(check.getRestaurantId());
+			if (user != null) {
+				check.setAdditionalChargesName1(user.getAdditionalChargesName1());
+				check.setAdditionalChargesName2(user.getAdditionalChargesName2());
+				check.setAdditionalChargesName3(user.getAdditionalChargesName3());
+				check.setAdditionalChargesValue1(user.getAdditionalCharge((checkBill - check.getDiscountAmount()), user.getAdditionalChargesType1(), user.getAdditionalChargesValue1()));
+				check.setAdditionalChargesValue2(user.getAdditionalCharge((checkBill - check.getDiscountAmount()), user.getAdditionalChargesType2(), user.getAdditionalChargesValue2()));
+				check.setAdditionalChargesValue3(user.getAdditionalCharge((checkBill - check.getDiscountAmount()), user.getAdditionalChargesType3(), user.getAdditionalChargesValue3()));
+			}
+			
+			checkService.addCheck(check);
+		}
+		
+		return "redirect:/order/editCheck/"+checkId;
+	}
+	
 	@RequestMapping("/closeCheck")
 	public @ResponseBody String closeCheck(HttpServletRequest request, HttpServletResponse response) {
 		int tableId = Integer.parseInt(request.getParameter("tableId"));

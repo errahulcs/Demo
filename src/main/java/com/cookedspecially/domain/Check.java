@@ -112,6 +112,12 @@ public class Check {
 
 	@Column(name="invoiceId")
 	private String invoiceId;
+
+	@Column(name="discountPercent")
+	private float discountPercent;
+	
+	@Column(name="discountAmount")
+	private float discountAmount;
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(orphanRemoval=true)
@@ -311,6 +317,22 @@ public class Check {
 
 	public void setInvoiceId(String invoiceId) {
 		this.invoiceId = invoiceId;
+	}
+
+	public float getDiscountPercent() {
+		return discountPercent;
+	}
+
+	public void setDiscountPercent(float discountPercent) {
+		this.discountPercent = discountPercent;
+	}
+
+	public float getDiscountAmount() {
+		return discountAmount;
+	}
+
+	public void setDiscountAmount(float discountAmount) {
+		this.discountAmount = discountAmount;
 	}	
 	
 }

@@ -36,7 +36,10 @@
 </table>
 <hr/>
 <div style="float:left">Sub Total</div>  <div style="float:right" th:text="${checkRespone.amount}"></div><br/>
-
+<div th:if="${checkRespone.discountAmount} gt 0">
+<div style="float:left">Discount</div>  <div style="float:right" th:text="${checkRespone.discountAmount}"></div><br/>
+<div style="float:left">Total After Discount</div>  <div style="float:right" th:text="${checkRespone.amountAfterDiscount}"></div><br/>
+</div>
 <div th:if="${not #strings.isEmpty(checkRespone.additionalChargeName1)}">
 <div style="float:left" th:text="${checkRespone.additionalChargeName1}"></div> 
 <div style="float:right" th:text="${#numbers.formatDecimal(checkRespone.additionalCharge1, 1, 2)}"></div>

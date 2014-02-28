@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+
 import com.cookedspecially.enums.check.CheckType;
 import com.cookedspecially.enums.check.Status;
 
@@ -23,6 +25,7 @@ public class CheckResponse {
 	private Status status;
 	private CheckType checkType;
 	private float amount;
+	private float amountAfterDiscount;
 	private String additionalChargeName1;
 	private String additionalChargeName2;
 	private String additionalChargeName3;
@@ -35,6 +38,9 @@ public class CheckResponse {
 	private String deliveryArea;
 	private String deliverAddress;
 	private String invoiceId;
+	private float discountPercent;
+	private float discountAmount;
+	
 	private List<CheckDishResponse> items;
 	
 	public CheckResponse(Check check) {
@@ -45,6 +51,9 @@ public class CheckResponse {
 		this.status = check.getStatus();
 		this.checkType = check.getCheckType();
 		this.amount = check.getBill();
+		this.discountAmount = check.getDiscountAmount();
+		this.discountPercent = check.getDiscountPercent();
+		this.amountAfterDiscount = this.amount - this.discountAmount;
 		this.deliveryTime = check.getDeliveryTime();
 		this.deliveryArea = check.getDeliveryArea();
 		this.deliverAddress = check.getDeliveryAddress();
@@ -54,7 +63,7 @@ public class CheckResponse {
 		this.additionalCharge1 = check.getAdditionalChargesValue1();
 		this.additionalCharge2 = check.getAdditionalChargesValue2();
 		this.additionalCharge3 = check.getAdditionalChargesValue3();
-		this.total = this.amount + this.additionalCharge1 + this.additionalCharge2 + this.additionalCharge3;
+		this.total = this.amountAfterDiscount + this.additionalCharge1 + this.additionalCharge2 + this.additionalCharge3;
 		this.roundedOffTotal = Math.round(this.total);
 		this.invoiceId = check.getInvoiceId();
 		this.items = new ArrayList<CheckDishResponse>();
@@ -210,6 +219,30 @@ public class CheckResponse {
 
 	public void setInvoiceId(String invoiceId) {
 		this.invoiceId = invoiceId;
+	}
+
+	public float getDiscountPercent() {
+		return discountPercent;
+	}
+
+	public void setDiscountPercent(float discountPercent) {
+		this.discountPercent = discountPercent;
+	}
+
+	public float getDiscountAmount() {
+		return discountAmount;
+	}
+
+	public void setDiscountAmount(float discountAmount) {
+		this.discountAmount = discountAmount;
+	}
+
+	public float getAmountAfterDiscount() {
+		return amountAfterDiscount;
+	}
+
+	public void setAmountAfterDiscount(float amountAfterDiscount) {
+		this.amountAfterDiscount = amountAfterDiscount;
 	}
 	
 }
