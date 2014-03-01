@@ -28,6 +28,7 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 import com.cookedspecially.domain.Check;
 import com.cookedspecially.domain.Order;
 import com.cookedspecially.domain.OrderDish;
+import com.cookedspecially.domain.User;
 import com.cookedspecially.enums.check.CheckType;
 import com.cookedspecially.utility.StringUtility;
 
@@ -143,9 +144,9 @@ public class ExcelReportView extends AbstractExcelView {
 			List<OrderDish> items = order.getOrderDishes();
 			for (OrderDish item: items) {
 				if(dishTypeBillMap.containsKey(item.getDishType())) {
-					dishTypeBillMap.put(item.getDishType(), dishTypeBillMap.get(item.getDishType()) + item.getPrice());
+					dishTypeBillMap.put(item.getDishType(), dishTypeBillMap.get(item.getDishType()) + (item.getPrice() * item.getQuantity()));
 				} else {
-					dishTypeBillMap.put(item.getDishType(), (double)item.getPrice());
+					dishTypeBillMap.put(item.getDishType(), (double)item.getPrice() * item.getQuantity());
 				}
 			}
 		}
@@ -292,6 +293,7 @@ public class ExcelReportView extends AbstractExcelView {
 		int rowNum = startRowNum;
 		List<String> dishTypes = (List<String>)reportDataMap.get("dishTypes");
 		List<Check> checks = (List<Check>)reportDataMap.get("data");
+		User user = (User)reportDataMap.get("user");
 		int sno = 1;
 		Double totalBill = 0.0;
 		Map<String, Double> dishTypeTotalBillMap = new HashMap<String, Double>();
@@ -301,9 +303,9 @@ public class ExcelReportView extends AbstractExcelView {
 			dishTypeTotalBillMap.put(dishType, 0.0);
 		}
 		
-		DateFormat formatterIST;
-		formatterIST = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		formatterIST.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+		DateFormat formatter;
+		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		formatter.setTimeZone(TimeZone.getTimeZone(user.getTimeZone()));
 		
 		int cellNo = 0;
 		for(Check check : checks) {
@@ -311,10 +313,10 @@ public class ExcelReportView extends AbstractExcelView {
 			HSSFRow row = sheet.createRow(rowNum++);
 			cellNo = 0;
 			row.createCell(cellNo++).setCellValue(sno++);
-			row.createCell(cellNo++).setCellValue(check.getCheckId());
+			row.createCell(cellNo++).setCellValue(check.getInvoiceId());
 			
-			row.createCell(cellNo++).setCellValue(formatterIST.format(check.getOpenTime()));
-			row.createCell(cellNo++).setCellValue(formatterIST.format(check.getCloseTime()));
+			row.createCell(cellNo++).setCellValue(formatter.format(check.getOpenTime()));
+			row.createCell(cellNo++).setCellValue(formatter.format(check.getCloseTime()));
 			row.createCell(cellNo++).setCellValue(check.getCheckType().toString());
 			totalBill += (double)check.getBill();
 			row.createCell(cellNo++).setCellValue(check.getBill());

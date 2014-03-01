@@ -81,6 +81,7 @@ public class UserController {
 		if(userIdObj != null) {
 			map.put("user", userService.getUser((Integer) userIdObj));
 			map.put("chargeTypes", ChargesType.values());
+			map.put("timeZones", CSConstants.timeZoneIds);
 			return "editUser";
 		}
 		return "redirect:/";

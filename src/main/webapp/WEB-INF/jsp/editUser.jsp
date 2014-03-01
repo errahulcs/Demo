@@ -488,6 +488,23 @@ function list(index) {
 	</td> 
 	</tr>
 	<tr>
+		<td><form:label path="timeZone">Time Zone : </form:label></td>
+		<td>
+			<select name="timeZone">
+				<c:forEach items="${timeZones}" var="tz">
+					<c:choose>
+						<c:when test="${tz == user.timeZone}">
+							<option value="${tz}" selected="selected">${tz}</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${tz}">${tz}</option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</select>
+		</td>
+	</tr>
+	<tr>
 		<td><form:label path="businessPortraitImageUrl">
 		Business Portrait Image
 		<c:choose>

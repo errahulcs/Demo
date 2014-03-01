@@ -53,10 +53,8 @@ public class ReportingController {
 		reportDataMap.put("checks", checks);
 		reportDataMap.put("reportName", "checkReport");
 		User user = userService.getUser(restaurantId);
-		if (user != null)
-		{
-			reportDataMap.put("restaurantName", user.getBusinessName());
-		}
+		reportDataMap.put("restaurantName", user.getBusinessName());
+		reportDataMap.put("user", user);
 		reportDataMap.put("Headers", Arrays.asList("Id", "price"));
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
@@ -64,7 +62,8 @@ public class ReportingController {
 	@RequestMapping(value = "dailyInvoice.xls", method=RequestMethod.GET)
 	public ModelAndView dailyInvoiceExcel(HttpServletRequest req, ModelAndView mav) {
 		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
-		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));
+		User user = userService.getUser(restaurantId);
+		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
 		String backDaysString = req.getParameter("backDays");
 		int minusDays = 0;
 		if (!StringUtility.isNullOrEmpty(backDaysString)) {
@@ -80,16 +79,13 @@ public class ReportingController {
 		Map<String, Object> reportDataMap = new HashMap<String, Object>();
 		reportDataMap.put("data", data);
 		reportDataMap.put("reportName", "Daily Invoice");
+		reportDataMap.put("user", user);
 		List<String> headers = new ArrayList<String>(Arrays.asList("No.", "Invoice#", "Opening Time", "Closing Time", "Source", "Total")); 
 		List<String> dishTypes = checkService.getUniqueDishTypes(restaurantId);
 		headers.addAll(dishTypes);
 		reportDataMap.put("dishTypes", dishTypes);
 		reportDataMap.put("Headers", headers);
-		User user = userService.getUser(restaurantId);
-		if (user != null)
-		{
-			reportDataMap.put("restaurantName", user.getBusinessName());
-		}
+		reportDataMap.put("restaurantName", user.getBusinessName());
 		
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
@@ -97,7 +93,8 @@ public class ReportingController {
 	@RequestMapping(value = "dailySalesSummary.xls", method=RequestMethod.GET)
 	public ModelAndView dailySalesSummaryExcel(HttpServletRequest req, ModelAndView mav) {
 		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
-		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));
+		User user = userService.getUser(restaurantId);
+		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
 		String backDaysString = req.getParameter("backDays");
 		int minusDays = 0;
 		if (!StringUtility.isNullOrEmpty(backDaysString)) {
@@ -122,11 +119,8 @@ public class ReportingController {
 		headers.add("Cost/Check");
 		reportDataMap.put("dishTypes", dishTypes);
 		reportDataMap.put("Headers", headers);
-		User user = userService.getUser(restaurantId);
-		if (user != null)
-		{
-			reportDataMap.put("restaurantName", user.getBusinessName());
-		}
+		reportDataMap.put("restaurantName", user.getBusinessName());
+		reportDataMap.put("user", user);
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
 

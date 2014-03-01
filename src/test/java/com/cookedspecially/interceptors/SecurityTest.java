@@ -118,6 +118,14 @@ public class SecurityTest extends TestCase {
 		System.out.println(formatterPST.format(yesterday.getTime()));
 		System.out.println(yesterday.getTime());
 	}
+	
+	public void testTimeZoneIds() {
+		String[] timeZones = TimeZone.getAvailableIDs();
+		
+		for(String tz : timeZones) {
+			System.out.println(tz);
+		}
+	}
 //	private static BufferedImage resizeImage(BufferedImage originalImage, int type){
 //		BufferedImage resizedImage = new BufferedImage(100, 100, type);
 //		Graphics2D g = resizedImage.createGraphics();

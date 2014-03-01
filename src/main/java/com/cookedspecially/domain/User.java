@@ -121,6 +121,9 @@ public class User {
 	
 	@Column(name="invoiceStartCounter")
 	private long invoiceStartCounter;
+
+	@Column(name="timeZone")
+	private String timeZone = "Asia/Calcutta";
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(name="USER_RESTAURANT", 
@@ -385,5 +388,13 @@ public class User {
 
 	public void setInvoiceStartCounter(long invoiceStartCounter) {
 		this.invoiceStartCounter = invoiceStartCounter;
+	}
+
+	public String getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
 	}
 }

@@ -621,8 +621,8 @@ public class OrderController {
 			} else if (check.getTableId() > 0) {
 				ctx.setVariable("tableId", check.getTableId());
 			}
-			
-			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));
+			User user = userService.getUser(check.getRestaurantId());
+			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
 			cal.setTime(check.getOpenTime());
 			DateFormat formatter1;
 			formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -899,10 +899,11 @@ public class OrderController {
 				return "wrong delivery time";
 			}
 			
-			DateFormat formatterIST;
-			formatterIST = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-			formatterIST.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
-			Date deliveryTime = formatterIST.parse(deliveryTimeStr);
+			DateFormat formatter;
+			formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			User user = userService.getUser(check.getRestaurantId());
+			formatter.setTimeZone(TimeZone.getTimeZone(user.getTimeZone()));
+			Date deliveryTime = formatter.parse(deliveryTimeStr);
 			check.setDeliveryTime(deliveryTime);
 			checkService.addCheck(check);
 			return "recieved";
@@ -948,10 +949,11 @@ public class OrderController {
 			check.setDeliveryAddress(deliveryAddress);
 			check.setDeliveryArea(deliveryArea);
 			if (!StringUtility.isNullOrEmpty(deliveryTimeStr)) {
-				DateFormat formatterIST;
-				formatterIST = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				formatterIST.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
-				Date deliveryTime = formatterIST.parse(deliveryTimeStr);
+				DateFormat formatter;
+				formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				User user = userService.getUser(check.getRestaurantId());
+				formatter.setTimeZone(TimeZone.getTimeZone(user.getTimeZone()));
+				Date deliveryTime = formatter.parse(deliveryTimeStr);
 				check.setDeliveryTime(deliveryTime);
 			}
 			checkService.addCheck(check);
