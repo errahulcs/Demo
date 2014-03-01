@@ -46,7 +46,7 @@ public class ReportingController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "checkReport.xlsx", method=RequestMethod.GET)
+	@RequestMapping(value = "checkReport.xls", method=RequestMethod.GET)
 	public ModelAndView generateCheckReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
 		List<Check> checks = checkService.getAllOpenChecks(restaurantId);
 		Map<String, Object> reportDataMap = new HashMap<String, Object>();
@@ -61,7 +61,7 @@ public class ReportingController {
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
 	
-	@RequestMapping(value = "dailyInvoice.xlsx", method=RequestMethod.GET)
+	@RequestMapping(value = "dailyInvoice.xls", method=RequestMethod.GET)
 	public ModelAndView dailyInvoiceExcel(HttpServletRequest req, ModelAndView mav) {
 		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
 		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));
@@ -94,7 +94,7 @@ public class ReportingController {
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
 	
-	@RequestMapping(value = "dailySalesSummary.xlsx", method=RequestMethod.GET)
+	@RequestMapping(value = "dailySalesSummary.xls", method=RequestMethod.GET)
 	public ModelAndView dailySalesSummaryExcel(HttpServletRequest req, ModelAndView mav) {
 		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
 		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone("Asia/Calcutta"));

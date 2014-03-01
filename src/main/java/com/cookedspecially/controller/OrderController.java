@@ -899,7 +899,10 @@ public class OrderController {
 				return "wrong delivery time";
 			}
 			
-			Date deliveryTime = DateUtils.parseDate(deliveryTimeStr, "yyyy-MM-dd HH:mm");
+			DateFormat formatterIST;
+			formatterIST = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			formatterIST.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+			Date deliveryTime = formatterIST.parse(deliveryTimeStr);
 			check.setDeliveryTime(deliveryTime);
 			checkService.addCheck(check);
 			return "recieved";
@@ -945,7 +948,10 @@ public class OrderController {
 			check.setDeliveryAddress(deliveryAddress);
 			check.setDeliveryArea(deliveryArea);
 			if (!StringUtility.isNullOrEmpty(deliveryTimeStr)) {
-				Date deliveryTime = DateUtils.parseDate(deliveryTimeStr, "yyyy-MM-dd HH:mm");
+				DateFormat formatterIST;
+				formatterIST = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				formatterIST.setTimeZone(TimeZone.getTimeZone("Asia/Calcutta"));
+				Date deliveryTime = formatterIST.parse(deliveryTimeStr);
 				check.setDeliveryTime(deliveryTime);
 			}
 			checkService.addCheck(check);
