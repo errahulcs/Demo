@@ -39,7 +39,21 @@ public class RestaurantInfo {
 	private float deliveryCharges = 0.0f;
 	private float minInCircleDeliveyThreshold = 0.0f;
 	private float minOutCircleDeliveyThreshold = 0.0f;
-	
+	private String timeZone;
+	private String sundayOpenTime = "09:00";
+	private String sundayCloseTime = "17:00";
+	private String mondayOpenTime = "09:00";
+	private String mondayCloseTime = "17:00";
+	private String tuesdayOpenTime = "09:00";
+	private String tuesdayCloseTime = "17:00";
+	private String wednesdayOpenTime = "09:00";
+	private String wednesdayCloseTime = "17:00";
+	private String thursdayOpenTime = "09:00";
+	private String thursdayCloseTime = "17:00";
+	private String fridayOpenTime = "09:00";
+	private String fridayCloseTime = "17:00";
+	private String saturdayOpenTime = "09:00";
+	private String saturdayCloseTime = "17:00";
 	public RestaurantInfo(User user) {
 		if (user != null) {
 			this.userId = user.getUserId();
@@ -68,6 +82,8 @@ public class RestaurantInfo {
 			this.deliveryCharges = user.getDeliveryCharges();
 			this.minInCircleDeliveyThreshold = user.getMinInCircleDeliveyThreshold();
 			this.minOutCircleDeliveyThreshold = user.getMinOutCircleDeliveyThreshold();
+			this.timeZone = user.getTimeZone();
+			
 		}
 	}
 	
@@ -248,6 +264,126 @@ public class RestaurantInfo {
 
 	public void setMinOutCircleDeliveyThreshold(float minOutCircleDeliveyThreshold) {
 		this.minOutCircleDeliveyThreshold = minOutCircleDeliveyThreshold;
+	}
+
+	public String getTimeZone() {
+		return timeZone;
+	}
+
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
+	}
+
+	public String getSundayOpenTime() {
+		return sundayOpenTime;
+	}
+
+	public void setSundayOpenTime(String sundayOpenTime) {
+		this.sundayOpenTime = sundayOpenTime;
+	}
+
+	public String getSundayCloseTime() {
+		return sundayCloseTime;
+	}
+
+	public void setSundayCloseTime(String sundayCloseTime) {
+		this.sundayCloseTime = sundayCloseTime;
+	}
+
+	public String getMondayOpenTime() {
+		return mondayOpenTime;
+	}
+
+	public void setMondayOpenTime(String mondayOpenTime) {
+		this.mondayOpenTime = mondayOpenTime;
+	}
+
+	public String getMondayCloseTime() {
+		return mondayCloseTime;
+	}
+
+	public void setMondayCloseTime(String mondayCloseTime) {
+		this.mondayCloseTime = mondayCloseTime;
+	}
+
+	public String getTuesdayOpenTime() {
+		return tuesdayOpenTime;
+	}
+
+	public void setTuesdayOpenTime(String tuesdayOpenTime) {
+		this.tuesdayOpenTime = tuesdayOpenTime;
+	}
+
+	public String getTuesdayCloseTime() {
+		return tuesdayCloseTime;
+	}
+
+	public void setTuesdayCloseTime(String tuesdayCloseTime) {
+		this.tuesdayCloseTime = tuesdayCloseTime;
+	}
+
+	public String getWednesdayOpenTime() {
+		return wednesdayOpenTime;
+	}
+
+	public void setWednesdayOpenTime(String wednesdayOpenTime) {
+		this.wednesdayOpenTime = wednesdayOpenTime;
+	}
+
+	public String getWednesdayCloseTime() {
+		return wednesdayCloseTime;
+	}
+
+	public void setWednesdayCloseTime(String wednesdayCloseTime) {
+		this.wednesdayCloseTime = wednesdayCloseTime;
+	}
+
+	public String getThursdayOpenTime() {
+		return thursdayOpenTime;
+	}
+
+	public void setThursdayOpenTime(String thursdayOpenTime) {
+		this.thursdayOpenTime = thursdayOpenTime;
+	}
+
+	public String getThursdayCloseTime() {
+		return thursdayCloseTime;
+	}
+
+	public void setThursdayCloseTime(String thursdayCloseTime) {
+		this.thursdayCloseTime = thursdayCloseTime;
+	}
+
+	public String getFridayOpenTime() {
+		return fridayOpenTime;
+	}
+
+	public void setFridayOpenTime(String fridayOpenTime) {
+		this.fridayOpenTime = fridayOpenTime;
+	}
+
+	public String getFridayCloseTime() {
+		return fridayCloseTime;
+	}
+
+	public void setFridayCloseTime(String fridayCloseTime) {
+		this.fridayCloseTime = fridayCloseTime;
+	}
+
+	public String getSaturdayOpenTime() {
+		return saturdayOpenTime;
+	}
+
+	public void setSaturdayOpenTime(String saturdayOpenTime) {
+		this.saturdayOpenTime = saturdayOpenTime;
+	}
+
+	public String getSaturdayCloseTime() {
+		return saturdayCloseTime;
+	}
+
+	public void setSaturdayCloseTime(String saturdayCloseTime) {
+		this.saturdayCloseTime = saturdayCloseTime;
 	}
 
 	

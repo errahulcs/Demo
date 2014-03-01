@@ -611,9 +611,56 @@ function list(index) {
 			</select>
 		</td>
 		<td><form:input path="additionalChargesValue3" /></td>
-	</tr>
-	
+	</tr>	
 	</table>
+	<!-- Work Hours Start -->
+	<hr/>
+	Work Hours
+	<table class="data">
+	<tr>
+		<th>Day of Week</th>
+		<th>Open Time (HH:mm)</th>	
+		<th>Close Time (HH:mm)</th>
+	</tr>
+	<tr>
+		<td>Sunday</td>
+		<td><form:input path="sundayOpenTime" class="validate[maxSize[5]]"/></td>	
+		<td><form:input path="sundayCloseTime" class="validate[maxSize[5]]"/></td>
+	</tr>
+	<tr>
+		<td>Monday</td>
+		<td><form:input path="mondayOpenTime" class="validate[maxSize[5]]"/></td>	
+		<td><form:input path="mondayCloseTime" class="validate[maxSize[5]]"/></td>
+	</tr>
+	<tr>
+		<td>Tuesday</td>
+		<td><form:input path="tuesdayOpenTime" class="validate[maxSize[5]]"/></td>	
+		<td><form:input path="tuesdayCloseTime" class="validate[maxSize[5]]"/></td>
+	</tr>
+	<tr>
+		<td>Wednesday</td>
+		<td><form:input path="wednesdayOpenTime" class="validate[maxSize[5]]"/></td>	
+		<td><form:input path="wednesdayCloseTime" class="validate[maxSize[5]]"/></td>
+	</tr>
+	<tr>
+		<td>Thursday</td>
+		<td><form:input path="thursdayOpenTime" class="validate[maxSize[5]]"/></td>	
+		<td><form:input path="thursdayCloseTime" class="validate[maxSize[5]]"/></td>
+	</tr>
+	<tr>
+		<td>Friday</td>
+		<td><form:input path="fridayOpenTime" class="validate[maxSize[5]]"/></td>	
+		<td><form:input path="fridayCloseTime" class="validate[maxSize[5]]"/></td>
+	</tr>
+	<tr>
+		<td>Saturday</td>
+		<td><form:input path="saturdayOpenTime" class="validate[maxSize[5]]"/></td>	
+		<td><form:input path="saturdayCloseTime" class="validate[maxSize[5]]"/></td>
+	</tr>
+
+	</table>
+	<hr/>
+	<!-- Work Hours Ends -->
 	
 	<tr>
 		<td colspan="2">

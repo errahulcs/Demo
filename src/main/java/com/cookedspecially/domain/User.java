@@ -125,6 +125,48 @@ public class User {
 	@Column(name="timeZone")
 	private String timeZone = "Asia/Calcutta";
 	
+	@Column(name="sundayOpenTime")
+	private String sundayOpenTime = "09:00";
+	
+	@Column(name="sundayCloseTime")
+	private String sundayCloseTime = "17:00";
+	
+	@Column(name="mondayOpenTime")
+	private String mondayOpenTime = "09:00";
+	
+	@Column(name="mondayCloseTime")
+	private String mondayCloseTime = "17:00";
+	
+	@Column(name="tuesdayOpenTime")
+	private String tuesdayOpenTime = "09:00";
+	
+	@Column(name="tuesdayCloseTime")
+	private String tuesdayCloseTime = "17:00";
+	
+	@Column(name="wednesdayOpenTime")
+	private String wednesdayOpenTime = "09:00";
+	
+	@Column(name="wednesdayCloseTime")
+	private String wednesdayCloseTime = "17:00";
+	
+	@Column(name="thursdayOpenTime")
+	private String thursdayOpenTime = "09:00";
+	
+	@Column(name="thursdayCloseTime")
+	private String thursdayCloseTime = "17:00";
+	
+	@Column(name="fridayOpenTime")
+	private String fridayOpenTime = "09:00";
+	
+	@Column(name="fridayCloseTime")
+	private String fridayCloseTime = "17:00";
+	
+	@Column(name="saturdayOpenTime")
+	private String saturdayOpenTime = "09:00";
+	
+	@Column(name="saturdayCloseTime")
+	private String saturdayCloseTime = "17:00";
+	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(name="USER_RESTAURANT", 
                 joinColumns={@JoinColumn(name="USERID")}, 
@@ -396,5 +438,117 @@ public class User {
 
 	public void setTimeZone(String timeZone) {
 		this.timeZone = timeZone;
+	}
+
+	public String getSundayOpenTime() {
+		return sundayOpenTime;
+	}
+
+	public void setSundayOpenTime(String sundayOpenTime) {
+		this.sundayOpenTime = sundayOpenTime;
+	}
+
+	public String getSundayCloseTime() {
+		return sundayCloseTime;
+	}
+
+	public void setSundayCloseTime(String sundayCloseTime) {
+		this.sundayCloseTime = sundayCloseTime;
+	}
+
+	public String getMondayOpenTime() {
+		return mondayOpenTime;
+	}
+
+	public void setMondayOpenTime(String mondayOpenTime) {
+		this.mondayOpenTime = mondayOpenTime;
+	}
+
+	public String getMondayCloseTime() {
+		return mondayCloseTime;
+	}
+
+	public void setMondayCloseTime(String mondayCloseTime) {
+		this.mondayCloseTime = mondayCloseTime;
+	}
+
+	public String getTuesdayOpenTime() {
+		return tuesdayOpenTime;
+	}
+
+	public void setTuesdayOpenTime(String tuesdayOpenTime) {
+		this.tuesdayOpenTime = tuesdayOpenTime;
+	}
+
+	public String getTuesdayCloseTime() {
+		return tuesdayCloseTime;
+	}
+
+	public void setTuesdayCloseTime(String tuesdayCloseTime) {
+		this.tuesdayCloseTime = tuesdayCloseTime;
+	}
+
+	public String getWednesdayOpenTime() {
+		return wednesdayOpenTime;
+	}
+
+	public void setWednesdayOpenTime(String wednesdayOpenTime) {
+		this.wednesdayOpenTime = wednesdayOpenTime;
+	}
+
+	public String getWednesdayCloseTime() {
+		return wednesdayCloseTime;
+	}
+
+	public void setWednesdayCloseTime(String wednesdayCloseTime) {
+		this.wednesdayCloseTime = wednesdayCloseTime;
+	}
+
+	public String getThursdayOpenTime() {
+		return thursdayOpenTime;
+	}
+
+	public void setThursdayOpenTime(String thursdayOpenTime) {
+		this.thursdayOpenTime = thursdayOpenTime;
+	}
+
+	public String getThursdayCloseTime() {
+		return thursdayCloseTime;
+	}
+
+	public void setThursdayCloseTime(String thursdayCloseTime) {
+		this.thursdayCloseTime = thursdayCloseTime;
+	}
+
+	public String getFridayOpenTime() {
+		return fridayOpenTime;
+	}
+
+	public void setFridayOpenTime(String fridayOpenTime) {
+		this.fridayOpenTime = fridayOpenTime;
+	}
+
+	public String getFridayCloseTime() {
+		return fridayCloseTime;
+	}
+
+	public void setFridayCloseTime(String fridayCloseTime) {
+		this.fridayCloseTime = fridayCloseTime;
+	}
+
+	public String getSaturdayOpenTime() {
+		return saturdayOpenTime;
+	}
+
+	public void setSaturdayOpenTime(String saturdayOpenTime) {
+		this.saturdayOpenTime = saturdayOpenTime;
+	}
+
+	public String getSaturdayCloseTime() {
+		return saturdayCloseTime;
+	}
+
+	public void setSaturdayCloseTime(String saturdayCloseTime) {
+		this.saturdayCloseTime = saturdayCloseTime;
 	}
 }
