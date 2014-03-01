@@ -86,7 +86,7 @@ public class ExcelReportView extends AbstractExcelView {
 			cell.setCellStyle(style);
 			rowNum++;
 			
-			row.setHeightInPoints(20);
+			row.setHeightInPoints(-1);
 
 		}
 		
@@ -97,7 +97,7 @@ public class ExcelReportView extends AbstractExcelView {
 		HSSFCell cell = row.createCell(0);
 		cell.setCellValue(reportName);
 		cell.setCellStyle(style);
-		row.setHeightInPoints(20);
+		row.setHeightInPoints(-1);
 		rowNum++;
 		
 		HSSFCellStyle headerStyle=workbook.createCellStyle();
@@ -123,7 +123,7 @@ public class ExcelReportView extends AbstractExcelView {
 			headerCell.setCellValue(headerValue);
 			headerCell.setCellStyle(headerStyle);
 		}
-		header.setHeightInPoints(20);
+		header.setHeightInPoints(-1);
 		//header.setRowStyle(style);
 		//header.setHeight((short)0);
 		if (reportName.equals("checkReport")) {

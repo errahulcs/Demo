@@ -14,7 +14,10 @@
 <div align="center" th:text="${checkDate}"></div><br/>
 <div th:if="${#bools.isTrue(customer)}">
 <p>Name: <span th:text="${customer.firstName}"></span> <span th:text="${customer.lastName}"></span> </p>
-<p>Address: <span th:text="${customer.address}"></span></p>
+<div th:switch="${not #strings.isEmpty(checkRespone.deliverAddress)}"> 
+  <p th:case="${false}">Address: <span th:text="${customer.address}"></span></p>
+  <p th:case="${true}">Address: <span th:text="${checkRespone.deliverAddress}"></span></p> 
+</div>
 <p>Email Id: <span th:text="${customer.email}"></span></p>
 <p>Phone No.: <span th:text="${customer.phone}"></span></p>
 </div>

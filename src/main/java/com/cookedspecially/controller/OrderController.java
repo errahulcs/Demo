@@ -1009,6 +1009,7 @@ public class OrderController {
 				} else if (customer != null) {
 					check.setCustomerId(customer.getCustomerId());
 					check.setCheckType(CheckType.TakeAway);
+					check.setDeliveryAddress(customer.getAddress() + "," + customer.getCity());
 				}
 				check.setUserId(restaurantId);
 				// check's delivery area will be set only when first order is being placed and is for non-table orders

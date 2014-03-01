@@ -13,7 +13,16 @@
 <div align="center"><span id='date-time'></span> </div><br/>
 <c:if  test="${!empty customer}">
 Name: ${customer.firstName} ${customer.lastName} <br />
-Address: ${customer.address}<br />
+Address:
+<c:choose>
+	<c:when test="${!empty checkRespone.deliverAddress}">
+		${checkRespone.deliverAddress}
+	</c:when>
+	<c:otherwise>
+		${customer.address}
+	</c:otherwise>
+</c:choose>
+<br />
 Email Id: ${customer.email}<br />
 Phone No.: ${customer.phone}<br />
 </c:if>
