@@ -80,23 +80,24 @@ public class ExcelReportView extends AbstractExcelView {
 		if (!StringUtility.isNullOrEmpty(restaurantName)) {
 			HSSFRow row = sheet.createRow(rowNum++);
 			row.setRowStyle(style);
-			row.setHeight((short)0);
+			//row.setHeight((short)0);
 			HSSFCell cell = row.createCell(0);
 			cell.setCellValue(restaurantName);
 			cell.setCellStyle(style);
 			rowNum++;
-			//row.setHeightInPoints(20);
+			
+			row.setHeightInPoints(20);
 
 		}
 		
 		// Create Report Name entry
 		HSSFRow row = sheet.createRow(rowNum++);
 		row.setRowStyle(style);
-		row.setHeight((short)0);
+		//row.setHeight((short)0);
 		HSSFCell cell = row.createCell(0);
 		cell.setCellValue(reportName);
 		cell.setCellStyle(style);
-		//row.setHeightInPoints(-1);
+		row.setHeightInPoints(20);
 		rowNum++;
 		
 		HSSFCellStyle headerStyle=workbook.createCellStyle();
@@ -122,9 +123,9 @@ public class ExcelReportView extends AbstractExcelView {
 			headerCell.setCellValue(headerValue);
 			headerCell.setCellStyle(headerStyle);
 		}
-		//header.setHeightInPoints(20);
+		header.setHeightInPoints(20);
 		//header.setRowStyle(style);
-		header.setHeight((short)0);
+		//header.setHeight((short)0);
 		if (reportName.equals("checkReport")) {
 			createCheckReport(sheet, reportDataMap, rowNum);
 		} else if (reportName.equals("Daily Invoice")) {
@@ -219,6 +220,9 @@ public class ExcelReportView extends AbstractExcelView {
 		row.createCell(cellNo++).setCellValue(total);
 		row.createCell(cellNo++).setCellValue(totalCustomer);
 		row.createCell(cellNo++).setCellValue(totalCustomer>0?total/totalCustomer:0);
+		for (int i = 0; i < cellNo; i++) {
+			sheet.autoSizeColumn(i);
+		}
 	}
 
 //	private void createWeeklySalesSummaryReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
@@ -339,6 +343,10 @@ public class ExcelReportView extends AbstractExcelView {
 		finalRow.createCell(cellNo++).setCellValue(totalBill);
 		for (String dishType : dishTypes) {
 			finalRow.createCell(cellNo++).setCellValue(dishTypeTotalBillMap.get(dishType));
+		}
+		
+		for (int i = 0; i < cellNo; i++) {
+			sheet.autoSizeColumn(i);
 		}
 	}
 		
