@@ -83,7 +83,20 @@ public class RestaurantInfo {
 			this.minInCircleDeliveyThreshold = user.getMinInCircleDeliveyThreshold();
 			this.minOutCircleDeliveyThreshold = user.getMinOutCircleDeliveyThreshold();
 			this.timeZone = user.getTimeZone();
-			
+			this.sundayOpenTime = user.getSundayOpenTime();
+			this.sundayCloseTime = user.getSundayCloseTime();
+			this.mondayOpenTime = user.getMondayOpenTime();
+			this.mondayCloseTime = user.getMondayCloseTime();
+			this.tuesdayOpenTime = user.getTuesdayOpenTime();
+			this.tuesdayCloseTime = user.getTuesdayCloseTime();
+			this.wednesdayOpenTime = user.getWednesdayOpenTime();
+			this.wednesdayCloseTime = user.getWednesdayCloseTime();
+			this.thursdayOpenTime = user.getThursdayOpenTime();
+			this.thursdayCloseTime = user.getThursdayCloseTime();
+			this.fridayOpenTime = user.getFridayOpenTime();
+			this.fridayCloseTime = user.getFridayCloseTime();
+			this.saturdayOpenTime = user.getSaturdayOpenTime();
+			this.saturdayCloseTime = user.getSaturdayCloseTime();
 		}
 	}
 	
