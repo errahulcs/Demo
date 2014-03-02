@@ -854,6 +854,9 @@ public class OrderController {
 		} 
 		check.setStatus(status);
 		check.setModifiedTime(new Date());
+		if (status == com.cookedspecially.enums.check.Status.Paid || status == com.cookedspecially.enums.check.Status.Cancel) {
+			check.setCloseTime(new Date());
+		}
 		checkService.addCheck(check);
 		return check;
 	}
