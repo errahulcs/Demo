@@ -300,6 +300,10 @@ public class ExcelReportView extends AbstractExcelView {
 		User user = (User)reportDataMap.get("user");
 		int sno = 1;
 		Double totalBill = 0.0;
+		double totalBillWithTaxes = 0.0;
+		double totalTax1 = 0.0;
+		double totalTax2 = 0.0;
+		double totalTax3 = 0.0;
 		Map<String, Double> dishTypeTotalBillMap = new HashMap<String, Double>();
 		
 		// Initialize
@@ -324,6 +328,21 @@ public class ExcelReportView extends AbstractExcelView {
 			row.createCell(cellNo++).setCellValue(check.getCheckType().toString());
 			totalBill += (double)check.getBill();
 			row.createCell(cellNo++).setCellValue(check.getBill());
+			if(!StringUtility.isNullOrEmpty(user.getAdditionalChargesName1())) {
+				totalTax1 += (double)check.getAdditionalChargesValue1();
+				row.createCell(cellNo++).setCellValue(check.getAdditionalChargesValue1());
+			}
+			if(!StringUtility.isNullOrEmpty(user.getAdditionalChargesName2())) {
+				totalTax2 += (double)check.getAdditionalChargesValue2();
+				row.createCell(cellNo++).setCellValue(check.getAdditionalChargesValue2());
+			}
+			if(!StringUtility.isNullOrEmpty(user.getAdditionalChargesName3())) {
+				totalTax3 += (double)check.getAdditionalChargesValue3();
+				row.createCell(cellNo++).setCellValue(check.getAdditionalChargesValue3());
+			}
+			double billWithTaxes = (double)(check.getBill() + check.getAdditionalChargesValue1() + check.getAdditionalChargesValue2() + check.getAdditionalChargesValue3());
+			totalBillWithTaxes += billWithTaxes;
+			row.createCell(cellNo++).setCellValue(billWithTaxes);
 			Map<String, Double> dishTypeBillMap = getDishTypeBillMap(check);
 			for (String dishType : dishTypes) {
 				Double dishTypeBill = dishTypeBillMap.containsKey(dishType)?dishTypeBillMap.get(dishType):0;
@@ -341,6 +360,16 @@ public class ExcelReportView extends AbstractExcelView {
 		finalRow.createCell(cellNo++).setCellValue("");
 		finalRow.createCell(cellNo++).setCellValue("");
 		finalRow.createCell(cellNo++).setCellValue(totalBill);
+		if(!StringUtility.isNullOrEmpty(user.getAdditionalChargesName1())) {
+			finalRow.createCell(cellNo++).setCellValue(totalTax1);
+		}
+		if(!StringUtility.isNullOrEmpty(user.getAdditionalChargesName2())) {
+			finalRow.createCell(cellNo++).setCellValue(totalTax2);
+		}
+		if(!StringUtility.isNullOrEmpty(user.getAdditionalChargesName3())) {
+			finalRow.createCell(cellNo++).setCellValue(totalTax3);
+		}
+		finalRow.createCell(cellNo++).setCellValue(totalBillWithTaxes);
 		for (String dishType : dishTypes) {
 			finalRow.createCell(cellNo++).setCellValue(dishTypeTotalBillMap.get(dishType));
 		}

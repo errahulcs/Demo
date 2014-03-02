@@ -81,6 +81,16 @@ public class ReportingController {
 		reportDataMap.put("reportName", "Daily Invoice");
 		reportDataMap.put("user", user);
 		List<String> headers = new ArrayList<String>(Arrays.asList("No.", "Invoice#", "Opening Time", "Closing Time", "Source", "Total")); 
+		if (!StringUtility.isNullOrEmpty(user.getAdditionalChargesName1())) {
+			headers.add(user.getAdditionalChargesName1());
+		}
+		if (!StringUtility.isNullOrEmpty(user.getAdditionalChargesName2())) {
+			headers.add(user.getAdditionalChargesName2());
+		}
+		if (!StringUtility.isNullOrEmpty(user.getAdditionalChargesName3())) {
+			headers.add(user.getAdditionalChargesName3());
+		}
+		headers.add("Total(incl. Taxes)");
 		List<String> dishTypes = checkService.getUniqueDishTypes(restaurantId);
 		headers.addAll(dishTypes);
 		reportDataMap.put("dishTypes", dishTypes);
