@@ -3,6 +3,7 @@
  */
 package com.cookedspecially.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +20,7 @@ import java.util.TreeMap;
 import javassist.expr.NewArray;
 
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -603,7 +605,7 @@ public class OrderController {
 	}
 
 	@RequestMapping(value = "/emailTemplatedCheck", method = RequestMethod.GET)
-	public @ResponseBody String emailTemplatedCheck(HttpServletRequest request, HttpServletResponse response) throws MessagingException {
+	public @ResponseBody String emailTemplatedCheck(HttpServletRequest request, HttpServletResponse response) throws MessagingException, UnsupportedEncodingException {
 		String emailAddr = request.getParameter("email");
 		String templateName =request.getParameter("templateName");
 		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
@@ -612,6 +614,7 @@ public class OrderController {
 	    final Context ctx = new Context(request.getLocale());
 	    
 		Check check = checkService.getCheck(checkId);
+		User user = null;
 		if (check != null) {
 			CheckResponse checkResponse = new CheckResponse(check);
 			ctx.setVariable("checkRespone", checkResponse);
@@ -621,7 +624,7 @@ public class OrderController {
 			} else if (check.getTableId() > 0) {
 				ctx.setVariable("tableId", check.getTableId());
 			}
-			User user = userService.getUser(check.getRestaurantId());
+			user = userService.getUser(check.getRestaurantId());
 			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
 			cal.setTime(check.getOpenTime());
 			DateFormat formatter1;
@@ -655,7 +658,11 @@ public class OrderController {
 	        new MimeMessageHelper(mimeMessage, false, "UTF-8"); // true = multipart
 
 	    message.setSubject("Your Receipt");
-	    message.setFrom("thymeleaf@example.com");
+	    if (user != null) {
+	    	InternetAddress restaurantEmailAddress = new InternetAddress(user.getUsername(), user.getBusinessName());
+	    	message.setFrom(restaurantEmailAddress);
+	    	message.setReplyTo(restaurantEmailAddress);
+	    }
 	    message.setTo(emailAddr);
 	 
 	    // Create the HTML body using Thymeleaf
