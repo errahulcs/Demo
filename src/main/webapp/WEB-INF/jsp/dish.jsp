@@ -81,7 +81,31 @@
 	
 	<tr>
 		<td><form:label path="dishType">Dish Type</form:label></td>
-		<td><form:input path="dishType" /></td>
+		
+		<td>
+		<select name="dishType">
+			<c:choose>
+					<c:when test="${'OTHERS' == dish.dishType }">
+						<option value="OTHERS" selected="selected">OTHERS</option>
+					</c:when>
+					<c:otherwise>
+						<option value="OTHERS">OTHERS</option>
+					</c:otherwise>
+				</c:choose>
+			
+			<c:forEach items="${dishTypes}" var="dishType">
+				<c:choose>
+					<c:when test="${dishType.name == dish.dishType }">
+						<option value="${dishType.name}" selected="selected">${dishType.name}</option>
+					</c:when>
+					<c:otherwise>
+						<option value="${dishType.name}">${dishType.name}</option>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			
+		</select>
+		</td>
 	</tr>
 	
 	<tr>
@@ -271,6 +295,7 @@
 <tr>
 	<th>Name</th>
 	<th>Description</th>
+	<th>Dish Type</th>
 	<th>Image</th>
 	<th>Price</th>
 	<th>&nbsp;</th>
@@ -280,6 +305,7 @@
 	<tr>
 		<td style="width:30%;">${dish.name}</td>
 		<td style="width:50%;">${dish.description}</td>
+		<td style="width:10%;">${dish.dishType}</td>
 		<td><img height="200" width="200" src="${dish.imageUrl}" /></td>
 		<td>${dish.price}</td>
 		<td><button type="button" onclick="deleteDish(${dish.dishId});">delete</button></td>

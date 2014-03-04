@@ -24,9 +24,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.cookedspecially.domain.Dish;
+import com.cookedspecially.domain.DishType;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.enums.WeekDayFlags;
 import com.cookedspecially.service.DishService;
+import com.cookedspecially.service.DishTypeService;
 import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.ImageUtility;
 import com.cookedspecially.utility.StringUtility;
@@ -41,7 +43,8 @@ public class DishController {
 
 	@Autowired
 	private DishService dishService;
-	
+	@Autowired
+	private DishTypeService dishTypeService;
 	@Autowired
 	private UserService userService;
 	
@@ -73,11 +76,13 @@ public class DishController {
 		dish.setDishActiveDays(ALLWEEKDAYS);
 		dish.setHappyHourActiveDays(ALLWEEKDAYS);
 		map.put("dish", dish);
-		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
+		Integer userId = (Integer) request.getSession().getAttribute("userId");
+		map.put("dishList", dishService.listDishByUser(userId));
 		map.put("hours", HOURS);
 		map.put("mins", MINS);
 		map.put("currTime", new Date().toLocaleString());
 		map.put("weekdayFlags", WeekDayFlags.values());
+		map.put("dishTypes", dishTypeService.listDishTypesByRestaurantId(userId));
 		//map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
 		return "dish";
 	}
@@ -88,12 +93,14 @@ public class DishController {
 		dish.setDishActiveDays(WeekDayFlags.getWeekDayFlagsArr(dish.getActiveDays()));
 		dish.setHappyHourActiveDays(WeekDayFlags.getWeekDayFlagsArr(dish.getHappyHourDays()));
 		map.put("dish", dish);
-		map.put("dishList", dishService.listDishByUser((Integer) request.getSession().getAttribute("userId")));
+		Integer userId = (Integer) request.getSession().getAttribute("userId");
+		map.put("dishList", dishService.listDishByUser(userId));
 		map.put("hours", HOURS);
 		map.put("mins", MINS);
 		map.put("weekdayFlags", WeekDayFlags.values());
 		map.put("currTime", new Date().toLocaleString());
 		//map.put("categoryList", categoryService.listCategoryByUser((Integer) request.getSession().getAttribute("userId")));
+		map.put("dishTypes", dishTypeService.listDishTypesByRestaurantId(userId));
 		return "dish";
 	}
 	

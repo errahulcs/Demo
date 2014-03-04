@@ -27,6 +27,7 @@
 			<mvc:mapping path="/dish/**"/>
 			<mvc:mapping path="/menu/**"/>
 			<mvc:mapping path="/restaurant/**"/>
+			<mvc:mapping path="/dishTypes/**"/>
 			<!-- <mvc:mapping path="/customer/**"/> -->
 			<!--  <mvc:mapping path="/order/**"/>  -->
 			<mvc:mapping path="/seatingTable/**"/>

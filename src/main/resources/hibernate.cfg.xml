@@ -19,6 +19,7 @@
     	<mapping class="com.cookedspecially.domain.OrderDish" />
     	<mapping class="com.cookedspecially.domain.Check" />
     	<mapping class="com.cookedspecially.domain.DeliveryArea" />
+    	<mapping class="com.cookedspecially.domain.DishType" />
     </session-factory>
 	    
 </hibernate-configuration>
