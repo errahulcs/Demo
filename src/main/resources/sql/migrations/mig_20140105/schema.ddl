@@ -51,3 +51,5 @@ CREATE TABLE DISHTYPES
     restaurantId INT,
     name VARCHAR(100)
 );
+
+UPDATE ORDERDISHES set dishType='OTHERS' where dishType='';

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
@@ -156,7 +157,7 @@ public class ExcelReportView extends AbstractExcelView {
 	
 	private void createDailySalesSummaryReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
 		int rowNum = startRowNum;
-		List<String> dishTypes = (List<String>)reportDataMap.get("dishTypes");
+		Set<String> dishTypes = (Set<String>)reportDataMap.get("dishTypes");
 		List<Check> checks = (List<Check>)reportDataMap.get("data");
 
 		
@@ -295,7 +296,7 @@ public class ExcelReportView extends AbstractExcelView {
 	
 	private void createDailyInvoiceReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
 		int rowNum = startRowNum;
-		List<String> dishTypes = (List<String>)reportDataMap.get("dishTypes");
+		Set<String> dishTypes = (Set<String>)reportDataMap.get("dishTypes");
 		List<Check> checks = (List<Check>)reportDataMap.get("data");
 		User user = (User)reportDataMap.get("user");
 		int sno = 1;

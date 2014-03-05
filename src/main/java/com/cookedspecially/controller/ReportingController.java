@@ -3,31 +3,30 @@
  */
 package com.cookedspecially.controller;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import javax.servlet.http.HttpServletRequest;
 
-import javassist.expr.NewArray;
-
-import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cookedspecially.domain.Check;
+import com.cookedspecially.domain.DishType;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.service.CheckService;
+import com.cookedspecially.service.DishTypeService;
 import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.StringUtility;
 
@@ -45,6 +44,9 @@ public class ReportingController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private DishTypeService dishTypeService;
 	
 	@RequestMapping(value = "checkReport.xls", method=RequestMethod.GET)
 	public ModelAndView generateCheckReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
@@ -91,9 +93,17 @@ public class ReportingController {
 			headers.add(user.getAdditionalChargesName3());
 		}
 		headers.add("Total(incl. Taxes)");
-		List<String> dishTypes = checkService.getUniqueDishTypes(restaurantId);
-		headers.addAll(dishTypes);
-		reportDataMap.put("dishTypes", dishTypes);
+		//List<String> dishTypes = checkService.getUniqueDishTypes(restaurantId);
+		List<DishType> dishTypes = dishTypeService.listDishTypesByRestaurantId(restaurantId);
+		Set<String> dishTypesStrs = new HashSet<String>();
+		for (DishType dishType : dishTypes) {
+			dishTypesStrs.add(dishType.getName());
+		}
+		if (!dishTypesStrs.contains("OTHERS")) {
+			dishTypesStrs.add("OTHERS");
+		}
+		headers.addAll(dishTypesStrs);
+		reportDataMap.put("dishTypes", dishTypesStrs);
 		reportDataMap.put("Headers", headers);
 		reportDataMap.put("restaurantName", user.getBusinessName());
 		
@@ -122,12 +132,20 @@ public class ReportingController {
 		reportDataMap.put("data", data);
 		reportDataMap.put("reportName", "Daily Sales Summary");
 		List<String> headers = new ArrayList<String>(Arrays.asList("Gross Sales By Source")); 
-		List<String> dishTypes = checkService.getUniqueDishTypes(restaurantId);
-		headers.addAll(dishTypes);
+		//List<String> dishTypes = checkService.getUniqueDishTypes(restaurantId);
+		List<DishType> dishTypes = dishTypeService.listDishTypesByRestaurantId(restaurantId);
+		Set<String> dishTypesStrs = new HashSet<String>();
+		for (DishType dishType : dishTypes) {
+			dishTypesStrs.add(dishType.getName());
+		}
+		if (!dishTypesStrs.contains("OTHERS")) {
+			dishTypesStrs.add("OTHERS");
+		}
+		headers.addAll(dishTypesStrs);
 		headers.add("Total");
 		headers.add("No. of Checks");
 		headers.add("Cost/Check");
-		reportDataMap.put("dishTypes", dishTypes);
+		reportDataMap.put("dishTypes", dishTypesStrs);
 		reportDataMap.put("Headers", headers);
 		reportDataMap.put("restaurantName", user.getBusinessName());
 		reportDataMap.put("user", user);
