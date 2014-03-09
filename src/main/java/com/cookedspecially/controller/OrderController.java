@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -1108,5 +1109,27 @@ public class OrderController {
 		}
 
 		return orderResp;
+	}
+	
+	@RequestMapping(value = "/getMonthBillSummary", produces = "application/json")
+	public @ResponseBody Map<String, Double> getMonthlyBillSummary(HttpServletRequest request, HttpServletResponse response) throws ParseException {
+		Map<String, Double> billMap = new LinkedHashMap<String, Double>();
+		Integer restaurantId = Integer.parseInt(request.getParameter("restaurantId"));
+		String startDateStr = request.getParameter("startDate");
+		String endDateStr = request.getParameter("endDate");
+		User user = userService.getUser(restaurantId);
+		DateFormat formatter;
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setTimeZone(TimeZone.getTimeZone(user.getTimeZone()));
+		Date startDate = formatter.parse(startDateStr);
+		Date endDate = formatter.parse(endDateStr);
+		List result = checkService.getMonthlyBillSummary(restaurantId, startDate, endDate);
+		Object[] monthlyBillSummary = (Object[])result.get(0);
+		billMap.put("Total", (Double)monthlyBillSummary[0]);
+		billMap.put(user.getAdditionalChargesName1(), (Double)monthlyBillSummary[1]);
+		billMap.put(user.getAdditionalChargesName2(), (Double)monthlyBillSummary[2]);
+		billMap.put(user.getAdditionalChargesName3(), (Double)monthlyBillSummary[3]);
+		billMap.put("Total incl of taxes", (Double)(monthlyBillSummary[0]) + (Double)(monthlyBillSummary[1]) + (Double)(monthlyBillSummary[2]) + (Double)(monthlyBillSummary[3]));
+		return billMap;
 	}
 }

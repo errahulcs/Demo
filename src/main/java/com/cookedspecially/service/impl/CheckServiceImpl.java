@@ -114,4 +114,10 @@ public class CheckServiceImpl implements CheckService {
 	public List<Check> getAllChecks(List<Integer> ids) {
 		return checkDAO.getAllChecks(ids);
 	}
+	
+	@Override
+	@Transactional
+	public List getMonthlyBillSummary(Integer restaurantId, Date startDate, Date endDate) {
+		return checkDAO.getMonthlyBillSummary(restaurantId, startDate, endDate);
+	}
 }

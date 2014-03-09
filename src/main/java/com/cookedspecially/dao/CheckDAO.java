@@ -27,4 +27,5 @@ public interface CheckDAO {
 	public List<String> getUniqueDishTypes(Integer restaurantId);
 	public List getDailySalesRecords(Integer restaurantId, Date startDate);
 	public List<Check> getAllChecks(List<Integer> ids);
+	public List getMonthlyBillSummary(Integer restaurantId, Date startDate, Date endDate);
 }

@@ -127,4 +127,10 @@ public class CheckDAOImpl implements CheckDAO {
 		return criteria.list();
 	}
 	
+	@Override
+	public List getMonthlyBillSummary(Integer restaurantId, Date startDate, Date endDate) {
+		String sqlQuery = "SELECT sum(bill) as totalBill, sum(additionalChargesValue1) as totalTax1, sum(additionalChargesValue2) as totalTax2, sum(additionalChargesValue3) as totalTax3, sum(bill+additionalChargesValue1+additionalChargesValue2+additionalChargesValue3) as totalInclTaxes FROM Check WHERE restaurantId = :restaurantId AND openTime >= :startDate AND openTime <= :endDate";
+		Query query = sessionFactory.getCurrentSession().createQuery(sqlQuery).setParameter("restaurantId", restaurantId).setParameter("startDate", startDate).setParameter("endDate", endDate);
+		return query.list();
+	}
 }
