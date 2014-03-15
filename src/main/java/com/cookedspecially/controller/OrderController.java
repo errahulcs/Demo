@@ -543,6 +543,14 @@ public class OrderController {
 		Integer checkId = Integer.parseInt(request.getParameter("checkId"));
 		Check check = checkService.getCheck(checkId);
 		if (check != null) {
+			User user = userService.getUser(check.getRestaurantId());
+			Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
+			cal.setTime(check.getOpenTime());
+			DateFormat formatter1;
+			formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			formatter1.setTimeZone(cal.getTimeZone());
+			map.put("checkDate", formatter1.format(cal.getTime()));
+			
 			CheckResponse checkResponse = new CheckResponse(check);
 			map.put("checkRespone", checkResponse);
 			if (check.getCustomerId() > 0) {

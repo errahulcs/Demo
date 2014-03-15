@@ -10,7 +10,7 @@
 <div align="center"><a href="http://www.saladdays.co" align="center">www.saladdays.co</a></div>
 <div align="center"><a href="http://www.facebook.com/Saladdays.co" align="center">www.facebook.com/Saladdays.co</a></div>
 <div align="center">9643 800 901/02/03</div>
-<div align="center"><span id='date-time'></span> </div><br/>
+<div align="center">${checkDate}<!-- <span id='date-time'></span>  --></div><br/>
 <c:if  test="${!empty customer}">
 Name: ${customer.firstName} ${customer.lastName} <br />
 Address:
@@ -94,9 +94,9 @@ function zeroFill( number, width )
   return number + ""; // always return a string
 }
 
-$(document).ready(function () {
+//$(document).ready(function () {
 	
-	var now = new Date();
-	document.getElementById ('date-time').innerHTML = zeroFill(now.getDate(), 2) + '/' + zeroFill((now.getMonth()+1),2) + '/' + now.getFullYear() + ' ' + zeroFill(now.getHours(),2) + ':' + zeroFill(now.getMinutes(),2);
-});
+//	var now = new Date();
+//	document.getElementById ('date-time').innerHTML = zeroFill(now.getDate(), 2) + '/' + zeroFill((now.getMonth()+1),2) + '/' + now.getFullYear() + ' ' + zeroFill(now.getHours(),2) + ':' + zeroFill(now.getMinutes(),2);
+//});
 </script>
