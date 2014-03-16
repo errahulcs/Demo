@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	@Transactional
-	public List<Customer> getCustomerByParams(Integer custId, String email, String phone) {
-		return customerDAO.getCustomerByParams(custId, email, phone);
+	public List<Customer> getCustomerByParams(Integer custId, String email, String phone, Integer restaurantId) {
+		return customerDAO.getCustomerByParams(custId, email, phone, restaurantId);
 	}
 }

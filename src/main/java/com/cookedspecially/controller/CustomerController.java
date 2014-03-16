@@ -91,17 +91,25 @@ public class CustomerController {
 		String email = request.getParameter("email");
 		String phone = request.getParameter("phone");
 		String custIdStr = request.getParameter("custId");
+		String restaurantIdStr = request.getParameter("restaurantId"); 
 		Integer custId = -1;
 		if (!StringUtility.isNullOrEmpty(custIdStr)) {
 			custId = Integer.parseInt(custIdStr);
 		}
-		List<Customer> customerList = customerService.getCustomerByParams(custId, email, phone);
+		Integer restaurantId = -1;
+		if (!StringUtility.isNullOrEmpty(restaurantIdStr)) {
+			restaurantId = Integer.parseInt(restaurantIdStr);
+		}
+		List<Customer> customerList = customerService.getCustomerByParams(custId, email, phone, restaurantId);
 		Customers customers = new Customers();
 		if (customerList != null && customerList.size() < 1) {
 			customerList = new ArrayList<Customer>();
 			Customer customer = new Customer();
 			customer.setPhone(phone);
 			customer.setEmail(email);
+			if (restaurantId > 0) {
+				customer.setRestaurantId(restaurantId);
+			}
 			customerService.addCustomer(customer);
 			customerList.add(customer);
 			customers.setExactMatch(false);

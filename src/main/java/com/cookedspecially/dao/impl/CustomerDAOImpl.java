@@ -48,12 +48,18 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 	
 	@Override
-	public List<Customer> getCustomerByParams(Integer custId, String email, String phone) {
+	public List<Customer> getCustomerByParams(Integer custId, String email, String phone, Integer restaurantId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Customer.class);
+		if (restaurantId != null && restaurantId > 0) {
+			criteria = criteria.add(Restrictions.eq("restaurantId", restaurantId));
+		}
 		Disjunction disjunction = Restrictions.disjunction();
 		if (custId != null && custId > 0) {
 			disjunction.add(Restrictions.eq("customerId", custId));
 		}
+//		if (restaurantId != null && restaurantId > 0) {
+//			disjunction.add(Restrictions.eq("restaurantId", restaurantId));
+//		}
 		if (!StringUtility.isNullOrEmpty(email)) {
 			disjunction.add(Restrictions.eq("email", email));
 		}
