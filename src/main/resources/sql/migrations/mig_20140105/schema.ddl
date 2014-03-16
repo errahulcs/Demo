@@ -53,3 +53,9 @@ CREATE TABLE DISHTYPES
 );
 
 UPDATE ORDERDISHES set dishType='OTHERS' where dishType='';
+
+
+SELECT a.id, a.restaurantId, a.customerId, b.restaurantId FROM (select * from CHECKS where customerId IS NOT NULL) a JOIN (select * from CUSTOMERS where restaurantId is NULL) b  ON a.customerId = b.customerId ;
+
+UPDATE CHECKS a JOIN CUSTOMERS b ON a.customerId = b.customerId SET b.restaurantId = a.restaurantId WHERE a.customerId IS NOT NULL AND b.restaurantId IS NULL;
+
