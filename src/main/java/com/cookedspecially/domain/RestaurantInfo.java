@@ -14,6 +14,7 @@ import com.cookedspecially.enums.restaurant.ChargesType;
 public class RestaurantInfo {
 
 	private Integer userId;
+	private Integer parentUserId;
 	private String email;
 	private Integer restaurantId;
 	private String businessName;
@@ -57,6 +58,7 @@ public class RestaurantInfo {
 	public RestaurantInfo(User user) {
 		if (user != null) {
 			this.userId = user.getUserId();
+			this.userId = user.getParentUserId();
 			this.restaurantId = user.getUserId();
 			this.email = user.getUsername();
 			this.businessName = user.getBusinessName();
@@ -397,6 +399,14 @@ public class RestaurantInfo {
 
 	public void setSaturdayCloseTime(String saturdayCloseTime) {
 		this.saturdayCloseTime = saturdayCloseTime;
+	}
+
+	public Integer getParentUserId() {
+		return parentUserId;
+	}
+
+	public void setParentUserId(Integer parentUserId) {
+		this.parentUserId = parentUserId;
 	}
 
 	

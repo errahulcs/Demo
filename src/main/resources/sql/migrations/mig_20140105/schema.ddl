@@ -59,3 +59,5 @@ SELECT a.id, a.restaurantId, a.customerId, b.restaurantId FROM (select * from CH
 
 UPDATE CHECKS a JOIN CUSTOMERS b ON a.customerId = b.customerId SET b.restaurantId = a.restaurantId WHERE a.customerId IS NOT NULL AND b.restaurantId IS NULL;
 
+ALTER TABLE USERS ADD COLUMN parentUserId INT;
+UPDATE USERS set parentUserId = userId;

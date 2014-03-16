@@ -62,6 +62,8 @@ public class UserController {
 			return "signup";
 		} else {
 			userService.addUser(user);
+			user.setParentUserId(user.getUserId());
+			userService.addUser(user);
 			userLogin(request, user.getUsername(), password);
 		}
 		return "signupSuccess";

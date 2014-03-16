@@ -34,6 +34,9 @@ public class User {
 	@GeneratedValue
 	private Integer userId;
 
+	@Column(name = "parentUserId")
+	private Integer parentUserId;
+	
 	@Column(name="USERNAME")
 	private String username;
 	
@@ -550,5 +553,13 @@ public class User {
 
 	public void setSaturdayCloseTime(String saturdayCloseTime) {
 		this.saturdayCloseTime = saturdayCloseTime;
+	}
+
+	public Integer getParentUserId() {
+		return parentUserId;
+	}
+
+	public void setParentUserId(Integer parentUserId) {
+		this.parentUserId = parentUserId;
 	}
 }
