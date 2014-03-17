@@ -93,8 +93,8 @@ public class CheckServiceImpl implements CheckService {
 	
 	@Override
 	@Transactional
-	public List<Check> getDailyInvoice(Integer restaurantId, Date startDate) {
-		return checkDAO.getDailyInvoice(restaurantId, startDate);
+	public List<Check> getDailyInvoice(Integer restaurantId, Date startDate, Date endDate) {
+		return checkDAO.getDailyInvoice(restaurantId, startDate, endDate);
 	}
 	
 	@Override

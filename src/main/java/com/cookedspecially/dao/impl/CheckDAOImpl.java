@@ -99,8 +99,8 @@ public class CheckDAOImpl implements CheckDAO {
 	}
 	
 	@Override
-	public List<Check> getDailyInvoice(Integer restaurantId, Date startDate) {
-		return sessionFactory.getCurrentSession().createCriteria(Check.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.gt("openTime", startDate), Restrictions.ne("status", Status.Cancel))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
+	public List<Check> getDailyInvoice(Integer restaurantId, Date startDate, Date endDate) {
+		return sessionFactory.getCurrentSession().createCriteria(Check.class).add(Restrictions.and(Restrictions.eq("restaurantId", restaurantId), Restrictions.gt("openTime", startDate), Restrictions.lt("openTime", endDate), Restrictions.ne("status", Status.Cancel))).setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
 	}
 	
 	@Override

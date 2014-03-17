@@ -24,7 +24,7 @@ public interface CheckService {
 	public List<Check> getAllOpenChecks(Integer restaurantId);
 	public List<Integer> getAllCheckIds();
 	public List getClosedChecksByDate(Integer restaurantId, Date startDate, Date endDate);
-	public List<Check> getDailyInvoice(Integer restaurantId, Date startDate);
+	public List<Check> getDailyInvoice(Integer restaurantId, Date startDate, Date endDate);
 	public List<String> getUniqueDishTypes(Integer restaurantId);
 	public List getDailySalesRecords(Integer restaurantId, Date startDate);
 	public List<Check> getAllChecks(List<Integer> ids);

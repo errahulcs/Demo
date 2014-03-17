@@ -3,9 +3,13 @@
  */
 package com.cookedspecially.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -67,21 +71,48 @@ public class ReportingController {
 	}
 	
 	@RequestMapping(value = "dailyInvoice.xls", method=RequestMethod.GET)
-	public ModelAndView dailyInvoiceExcel(HttpServletRequest req, ModelAndView mav) {
+	public ModelAndView dailyInvoiceExcel(HttpServletRequest req, ModelAndView mav) throws ParseException {
 		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
 		User user = userService.getUser(restaurantId);
-		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
 		String backDaysString = req.getParameter("backDays");
-		int minusDays = 0;
-		if (!StringUtility.isNullOrEmpty(backDaysString)) {
-			minusDays = -1 * Integer.parseInt(backDaysString);
+		
+		String startDateStr = req.getParameter("startDate");
+		String endDateStr = req.getParameter("endDate");
+		Date startDate = new Date();
+		Date endDate = new Date();
+		DateFormat formatter;
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setTimeZone(TimeZone.getTimeZone(user.getTimeZone()));
+		
+		if (StringUtility.isNullOrEmpty(startDateStr)) {
+			Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
+			int minusDays = 0;
+			if (!StringUtility.isNullOrEmpty(backDaysString)) {
+				minusDays = -1 * Integer.parseInt(backDaysString);
+			}
+			yesterday.add(Calendar.DAY_OF_YEAR, minusDays);
+			yesterday.set(Calendar.HOUR_OF_DAY, 0);
+			yesterday.set(Calendar.MINUTE, 0);
+			yesterday.set(Calendar.SECOND, 0);
+			yesterday.set(Calendar.MILLISECOND, 0);
+			startDate = yesterday.getTime();
+		} else {
+			startDate = formatter.parse(startDateStr);
 		}
-		yesterday.add(Calendar.DAY_OF_YEAR, minusDays);
-		yesterday.set(Calendar.HOUR_OF_DAY, 0);
-		yesterday.set(Calendar.MINUTE, 0);
-		yesterday.set(Calendar.SECOND, 0);
-		yesterday.set(Calendar.MILLISECOND, 0);
-		List<Check> data = checkService.getDailyInvoice(restaurantId, yesterday.getTime());
+		
+		if (StringUtility.isNullOrEmpty(endDateStr)) {
+			Calendar tomorrow = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
+			tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+			tomorrow.set(Calendar.HOUR_OF_DAY, 0);
+			tomorrow.set(Calendar.MINUTE, 0);
+			tomorrow.set(Calendar.SECOND, 0);
+			tomorrow.set(Calendar.MILLISECOND, 0);
+			endDate = tomorrow.getTime();	
+		} else {
+			endDate = formatter.parse(endDateStr);
+		}
+		
+		List<Check> data = checkService.getDailyInvoice(restaurantId, startDate, endDate);
 				
 		Map<String, Object> reportDataMap = new HashMap<String, Object>();
 		reportDataMap.put("data", data);
@@ -116,22 +147,48 @@ public class ReportingController {
 	}
 	
 	@RequestMapping(value = "dailySalesSummary.xls", method=RequestMethod.GET)
-	public ModelAndView dailySalesSummaryExcel(HttpServletRequest req, ModelAndView mav) {
+	public ModelAndView dailySalesSummaryExcel(HttpServletRequest req, ModelAndView mav) throws ParseException {
 		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
 		User user = userService.getUser(restaurantId);
-		Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
 		String backDaysString = req.getParameter("backDays");
-		int minusDays = 0;
-		if (!StringUtility.isNullOrEmpty(backDaysString)) {
-			minusDays = -1 * Integer.parseInt(backDaysString);
+		
+		String startDateStr = req.getParameter("startDate");
+		String endDateStr = req.getParameter("endDate");
+		Date startDate = new Date();
+		Date endDate = new Date();
+		DateFormat formatter;
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setTimeZone(TimeZone.getTimeZone(user.getTimeZone()));
+		
+		if (StringUtility.isNullOrEmpty(startDateStr)) {
+			Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
+			int minusDays = 0;
+			if (!StringUtility.isNullOrEmpty(backDaysString)) {
+				minusDays = -1 * Integer.parseInt(backDaysString);
+			}
+			yesterday.add(Calendar.DAY_OF_YEAR, minusDays);
+			yesterday.set(Calendar.HOUR_OF_DAY, 0);
+			yesterday.set(Calendar.MINUTE, 0);
+			yesterday.set(Calendar.SECOND, 0);
+			yesterday.set(Calendar.MILLISECOND, 0);
+			startDate = yesterday.getTime();
+		} else {
+			startDate = formatter.parse(startDateStr);
 		}
-		yesterday.add(Calendar.DAY_OF_YEAR, minusDays);
-		yesterday.set(Calendar.HOUR_OF_DAY, 0);
-		yesterday.set(Calendar.MINUTE, 0);
-		yesterday.set(Calendar.SECOND, 0);
-		yesterday.set(Calendar.MILLISECOND, 0);
-
-		List<Check> data = checkService.getDailyInvoice(restaurantId, yesterday.getTime());
+		
+		if (StringUtility.isNullOrEmpty(endDateStr)) {
+			Calendar tomorrow = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
+			tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+			tomorrow.set(Calendar.HOUR_OF_DAY, 0);
+			tomorrow.set(Calendar.MINUTE, 0);
+			tomorrow.set(Calendar.SECOND, 0);
+			tomorrow.set(Calendar.MILLISECOND, 0);
+			endDate = tomorrow.getTime();	
+		} else {
+			endDate = formatter.parse(endDateStr);
+		}
+		
+		List<Check> data = checkService.getDailyInvoice(restaurantId, startDate, endDate);
 		
 		Map<String, Object> reportDataMap = new HashMap<String, Object>();
 		reportDataMap.put("data", data);
@@ -146,8 +203,9 @@ public class ReportingController {
 		if (!dishTypesStrs.contains("OTHERS")) {
 			dishTypesStrs.add("OTHERS");
 		}
-		headers.addAll(dishTypesStrs);
-		headers.add("Total");
+		
+		
+		headers.addAll(dishTypesStrs);	headers.add("Total");
 		headers.add("No. of Checks");
 		headers.add("Cost/Check");
 		reportDataMap.put("dishTypes", dishTypesStrs);
