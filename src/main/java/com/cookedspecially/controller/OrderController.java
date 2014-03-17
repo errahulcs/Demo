@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
@@ -677,10 +678,41 @@ public class OrderController {
 	    // Create the HTML body using Thymeleaf
 	    final String htmlContent = templateEngine.process(templateName, ctx);
 	    message.setText(htmlContent, true); // true = isHtml
-	 	 
+	 	
+	    
+	    String oldUsername = null;
+	    String oldPassword = null;
+	    String oldHost = null;
+	    String oldProtocol = null;
+	    Integer oldPort = -1;
+	    if (!StringUtility.isNullOrEmpty(user.getMailUsername()) && !StringUtility.isNullOrEmpty(user.getMailPassword())) {
+	    	oldUsername = mailSender.getUsername(); 
+	    	oldPassword = mailSender.getPassword();
+	    	oldHost = mailSender.getHost();
+	    	oldProtocol = mailSender.getProtocol();
+	    	oldPort = mailSender.getPort();
+	    	mailSender.setUsername(user.getMailUsername());
+	    	mailSender.setPassword(user.getMailPassword());
+	    	mailSender.setHost(user.getMailHost());
+	    	mailSender.setProtocol(user.getMailProtocol());
+	    	mailSender.setPort(user.getMailPort());
+	    }
+	    
+	    //System.out.println(oldUsername + " - " + oldPassword);
+	    //mailSender.setUsername("hello@saladdays.co");
+	    //mailSender.setPassword("tendulkar_100");
+	    
 	    // Send mail
 	    mailSender.send(mimeMessage);
 
+	    if (!StringUtility.isNullOrEmpty(oldUsername) && !StringUtility.isNullOrEmpty(oldPassword)) {
+	    	mailSender.setUsername(oldUsername);
+	    	mailSender.setPassword(oldPassword);
+	    	mailSender.setHost(oldHost);
+	    	mailSender.setProtocol(oldProtocol);
+	    	mailSender.setPort(oldPort);
+	    }
+	    
 	    return "Email Sent Successfully";
 	}
 

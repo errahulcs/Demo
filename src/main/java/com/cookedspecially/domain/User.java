@@ -169,6 +169,21 @@ public class User {
 	
 	@Column(name="saturdayCloseTime")
 	private String saturdayCloseTime = "17:00";
+
+	@Column(name = "mailUsername")
+	private String mailUsername;
+	
+	@Column(name = "mailPassword")
+	private String mailPassword;
+	
+	@Column(name= "mailHost")
+	private String mailHost;
+	
+	@Column(name= "mailPort")
+	private Integer mailPort;
+	
+	@Column(name= "mailProtocol")
+	private String mailProtocol;
 	
 	@ManyToMany(cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     @JoinTable(name="USER_RESTAURANT", 
@@ -561,5 +576,45 @@ public class User {
 
 	public void setParentUserId(Integer parentUserId) {
 		this.parentUserId = parentUserId;
+	}
+
+	public String getMailUsername() {
+		return mailUsername;
+	}
+
+	public void setMailUsername(String mailUsername) {
+		this.mailUsername = mailUsername;
+	}
+
+	public String getMailPassword() {
+		return mailPassword;
+	}
+
+	public void setMailPassword(String mailPassword) {
+		this.mailPassword = mailPassword;
+	}
+
+	public String getMailHost() {
+		return mailHost;
+	}
+
+	public void setMailHost(String mailHost) {
+		this.mailHost = mailHost;
+	}
+
+	public Integer getMailPort() {
+		return mailPort;
+	}
+
+	public void setMailPort(Integer mailPort) {
+		this.mailPort = mailPort;
+	}
+
+	public String getMailProtocol() {
+		return mailProtocol;
+	}
+
+	public void setMailProtocol(String mailProtocol) {
+		this.mailProtocol = mailProtocol;
 	}
 }
