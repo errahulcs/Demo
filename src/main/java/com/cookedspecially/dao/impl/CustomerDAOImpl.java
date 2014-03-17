@@ -53,20 +53,26 @@ public class CustomerDAOImpl implements CustomerDAO {
 		if (restaurantId != null && restaurantId > 0) {
 			criteria = criteria.add(Restrictions.eq("restaurantId", restaurantId));
 		}
+		boolean disjunctionPresent = false;
 		Disjunction disjunction = Restrictions.disjunction();
 		if (custId != null && custId > 0) {
 			disjunction.add(Restrictions.eq("customerId", custId));
+			disjunctionPresent = true;
 		}
 //		if (restaurantId != null && restaurantId > 0) {
 //			disjunction.add(Restrictions.eq("restaurantId", restaurantId));
 //		}
 		if (!StringUtility.isNullOrEmpty(email)) {
 			disjunction.add(Restrictions.eq("email", email));
+			disjunctionPresent = true;
 		}
 		if (!StringUtility.isNullOrEmpty(phone)) {
 			disjunction.add(Restrictions.eq("phone", phone));
+			disjunctionPresent = true;
 		}
-		criteria = criteria.add(disjunction);
+		if (disjunctionPresent) {
+			criteria = criteria.add(disjunction);
+		}
 		return criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY).list();
 	}
 

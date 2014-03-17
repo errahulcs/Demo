@@ -27,6 +27,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import com.cookedspecially.domain.Check;
+import com.cookedspecially.domain.Customer;
 import com.cookedspecially.domain.Order;
 import com.cookedspecially.domain.OrderDish;
 import com.cookedspecially.domain.User;
@@ -135,6 +136,8 @@ public class ExcelReportView extends AbstractExcelView {
 			createDailySalesSummaryReport(sheet, reportDataMap, rowNum);
 //		} else if(reportName.equals("Weekly Sales Summary Report")) {
 //			createWeeklySalesSummaryReport(sheet, reportDataMap, rowNum);
+		} else if (reportName.equals("Customers")) {
+			createCustomerReport(sheet, reportDataMap, rowNum);
 		}
 
 	}
@@ -221,6 +224,26 @@ public class ExcelReportView extends AbstractExcelView {
 		row.createCell(cellNo++).setCellValue(total);
 		row.createCell(cellNo++).setCellValue(totalCustomer);
 		row.createCell(cellNo++).setCellValue(totalCustomer>0?total/totalCustomer:0);
+		for (int i = 0; i < cellNo; i++) {
+			sheet.autoSizeColumn(i);
+		}
+	}
+
+	private void createCustomerReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
+		int rowNum = startRowNum;
+		List<Customer> customers = (List<Customer>)reportDataMap.get("data");
+		int cellNo = 0;		
+		for(Customer customer : customers) {
+			HSSFRow row = sheet.createRow(rowNum++);
+			cellNo = 0;
+			row.createCell(cellNo++).setCellValue(customer.getFirstName());
+			row.createCell(cellNo++).setCellValue(customer.getLastName());
+			row.createCell(cellNo++).setCellValue(customer.getAddress());
+			row.createCell(cellNo++).setCellValue(customer.getCity());
+			row.createCell(cellNo++).setCellValue(customer.getPhone());
+			row.createCell(cellNo++).setCellValue(customer.getEmail());
+		}
+		
 		for (int i = 0; i < cellNo; i++) {
 			sheet.autoSizeColumn(i);
 		}

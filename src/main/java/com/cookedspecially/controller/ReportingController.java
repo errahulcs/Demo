@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cookedspecially.domain.Check;
+import com.cookedspecially.domain.Customer;
 import com.cookedspecially.domain.DishType;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.service.CheckService;
+import com.cookedspecially.service.CustomerService;
 import com.cookedspecially.service.DishTypeService;
 import com.cookedspecially.service.UserService;
 import com.cookedspecially.utility.StringUtility;
@@ -47,6 +49,9 @@ public class ReportingController {
 	
 	@Autowired
 	private DishTypeService dishTypeService;
+
+	@Autowired
+	private CustomerService customerService;
 	
 	@RequestMapping(value = "checkReport.xls", method=RequestMethod.GET)
 	public ModelAndView generateCheckReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {
@@ -149,6 +154,22 @@ public class ReportingController {
 		reportDataMap.put("Headers", headers);
 		reportDataMap.put("restaurantName", user.getBusinessName());
 		reportDataMap.put("user", user);
+		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
+	}
+
+	@RequestMapping(value = "customers.xls", method=RequestMethod.GET)
+	public ModelAndView customerExcel(HttpServletRequest req, ModelAndView mav) {
+		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
+		User user = userService.getUser(restaurantId);
+		
+		List<Customer> data = customerService.getCustomerByParams(null, "", "", restaurantId);
+		
+		Map<String, Object> reportDataMap = new HashMap<String, Object>();
+		reportDataMap.put("data", data);
+		reportDataMap.put("reportName", "Customers");
+		List<String> headers = new ArrayList<String>(Arrays.asList("First Name", "Last Name", "Address", "City", "Phone", "Email")); 
+		reportDataMap.put("Headers", headers);
+		reportDataMap.put("restaurantName", user.getBusinessName());
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
 

@@ -67,3 +67,5 @@ ALTER TABLE USERS ADD COLUMN mailPassword VARCHAR(20);
 ALTER TABLE USERS ADD COLUMN mailHost VARCHAR(100);
 ALTER TABLE USERS ADD COLUMN mailProtocol VARCHAR(10);
 ALTER TABLE USERS ADD COLUMN mailPort INT;
+
+#UPDATE USERS set mailHost='smtp.gmail.com', mailPort=587, mailUsername='hello@saladdays.co', mailPassword='tendulkar_100', mailProtocol='smtp' where userId=21;
