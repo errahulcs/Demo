@@ -49,7 +49,7 @@ Table ID: ${tableId} <br/>
 <div style="float:left">Sub Total</div>  <div style="float:right">${checkRespone.amount}</div><br/>
 <c:if test="${checkRespone.discountAmount > 0}">
 <div style="float:left">Discount</div>  <div style="float:right">${checkRespone.discountAmount}</div><br/>
-<div style="float:left">Total After Discount</div>  <div style="float:right">${checkRespone.amountAfterDiscount}</div><br/>
+<div style="float:left">Total(-disc.)</div>  <div style="float:right">${checkRespone.amountAfterDiscount}</div><br/>
 </c:if>
 <c:if test = "${!empty checkRespone.additionalChargeName1}">
 <div style="float:left">${checkRespone.additionalChargeName1}</div> 
