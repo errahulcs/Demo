@@ -58,7 +58,7 @@ public class RestaurantInfo {
 	public RestaurantInfo(User user) {
 		if (user != null) {
 			this.userId = user.getUserId();
-			this.userId = user.getParentUserId();
+			this.parentUserId = user.getParentUserId();
 			this.restaurantId = user.getUserId();
 			this.email = user.getUsername();
 			this.businessName = user.getBusinessName();
