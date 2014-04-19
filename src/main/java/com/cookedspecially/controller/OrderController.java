@@ -669,7 +669,8 @@ public class OrderController {
 
 	    message.setSubject("Your Receipt");
 	    if (user != null) {
-	    	InternetAddress restaurantEmailAddress = new InternetAddress(user.getUsername(), user.getBusinessName());
+	    	String senderEmail = StringUtility.isNullOrEmpty(user.getMailUsername()) ? user.getUsername() : user.getMailUsername();
+	    	InternetAddress restaurantEmailAddress = new InternetAddress(senderEmail, user.getBusinessName());
 	    	message.setFrom(restaurantEmailAddress);
 	    	message.setReplyTo(restaurantEmailAddress);
 	    }
