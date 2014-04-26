@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -28,10 +29,12 @@ import org.springframework.web.servlet.view.document.AbstractExcelView;
 
 import com.cookedspecially.domain.Check;
 import com.cookedspecially.domain.Customer;
+import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.Order;
 import com.cookedspecially.domain.OrderDish;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.enums.check.CheckType;
+import com.cookedspecially.enums.check.Status;
 import com.cookedspecially.utility.StringUtility;
 
 /**
@@ -138,7 +141,9 @@ public class ExcelReportView extends AbstractExcelView {
 //			createWeeklySalesSummaryReport(sheet, reportDataMap, rowNum);
 		} else if (reportName.equals("Customers")) {
 			createCustomerReport(sheet, reportDataMap, rowNum);
-		}
+		} else if (reportName.equals("Top Dishes")) {
+			createTopDishesReport(sheet, reportDataMap, rowNum);
+		} 
 
 	}
 
@@ -183,6 +188,9 @@ public class ExcelReportView extends AbstractExcelView {
 		}
 		
 		for(Check check : checks) {
+			if (check.getStatus() != Status.Paid) {
+				continue;
+			}
 			Map<String, Double> dishTypeBillMap = getDishTypeBillMap(check);
 			for (String dishType : dishTypes) {
 				Double dishTypeBill = dishTypeBillMap.containsKey(dishType)?dishTypeBillMap.get(dishType):0;
@@ -224,6 +232,71 @@ public class ExcelReportView extends AbstractExcelView {
 		row.createCell(cellNo++).setCellValue(total);
 		row.createCell(cellNo++).setCellValue(totalCustomer);
 		row.createCell(cellNo++).setCellValue(totalCustomer>0?total/totalCustomer:0);
+		for (int i = 0; i < cellNo; i++) {
+			sheet.autoSizeColumn(i);
+		}
+	}
+
+	private void createTopDishesReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
+		int rowNum = startRowNum;
+		List<Dish> dishes = (List<Dish>)reportDataMap.get("dishes");
+		List<Check> checks = (List<Check>)reportDataMap.get("data");
+		class DishData {
+			public int count;
+			public double price;
+		}
+		Map<Integer, Dish> dishMap = new HashMap<Integer, Dish>();
+		for(Dish dish : dishes) {
+			dishMap.put(dish.getDishId(), dish);
+		}
+		
+		Map<Integer, DishData> dishDataMap = new HashMap<Integer, DishData>();
+		
+		for(Check check : checks) {
+			if (check.getStatus() != Status.Paid) {
+				continue;
+			}
+			List<Order> orders = check.getOrders();
+			for (Order order : orders) {
+				if (order.getStatus() == com.cookedspecially.enums.order.Status.CANCELLED) {
+					continue;
+				}
+				List<OrderDish> items = order.getOrderDishes();
+				for (OrderDish item: items) {
+					
+					if(dishDataMap.containsKey(item.getDishId())) {
+						DishData dishData = dishDataMap.get(item.getDishId());
+						dishData.count += item.getQuantity();
+						dishData.price += (item.getPrice() * item.getQuantity());
+					} else {
+						DishData dishData = new DishData();
+						dishData.count += item.getQuantity();
+						dishData.price += ((double)item.getPrice() * item.getQuantity());
+						dishDataMap.put(item.getDishId(), dishData);
+					}
+				}
+			}
+		}
+		
+		int cellNo = 0;
+		for(Entry<Integer, DishData> dishDataMapEntry : dishDataMap.entrySet()) {
+			HSSFRow row = sheet.createRow(rowNum++);
+			cellNo = 0;
+			Integer dishId = dishDataMapEntry.getKey();
+			Dish dish = dishMap.remove(dishId);
+			row.createCell(cellNo++).setCellValue(dishId);
+			row.createCell(cellNo++).setCellValue(dish.getName());
+			row.createCell(cellNo++).setCellValue(dishDataMapEntry.getValue().count);
+			row.createCell(cellNo++).setCellValue(dishDataMapEntry.getValue().price);
+		}
+		for (Dish dish : dishMap.values()) {
+			HSSFRow row = sheet.createRow(rowNum++);
+			cellNo = 0;
+			row.createCell(cellNo++).setCellValue(dish.getDishId());
+			row.createCell(cellNo++).setCellValue(dish.getName());
+			row.createCell(cellNo++).setCellValue(0);
+			row.createCell(cellNo++).setCellValue(0.0);
+		}
 		for (int i = 0; i < cellNo; i++) {
 			sheet.autoSizeColumn(i);
 		}
