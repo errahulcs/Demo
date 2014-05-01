@@ -65,7 +65,7 @@ public class DeliveryAreaDAOImpl implements DeliveryAreaDAO {
 	 */
 	@Override
 	public DeliveryArea getDeliveryArea(Integer id) {
-		return (DeliveryArea) sessionFactory.getCurrentSession().load(DeliveryArea.class, id);
+		return (DeliveryArea) sessionFactory.getCurrentSession().get(DeliveryArea.class, id);
 	}
 
 }

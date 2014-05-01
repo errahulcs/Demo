@@ -84,7 +84,7 @@
 	<tr>
 		<td style="width:30%;">${deliveryArea.name}</td>
 		<td><button type="button" onclick="deleteDeliveryArea(${deliveryArea.id});">delete</button></td>
-		<td><button type="button" onclick="window.location.href='restaurant/editDeliveryARea/${deliveryArea.id}';">edit</button></td>
+		<td><button type="button" onclick="window.location.href='restaurant/editDeliveryArea/${deliveryArea.id}';">edit</button></td>
 	</tr>
 </c:forEach>
 </table>
