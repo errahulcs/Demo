@@ -18,6 +18,9 @@
   <p th:case="${false}">Address: <span th:text="${customer.address}"></span></p>
   <p th:case="${true}">Address: <span th:text="${checkRespone.deliverAddress}"></span></p> 
 </div>
+<div th:switch="${not #strings.isEmpty(checkRespone.deliveryArea)}"> 
+  <p th:case="${true}">Delivery Area: <span th:text="${checkRespone.deliveryArea}"></span></p> 
+</div>
 <p>Email Id: <span th:text="${customer.email}"></span></p>
 <p>Phone No.: <span th:text="${customer.phone}"></span></p>
 </div>

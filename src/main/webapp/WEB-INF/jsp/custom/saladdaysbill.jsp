@@ -23,6 +23,12 @@ Address:
 	</c:otherwise>
 </c:choose>
 <br />
+<c:choose>
+	<c:when test="${!empty checkRespone.deliveryArea}">
+		Delivery Area: ${checkRespone.deliveryArea}
+	</c:when>
+</c:choose>
+<br />
 Email Id: ${customer.email}<br />
 Phone No.: ${customer.phone}<br />
 </c:if>
