@@ -151,6 +151,9 @@ public class ExcelReportView extends AbstractExcelView {
 		Map<String, Double> dishTypeBillMap = new HashMap<String, Double>();
 		List<Order> orders = check.getOrders();
 		for (Order order : orders) {
+			if (order.getStatus() == com.cookedspecially.enums.order.Status.CANCELLED) {
+				continue;
+			}
 			List<OrderDish> items = order.getOrderDishes();
 			for (OrderDish item: items) {
 				if(dishTypeBillMap.containsKey(item.getDishType())) {
