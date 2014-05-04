@@ -151,6 +151,72 @@ public class ReportingController {
 		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
 	}
 	
+	@RequestMapping(value = "detailedInvoice.xls", method=RequestMethod.GET)
+	public ModelAndView detailedInvoiceExcel(HttpServletRequest req, ModelAndView mav) throws ParseException {
+		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
+		User user = userService.getUser(restaurantId);
+		String backDaysString = req.getParameter("backDays");
+		
+		String startDateStr = req.getParameter("startDate");
+		String endDateStr = req.getParameter("endDate");
+		Date startDate = new Date();
+		Date endDate = new Date();
+		DateFormat formatter;
+		formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setTimeZone(TimeZone.getTimeZone(user.getTimeZone()));
+		
+		if (StringUtility.isNullOrEmpty(startDateStr)) {
+			Calendar yesterday = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
+			int minusDays = 0;
+			if (!StringUtility.isNullOrEmpty(backDaysString)) {
+				minusDays = -1 * Integer.parseInt(backDaysString);
+			}
+			yesterday.add(Calendar.DAY_OF_YEAR, minusDays);
+			yesterday.set(Calendar.HOUR_OF_DAY, 0);
+			yesterday.set(Calendar.MINUTE, 0);
+			yesterday.set(Calendar.SECOND, 0);
+			yesterday.set(Calendar.MILLISECOND, 0);
+			startDate = yesterday.getTime();
+		} else {
+			startDate = formatter.parse(startDateStr);
+		}
+		
+		if (StringUtility.isNullOrEmpty(endDateStr)) {
+			Calendar tomorrow = Calendar.getInstance(TimeZone.getTimeZone(user.getTimeZone()));
+			tomorrow.add(Calendar.DAY_OF_YEAR, 1);
+			tomorrow.set(Calendar.HOUR_OF_DAY, 0);
+			tomorrow.set(Calendar.MINUTE, 0);
+			tomorrow.set(Calendar.SECOND, 0);
+			tomorrow.set(Calendar.MILLISECOND, 0);
+			endDate = tomorrow.getTime();	
+		} else {
+			endDate = formatter.parse(endDateStr);
+		}
+		
+		List<Check> data = checkService.getDailyInvoice(restaurantId, startDate, endDate);
+				
+		Map<String, Object> reportDataMap = new HashMap<String, Object>();
+		reportDataMap.put("data", data);
+		reportDataMap.put("reportName", "Detailed Invoice");
+		reportDataMap.put("user", user);
+		List<String> headers = new ArrayList<String>(Arrays.asList("Invoice#", "Opening Time", "Closing Time", "Delivery Address", "Delivery Area", "Tax", "Total With taxes and Discount", "Sub Total without Tax and Discount", "Discount", "Dish Name", "Total Dishes Cost", "Dish Quantity")); 
+//		if (!StringUtility.isNullOrEmpty(user.getAdditionalChargesName1())) {
+//			headers.add(user.getAdditionalChargesName1());
+//		}
+//		if (!StringUtility.isNullOrEmpty(user.getAdditionalChargesName2())) {
+//			headers.add(user.getAdditionalChargesName2());
+//		}
+//		if (!StringUtility.isNullOrEmpty(user.getAdditionalChargesName3())) {
+//			headers.add(user.getAdditionalChargesName3());
+//		}
+//		headers.add("Total(incl. Taxes)");
+
+		reportDataMap.put("Headers", headers);
+		reportDataMap.put("restaurantName", user.getBusinessName());
+		
+		return new ModelAndView("ExcelReportView", "reportData", reportDataMap);
+	}
+	
 	@RequestMapping(value = "topDishes.xls", method=RequestMethod.GET)
 	public ModelAndView topDishesExcel(HttpServletRequest req, ModelAndView mav) throws ParseException {
 		Integer restaurantId = Integer.parseInt(req.getParameter("restaurantId"));

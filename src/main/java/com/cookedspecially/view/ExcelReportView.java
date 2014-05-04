@@ -143,6 +143,8 @@ public class ExcelReportView extends AbstractExcelView {
 			createCustomerReport(sheet, reportDataMap, rowNum);
 		} else if (reportName.equals("Top Dishes")) {
 			createTopDishesReport(sheet, reportDataMap, rowNum);
+		} else if (reportName.equals("Detailed Invoice")) {
+			createDetailedInvoiceReport(sheet, reportDataMap, rowNum);
 		} 
 
 	}
@@ -240,14 +242,16 @@ public class ExcelReportView extends AbstractExcelView {
 		}
 	}
 
+	class DishData {
+		public int count;
+		public double price;
+	}
+	
 	private void createTopDishesReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
 		int rowNum = startRowNum;
 		List<Dish> dishes = (List<Dish>)reportDataMap.get("dishes");
 		List<Check> checks = (List<Check>)reportDataMap.get("data");
-		class DishData {
-			public int count;
-			public double price;
-		}
+		
 		Map<Integer, Dish> dishMap = new HashMap<Integer, Dish>();
 		for(Dish dish : dishes) {
 			dishMap.put(dish.getDishId(), dish);
@@ -478,7 +482,114 @@ public class ExcelReportView extends AbstractExcelView {
 			sheet.autoSizeColumn(i);
 		}
 	}
+
+	private void createDetailedInvoiceReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
+		int rowNum = startRowNum;
+		List<Check> checks = (List<Check>)reportDataMap.get("data");
+		User user = (User)reportDataMap.get("user");
 		
+		DateFormat formatter;
+		formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		formatter.setTimeZone(TimeZone.getTimeZone(user.getTimeZone()));
+		
+		int cellNo = 0;
+		for(Check check : checks) {
+			//create the row data
+			HSSFRow row = sheet.createRow(rowNum++);
+			cellNo = 0;
+//			"Invoice#", "Opening Time", "Closing Time", 
+			row.createCell(cellNo++).setCellValue(check.getInvoiceId());
+			
+			row.createCell(cellNo++).setCellValue(formatter.format(check.getOpenTime()));
+			row.createCell(cellNo++).setCellValue(formatter.format(check.getCloseTime()));
+
+			// "Delivery Address" , "Delivery Area"
+			row.createCell(cellNo++).setCellValue(check.getDeliveryAddress());
+			row.createCell(cellNo++).setCellValue(check.getDeliveryArea());
+
+			//"Tax", "Total With taxes and Discount", "Sub Total without Tax and Discount", "Discount", 
+			double checkTotalTax = 0;
+			if(!StringUtility.isNullOrEmpty(user.getAdditionalChargesName1())) {
+				checkTotalTax += check.getAdditionalChargesValue1(); 
+			}
+			if(!StringUtility.isNullOrEmpty(user.getAdditionalChargesName2())) {
+				checkTotalTax += (double)check.getAdditionalChargesValue2();
+			}
+			if(!StringUtility.isNullOrEmpty(user.getAdditionalChargesName3())) {
+				checkTotalTax += (double)check.getAdditionalChargesValue3();
+			}
+			row.createCell(cellNo++).setCellValue(checkTotalTax);
+			double discount = (double)(check.getDiscountAmount());
+			if (discount == 0 && check.getDiscountPercent() > 0) {
+				discount = check.getDiscountPercent() * check.getBill() / 100;
+			}
+			
+			row.createCell(cellNo++).setCellValue((double)(check.getBill()) + checkTotalTax - discount);
+			row.createCell(cellNo++).setCellValue(check.getBill());			
+			row.createCell(cellNo++).setCellValue(discount);
+			
+			// "Dish Name", "Total Dishes Cost", "Dish Quantity",
+			HashMap<String, DishData> dishDataMap = new HashMap<String, DishData>();
+			List<Order> orders = check.getOrders();
+			for(Order order : orders) {
+				if (order.getStatus() == com.cookedspecially.enums.order.Status.CANCELLED) {
+					continue;
+				}
+				
+				List<OrderDish> items = order.getOrderDishes();
+				for(OrderDish item : items) {
+					
+					if(!dishDataMap.containsKey(item.getName())) {
+						dishDataMap.put(item.getName(), new DishData());
+					} 
+					
+					DishData dishData = dishDataMap.get(item.getName());
+					dishData.count += item.getQuantity();
+					dishData.price += item.getQuantity() * item.getPrice();
+				}
+				
+			}
+			
+			if(dishDataMap.size() == 0) {
+				row.createCell(cellNo++).setCellValue("Cancelled Check");
+				row.createCell(cellNo++).setCellValue(0);
+				row.createCell(cellNo++).setCellValue(0);
+				
+			} else {
+				boolean firstEntry = true;
+				for(Entry<String, DishData> dishDataMapEntry : dishDataMap.entrySet()) {
+					if(!firstEntry) {
+						row = sheet.createRow(rowNum++);
+						cellNo = 0;
+						row.createCell(cellNo++).setCellValue(check.getInvoiceId());
+						
+						row.createCell(cellNo++).setCellValue("");
+						row.createCell(cellNo++).setCellValue("");
+						row.createCell(cellNo++).setCellValue("");
+						row.createCell(cellNo++).setCellValue("");
+						row.createCell(cellNo++).setCellValue(0);
+						row.createCell(cellNo++).setCellValue(0);
+						row.createCell(cellNo++).setCellValue(0);
+						row.createCell(cellNo++).setCellValue(0);
+					}
+					
+					row.createCell(cellNo++).setCellValue(dishDataMapEntry.getKey());
+					row.createCell(cellNo++).setCellValue(dishDataMapEntry.getValue().price);
+					row.createCell(cellNo++).setCellValue(dishDataMapEntry.getValue().count);
+					
+					firstEntry = false;
+				}	
+			}
+			
+			
+			
+		}
+				
+		for (int i = 0; i < cellNo; i++) {
+			sheet.autoSizeColumn(i);
+		}
+	}
+
 	private void createCheckReport(HSSFSheet sheet, Map<String,Object> reportDataMap, int startRowNum) {
 		int rowNum = startRowNum;
 		List<Check> checks = (List<Check>)reportDataMap.get("checks");
