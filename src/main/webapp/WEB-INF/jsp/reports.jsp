@@ -41,8 +41,7 @@
 			$("#customersReport").attr("href", "reports/customers.xls?restaurantId=" + restaurantId +"&startDate=" + startDate + "&endDate=" + endDate);
 			$("#topDishesReport").attr("href", "reports/topDishes.xls?restaurantId=" + restaurantId +"&startDate=" + startDate + "&endDate=" + endDate);
 			$("#detailedInvoiceReport").attr("href", "reports/detailedInvoice.xls?restaurantId=" + restaurantId +"&startDate=" + startDate + "&endDate=" + endDate);
-			alert(startDate);
-			alert(endDate);
+			alert("Generated URLs");
 		}
 	</script>
 	
