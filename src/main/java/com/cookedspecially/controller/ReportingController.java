@@ -30,6 +30,7 @@ import com.cookedspecially.domain.Check;
 import com.cookedspecially.domain.Customer;
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.DishType;
+import com.cookedspecially.domain.Restaurant;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.service.CheckService;
 import com.cookedspecially.service.CustomerService;
@@ -61,6 +62,11 @@ public class ReportingController {
 
 	@Autowired
 	private CustomerService customerService;
+	
+	@RequestMapping("/")
+	public String reportWithDateRange(Map<String, Object> map, HttpServletRequest request) {
+		return "reports";
+	}
 	
 	@RequestMapping(value = "checkReport.xls", method=RequestMethod.GET)
 	public ModelAndView generateCheckReport(@RequestParam("restaurantId") Integer restaurantId, ModelAndView mav) {

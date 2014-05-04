@@ -531,6 +531,7 @@ public class ExcelReportView extends AbstractExcelView {
 			// "Dish Name", "Total Dishes Cost", "Dish Quantity",
 			HashMap<String, DishData> dishDataMap = new HashMap<String, DishData>();
 			List<Order> orders = check.getOrders();
+
 			for(Order order : orders) {
 				if (order.getStatus() == com.cookedspecially.enums.order.Status.CANCELLED) {
 					continue;
