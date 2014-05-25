@@ -717,6 +717,83 @@ public class OrderController {
 	    return "Email Sent Successfully";
 	}
 
+	@RequestMapping(value = "/sendMarketingEmail", method = RequestMethod.POST)
+	public @ResponseBody String sendMarketingEmail(HttpServletRequest request, HttpServletResponse response) throws MessagingException, UnsupportedEncodingException {
+		String emailAddr = request.getParameter("email");
+		String emailBody =request.getParameter("emailBody");
+		String userIdString  = request.getParameter("restaurantId");
+		String subject = request.getParameter("subject"); 
+		String templateName = "marketingEmail";
+		
+		
+		// Prepare the evaluation context
+	    final Context ctx = new Context(request.getLocale());
+	    
+		ctx.setVariable("email", emailAddr);
+		ctx.setVariable("emailBody", emailBody);
+	    // Prepare message using a Spring helper
+	    final MimeMessage mimeMessage = mailSender.createMimeMessage();
+	    final MimeMessageHelper message =
+	        new MimeMessageHelper(mimeMessage, false, "UTF-8"); // true = multipart
+
+	    message.setSubject(subject);
+	    //Integer userId = (Integer) request.getSession().getAttribute("userId");
+	    Integer userId = Integer.parseInt(userIdString);
+	    User user = userService.getUser(userId);
+	    if (user != null) {
+	    	String senderEmail = StringUtility.isNullOrEmpty(user.getMailUsername()) ? user.getUsername() : user.getMailUsername();
+	    	InternetAddress restaurantEmailAddress = new InternetAddress(senderEmail, user.getBusinessName());
+	    	message.setFrom(restaurantEmailAddress);
+	    	message.setReplyTo(restaurantEmailAddress);
+	    }
+	    message.setTo(emailAddr);
+	    message.setBcc("shashankagarwal1706@gmail.com");
+	    // Create the HTML body using Thymeleaf
+	    final String htmlContent = templateEngine.process(templateName, ctx);
+	    message.setText(htmlContent, true); // true = isHtml
+	 	
+	    
+	    String oldUsername = null;
+	    String oldPassword = null;
+	    String oldHost = null;
+	    String oldProtocol = null;
+	    Integer oldPort = -1;
+	    if (!StringUtility.isNullOrEmpty(user.getMailUsername()) && !StringUtility.isNullOrEmpty(user.getMailPassword())) {
+	    	oldUsername = mailSender.getUsername(); 
+	    	oldPassword = mailSender.getPassword();
+	    	oldHost = mailSender.getHost();
+	    	oldProtocol = mailSender.getProtocol();
+	    	oldPort = mailSender.getPort();
+	    	mailSender.setUsername(user.getMailUsername());
+	    	mailSender.setPassword(user.getMailPassword());
+	    	mailSender.setHost(user.getMailHost());
+	    	mailSender.setProtocol(user.getMailProtocol());
+	    	mailSender.setPort(user.getMailPort());
+	    }
+	    
+	    //System.out.println(oldUsername + " - " + oldPassword);
+	    //mailSender.setUsername("hello@saladdays.co");
+	    //mailSender.setPassword("tendulkar_100");
+	    
+	    // Send mail
+	    mailSender.send(mimeMessage);
+
+	    if (!StringUtility.isNullOrEmpty(oldUsername) && !StringUtility.isNullOrEmpty(oldPassword)) {
+	    	mailSender.setUsername(oldUsername);
+	    	mailSender.setPassword(oldPassword);
+	    	mailSender.setHost(oldHost);
+	    	mailSender.setProtocol(oldProtocol);
+	    	mailSender.setPort(oldPort);
+	    }
+	    
+	    return "Email Sent Successfully";
+	}
+
+	@RequestMapping("/marketingEmailForm")
+	public String marketingEmailForm(HttpServletRequest request, HttpServletResponse response) {
+		return "marketingemailForm";
+	}
+	
 	@RequestMapping(value = "/emailCheck", method = RequestMethod.GET)
 	public @ResponseBody String emailCheck(HttpServletRequest request, HttpServletResponse response) {
 		String tableIdStr = request.getParameter("tableId");
