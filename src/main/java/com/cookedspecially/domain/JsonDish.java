@@ -3,6 +3,8 @@
  */
 package com.cookedspecially.domain;
 
+import java.io.Serializable;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
@@ -10,7 +12,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class JsonDish {
+public class JsonDish implements Serializable {
 
 	public int id;
 	public String name;

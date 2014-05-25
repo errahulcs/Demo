@@ -16,15 +16,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.cookedspecially.domain.Dish;
 import com.cookedspecially.domain.DishType;
+import com.cookedspecially.domain.JSONShareDish;
+import com.cookedspecially.domain.JsonOrder;
 import com.cookedspecially.domain.User;
 import com.cookedspecially.enums.WeekDayFlags;
 import com.cookedspecially.service.DishService;
@@ -236,6 +240,45 @@ public class DishController {
 		return "redirect:/dish/";
 	}
 	
+	@RequestMapping(value = "/shareDish.json", method= RequestMethod.POST, consumes = "application/json")
+	public String shareDishJSON(@RequestBody JSONShareDish shareDish, Model model, HttpServletRequest request) {
+		model.addAttribute("shareDishJson", shareDish);
+		Dish dish = dishService.getDish(shareDish.getDishId());
+		model.addAttribute("dish", dish);
+		User user = userService.getUser(shareDish.getRestaurantId());
+		String address = user.getAddress1();
+		if(StringUtility.isNullOrEmpty(user.getAddress2())) {
+			address += user.getAddress2();
+		}
+		model.addAttribute("address", address);
+		model.addAttribute("city", user.getCity());
+		model.addAttribute("zip", user.getZip());
+		return "shareDish";
+	}
+	
+	@RequestMapping(value = "/shareDish.htm")
+	public String shareDish(Model model, HttpServletRequest request) {
+		String restIdString = request.getParameter("restaurantId");
+		String dishIdStr = request.getParameter("dishId");
+		Integer restaurantId = Integer.parseInt(restIdString);
+		Integer dishId = Integer.parseInt(dishIdStr);
+		Dish dish = dishService.getDish(dishId);
+		model.addAttribute("dish", dish);
+		User user = userService.getUser(restaurantId);
+		String address = user.getAddress1();
+		if(StringUtility.isNullOrEmpty(user.getAddress2())) {
+			address += user.getAddress2();
+		}
+		model.addAttribute("address", address);
+		model.addAttribute("city", user.getCity());
+		model.addAttribute("zip", user.getZip());
+		return "shareDish";
+	}
+	
+	@RequestMapping("/shareDishTest")
+	public String shareDishTest(Model model, HttpServletRequest request) {
+		return "shareDishTest";
+	}
 	private String renameFileToHaveDishId(String fileUrl, Integer dishId) {
 		File oldFile = new File("webapps" + fileUrl);
 		String newFileUrl = fileUrl.replace("null_", dishId + "_");
