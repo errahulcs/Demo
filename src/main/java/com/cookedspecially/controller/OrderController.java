@@ -721,6 +721,10 @@ public class OrderController {
 	public @ResponseBody String sendMarketingEmail(HttpServletRequest request, HttpServletResponse response) throws MessagingException, UnsupportedEncodingException {
 		String emailAddr = request.getParameter("email");
 		String emailBody =request.getParameter("emailBody");
+		if(emailBody.contains("<br>") && !emailBody.contains("</br>")) 
+		{
+			emailBody = emailBody.replace("<br>", "<br/>");
+		}
 		String userIdString  = request.getParameter("restaurantId");
 		String subject = request.getParameter("subject"); 
 		String templateName = "marketingEmail";
