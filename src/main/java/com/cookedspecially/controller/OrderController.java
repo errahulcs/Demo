@@ -1217,14 +1217,27 @@ public class OrderController {
 					Order orderToUpdate = check.getOrders().get(0);
 					orderToUpdate.setCheckId(check.getCheckId());
 					orderService.addOrder(orderToUpdate);
+					targetOrder = orderToUpdate;
 				}
 			}
+			if(targetOrder == null || targetOrder.getOrderId() == null) {
+				System.out.println("Something went wrong with submitting the targetOrder");
+				orderResp.setStatus("Failed");
+				orderResp.setError("No order was created");
+			} else {
+				orderResp.setOrderId(targetOrder.getOrderId());
+				if(check.getTableId() == null || check.getTableId() < 1)
+				{
+					orderResp.setTableId(0);
+				} else {
+					orderResp.setTableId(check.getTableId());
+				}
+				
+				orderResp.setRestaurantId(restaurantId);
+				orderResp.setCheckId(check.getCheckId());
+				orderResp.setStatus("Success");	
+			}
 			
-			orderResp.setOrderId(targetOrder.getOrderId());
-			orderResp.setTableId(check.getTableId());
-			orderResp.setRestaurantId(restaurantId);
-			orderResp.setCheckId(check.getCheckId());
-			orderResp.setStatus("Success");
 		} else {
 			orderResp.setStatus("Failed");
 			orderResp.setError(error);
