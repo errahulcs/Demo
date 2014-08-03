@@ -960,6 +960,11 @@ public class OrderController {
 		User user = userService.getUser(order.getRestaurantId());
 		Check check = checkService.getCheck(order.getCheckId());
 		float checkBill = check.getBill() - order.getBill();
+		if(checkBill < 0)
+		{
+			checkBill = 0;
+		}
+		
 		check.setBill(checkBill);
 		check.setAdditionalChargesValue1(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType1(), user.getAdditionalChargesValue1()));
 		check.setAdditionalChargesValue2(user.getAdditionalCharge(checkBill, user.getAdditionalChargesType2(), user.getAdditionalChargesValue2()));
