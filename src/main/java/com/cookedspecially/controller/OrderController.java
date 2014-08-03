@@ -926,6 +926,11 @@ public class OrderController {
 		statusStr = statusStr.toUpperCase();
 		Status status = Status.valueOf(Status.class, statusStr);
 		Order order = orderService.getOrder(orderId);
+		if(order.getStatus() == status)
+		{
+			return order;
+		}
+		
 		if (status == Status.CANCELLED) {
 			updateCheckForCancelOrder(order);
 		}
@@ -968,6 +973,11 @@ public class OrderController {
 		String statusStr = request.getParameter("status");
 		com.cookedspecially.enums.check.Status status = com.cookedspecially.enums.check.Status.valueOf(com.cookedspecially.enums.check.Status.class, statusStr);
 		Check check = checkService.getCheck(checkId);
+		if(check.getStatus() == status)
+		{
+			return check;
+		}
+		
 		if (status == com.cookedspecially.enums.check.Status.Cancel) {
 			// cancel all orders within
 			List<Order> orders = check.getOrders();
