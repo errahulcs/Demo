@@ -99,6 +99,7 @@ public class UserController {
 		files.add(landscapeImage);
 		files.add(appCacheIcon);
 		files.add(buttonIcon);
+		
 		if (files != null && files.size() == 4) {
 			String[] fileUrls = new String[4];
 			int iter = 0;
@@ -208,6 +209,19 @@ public class UserController {
 				}
 			}
 		}
+
+		User dbUser = userService.getUser(user.getUserId());
+		if(dbUser != null)
+		{
+			user.setMailHost(dbUser.getMailHost());
+			user.setMailPassword(dbUser.getMailPassword());
+			user.setMailPort(dbUser.getMailPort());
+			user.setMailUsername(dbUser.getMailUsername());
+			user.setInvoicePrefix(dbUser.getInvoicePrefix());
+			user.setInvoiceStartCounter(dbUser.getInvoiceStartCounter());
+			dbUser = null;
+		}
+
 		userService.addUser(user);    
 		return "redirect:/";
 	}
