@@ -78,10 +78,7 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/lo
 </c:if>
 
 <hr/>
-<h3>Add Menu</h3>
- 
-  
-                   
+<h3>Add Menu</h3>                
 <form:form method="post" action="menu/add.html" commandName="menu">
 
 	<form:hidden path="userId" value='<%=request.getSession().getAttribute("userId")%>'/>

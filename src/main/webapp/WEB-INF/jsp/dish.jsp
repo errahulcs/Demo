@@ -49,7 +49,7 @@
 	
 </head>
 <body>
-<a href="menu/" style="float: right;">Return to Menus</a>
+<a href="index.jsp" style="float: right;">Return to Home</a>
 <hr/>
 <div style="color:red;">${errorMsg}</div>
 <h3>Add Dish</h3>

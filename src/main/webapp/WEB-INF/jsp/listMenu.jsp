@@ -31,10 +31,11 @@ function deleteMenu(menuId) {
 </script>
 </head>
 <body>
-<a href="menu/create">Create Menu</a> <br/>
+<a href="index.jsp" style="float: right;">Return to Home</a>
+<a href="menu/create">Create Menu</a><br>
 <c:set var="sessionUserId" value='<%=request.getSession().getAttribute("userId")%>'/>
 <c:if test='${!empty sessionUserId}'>
-Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/logout">Logout</a>
+Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/logout" style="float: right;">Logout</a>
 </c:if>
 
 <hr/>

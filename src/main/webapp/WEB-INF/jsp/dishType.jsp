@@ -26,7 +26,7 @@
 	
 </head>
 <body>
-
+<a href="index.jsp" style="float: right;">Return to Home</a>
 <hr/>
 <h3>Add DishType</h3>
 

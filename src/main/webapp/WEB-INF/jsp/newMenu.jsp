@@ -251,7 +251,7 @@
 	</script>
 </head>
 <body>
-
+<a href="menu/" style="float: right;">Return to Menus</a>
 <div id="menu">
 
 <form id="menuForm" action="menu/addNew" method="post"  enctype="multipart/form-data">

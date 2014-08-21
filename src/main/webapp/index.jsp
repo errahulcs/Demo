@@ -26,6 +26,9 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/ed
 </c:if>
 <c:if test='${empty sessionUserId}'>
 <a href="user/login">Login</a>
+</c:if><br>
+<c:if test='${empty sessionUserId}'>
+<a href="user/signup">SignUp</a>
 </c:if>
 </div>
 <div class="item">
@@ -41,6 +44,7 @@ Logged in as <%=request.getSession().getAttribute("username")%> <a href="user/ed
 		var matchArray = usernameMatch.exec(username).slice();
 		document.write('<a target="csmobile" href="/static/mobile/index.html?{%22restaurants%22:[' + restaurantId + ']}">Visit your mobile website<\/a>');
 		document.write('&nbsp;|&nbsp;<a target="cstable" href="/static/table/index.html?{%22restaurants%22:[' + restaurantId + ']}">Save your application using HTML5<\/a>');
+
 <%-- http://stackoverflow.com/questions/2291085/how-to-check-if-external-url-content-loads-correctly-into-an-iframe-in-jsp-pag --%>
 <c:set var="androidAppUrl" value=""/>
 <%
